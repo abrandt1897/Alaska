@@ -200,6 +200,7 @@ tbody tr.grp td{
   text-transform:uppercase;color:var(--ink-2);padding:7px 12px;font-weight:600;
 }
 td.lbl{width:44%}
+.row-note{display:block;font-size:11px;color:var(--ink-3);font-weight:400;margin-top:1px}
 .cell-in{
   width:100%;background:transparent;border:1px solid transparent;border-radius:var(--r);
   padding:4px 7px;font-family:var(--mono);font-size:13px;text-align:right;
@@ -216,6 +217,13 @@ tfoot td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 
 .gauge{padding:20px;position:sticky;top:20px}
 .gauge h3{font-size:13px;font-weight:600;margin-bottom:3px}
+.target-in{
+  width:52px;background:transparent;border:1px solid transparent;border-radius:var(--r);
+  padding:1px 3px;font:inherit;font-weight:600;text-align:right;
+  transition:border-color .12s,background .12s;
+}
+.target-in:hover{border-color:var(--line)}
+.target-in:focus{outline:none;border-color:var(--glacier);background:var(--glacier-wash)}
 .gauge .big{font-family:var(--mono);font-size:33px;font-weight:600;letter-spacing:-.02em;margin:12px 0 2px;font-variant-numeric:tabular-nums}
 .gauge .cap{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:18px}
 .bar{height:9px;background:var(--paper);border:1px solid var(--line);border-radius:99px;position:relative;overflow:hidden}
@@ -244,6 +252,9 @@ tfoot td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .t3{background:var(--glacier-wash);color:var(--glacier-dk)}
 .t4{background:var(--paper);color:var(--ink-3);border:1px solid var(--line)}
 .tier-head p{margin:0;font-size:12.5px;color:var(--ink-3)}
+.tier-toggle{padding:4px 7px}
+.tier-toggle .chev{display:block;transition:transform .15s}
+.tier-toggle.is-collapsed .chev{transform:rotate(-90deg)}
 
 .book{display:flex;align-items:center;gap:13px;padding:11px 14px;border-bottom:1px solid var(--line-soft)}
 .book:last-child{border-bottom:0}
@@ -461,10 +472,10 @@ footer.pg b{color:var(--ink-2);font-weight:600}
         <div>
           <p class="eyebrow">02 — Route &amp; stops</p>
           <h2>Where everything sits</h2>
-          <p>Markers are numbered by day. Open a stop for detail and a direct Google Maps link.</p>
+          <p id="routeDesc">Markers are numbered by day. Open a stop for detail and a direct Google Maps link.</p>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <a class="btn btn-primary" id="gmapsRoute" href="#" target="_blank" rel="noopener">Open full route in Google Maps</a>
+          <a class="btn btn-primary" id="gmapsRoute" href="https://www.google.com/maps/dir/?api=1&amp;origin=Anchorage%2C%20AK&amp;destination=Ted%20Stevens%20Anchorage%20International%20Airport&amp;waypoints=Alaska%20Wildlife%20Conservation%20Center%2C%20Portage%20AK%7CSeward%2C%20AK%7CPalmer%2C%20AK%7CTalkeetna%2C%20AK%7CHealy%2C%20AK&amp;travelmode=driving" target="_blank" rel="noopener">Open full route in Google Maps</a>
           <a class="btn" href="https://www.google.com/maps/d/edit?mid=1CNqvltJpThWlUWTsVRkuucHQqTp6s_c&amp;usp=sharing" target="_blank" rel="noopener">Open Alaska Google My Map</a>
         </div>
       </div>
@@ -496,6 +507,8 @@ footer.pg b{color:var(--ink-2);font-weight:600}
         <div class="toolbar">
           <span class="hint" id="planHint"></span>
           <button class="btn btn-primary" id="connectBtn">Connect file</button>
+          <button class="btn" id="importBtn">Import file</button>
+          <input type="file" id="importInput" accept="application/json,.json" style="display:none">
           <button class="btn" id="exportBtn">Save file</button>
           <button class="btn" id="resetBtn">Reset plan</button>
         </div>
@@ -546,11 +559,14 @@ footer.pg b{color:var(--ink-2);font-weight:600}
         </div>
         <div class="card gauge">
           <p class="eyebrow">Against target</p>
-          <h3>$7,000 – $9,000</h3>
+          <h3 style="display:flex;align-items:baseline;gap:2px">
+            <span>$</span><input class="target-in" id="targetLow" type="number" min="0" step="100" aria-label="Budget target — low end">
+            <span>&nbsp;–&nbsp;$</span><input class="target-in" id="targetHigh" type="number" min="0" step="100" aria-label="Budget target — high end">
+          </h3>
           <div class="big" id="gaugeNum">$0</div>
           <div class="cap" id="gaugeSub">—</div>
           <div class="bar"><span id="gaugeBar" style="width:0%"></span></div>
-          <div class="bar-scale"><span>$0</span><span>$7k</span><span>$9k</span></div>
+          <div class="bar-scale"><span>$0</span><span id="scaleLow">$7k</span><span id="scaleHigh">$9k</span></div>
           <div class="verdict v-ok" id="verdict">—</div>
           <dl>
             <dt>Activities only</dt><dd id="sumAct">$0</dd>
@@ -578,7 +594,7 @@ footer.pg b{color:var(--ink-2);font-weight:600}
 /* ============================================================
    DATA — finalized plan only
    ============================================================ */
-const DATES = [
+const DATES0 = [
   {n:1,  dow:'Friday',    d:'14 Aug'},
   {n:2,  dow:'Saturday',  d:'15 Aug'},
   {n:3,  dow:'Sunday',    d:'16 Aug'},
@@ -593,89 +609,108 @@ const DATES = [
 
 const PLAN0 = [
   {base:'Anchorage', elev:100, label:'Anchorage', acts:[
-    {k:'travel', t:'Land at ANC, 9:30 PM', s:'Collect the car, airport-adjacent hotel. Nothing forced.'}
+    {k:'travel', t:'Land at ANC, 9:30 PM (Fri 14 Aug)', s:'Collect the car, Wildbirch Hotel downtown. Nothing forced.'}
   ]},
   {base:'→ Seward', elev:300, label:'Portage / Spencer', acts:[
-    {k:'paid',   t:'Alaska Wildlife Conservation Center', s:'Late morning. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp'},
+    {k:'paid',   t:'Alaska Wildlife Conservation Center', s:'Late morning, Sat 15 Aug. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp. Walk-up fine, no reservation'},
     {k:'paid',   t:'Spencer Glacier Whistle Stop train', s:'Board Portage 1:30 PM, back 5:15 PM. $94pp round trip'},
     {k:'free',   t:'Whistle-stop hike to the glacier', s:'1.3 mi gravel path to Spencer Lake and the glacier face'},
-    {k:'travel', t:'Drive to Seward', s:'Portage → Seward, ~1h35m. Arrive ~7:00 PM'}
+    {k:'travel', t:'Drive to Seward', s:'Portage → Seward, ~1h35m. Arrive ~7:00 PM. Check into 31435 Lois Way for 3 nights'}
   ]},
   {base:'Seward', elev:3527, label:'Harding Icefield', acts:[
-    {k:'free', t:'Harding Icefield Trail', s:'7.8 mi RT / 3,100 ft. Top of the Cliffs turnaround at 4.6 mi keeps Reed Lakes fun. Make noise below Marmot Meadows'}
+    {k:'free', t:'Harding Icefield Trail', s:'Sun 16 Aug. 7.8 mi RT / 3,100 ft. Make noise below Marmot Meadows'}
   ]},
   {base:'Seward', elev:0, label:'Northwestern Fjord', acts:[
-    {k:'anchor', t:'Northwestern Fjord cruise', s:'Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included'}
+    {k:'anchor', t:'Northwestern Fjord cruise', s:'Mon 17 Aug. Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included'}
   ]},
   {base:'→ Palmer', elev:3300, label:'Hatcher Pass', acts:[
-    {k:'travel', t:'Seward → Palmer', s:'3.5 hrs. Deliberate rest day between the two big hikes'},
-    {k:'free',   t:'Independence Mine — optional', s:'Abandoned gold mine in an alpine bowl. Under a mile on foot. Skip it without guilt'}
+    {k:'travel', t:'Seward → Palmer', s:'Tue 18 Aug, ~3.5 hrs. Check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights'},
+    {k:'paid',   t:'Independence Mine — optional', s:'Abandoned gold mine in an alpine bowl. Under a mile on foot. $15 entry + $5 parking. Skip it without guilt'},
+    {k:'free',   t:'Bodenburg Butte — alternative', s:'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter'}
   ]},
-  {base:'→ Talkeetna', elev:4250, label:'Reed Lakes', acts:[
-    {k:'free',   t:'Reed Lakes', s:'8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd'},
-    {k:'travel', t:'Drive to Talkeetna', s:'1h45m north. Gold Mint Trail is the flat-valley rain alternative'}
+  {base:'Palmer', elev:4250, label:'Reed Lakes', acts:[
+    {k:'free',   t:'Reed Lakes', s:'Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd'}
   ]},
   {base:'→ Healy', elev:7200, label:'Glacier landing', acts:[
-    {k:'anchor', t:'Denali flight + glacier landing', s:'Earliest morning slot. Ask about the Kahiltna vs Ruth difference and the weather-rollover policy. $475–615pp'},
-    {k:'travel', t:'Talkeetna → Healy', s:'2h45m north on the Parks Highway'}
+    {k:'travel', t:'Drive Palmer → Talkeetna', s:'Thu 20 Aug, ~1h45m north. Day-stop only — no overnight in Talkeetna. Gold Mint Trail is the flat-valley rain alternative'},
+    {k:'anchor', t:'Denali flight + glacier landing', s:'4:00 PM slot, ~2 hr flight. K2 Aviation / Talkeetna Air Taxi / Sheldon Air. Ask about Kahiltna vs Ruth and the weather-rollover policy. $475–615pp'},
+    {k:'travel', t:'Talkeetna → Healy', s:'~2h45m north on the Parks Highway. Check into "Altair" for 1 night'}
   ]},
-  {base:'Healy', elev:1300, label:'Fat truck', acts:[
-    {k:'paid', t:'Denali Fat Truck SHERP tour', s:'3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays'},
-    {k:'free', t:'Soft afternoon — keep it soft', s:'This is the flight rollover. If Thursday scrubbed, Fly Denali takes it. If not: Savage River Loop, Horseshoe Lake, or the sled dog demo'}
+  {base:'→ Fairbanks', elev:1300, label:'Fat truck + Chena', acts:[
+    {k:'free',   t:'Soft morning', s:'Fri 21 Aug. Healy checkout 11 AM — keep it soft. This is the flight rollover day: if Thu was scrubbed, Fly Denali takes it instead'},
+    {k:'paid',   t:'Denali Fat Truck SHERP tour', s:'1:00 PM, 3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays'},
+    {k:'travel', t:'Drive to Fairbanks', s:'Check into 8750 Parks Highway, Fairbanks, AK 99709 for 2 nights. Dinner in town'},
+    {k:'paid',   t:'Chena Hot Springs', s:'That evening — geothermal soaking pools. Back ~midnight. Deliberately paired with the SHERP-tour day so it doesn\'t land the night before the Aug 23 drive'}
   ]},
   {base:'Denali NP', elev:2700, label:'Mile 43', acts:[
-    {k:'paid', t:'Park Road transit bus to Mile 43', s:'$33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead'}
+    {k:'paid', t:'Park Road transit bus to Mile 43', s:'Sat 22 Aug, 11:30 AM, ~4 hrs. $33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead. Drive from Fairbanks yourself'},
+    {k:'free', t:'Savage Alpine Trail', s:'4 mi one-way / ~1,500 ft, connects Savage River to Mountain Vista at Mile 15 Park Rd. Strenuous but no reservation — drive there yourself, no bus ticket needed. Back to Fairbanks ~8:35 PM'}
   ]},
   {base:'→ Anchorage', elev:100, label:'Drive out', acts:[
-    {k:'travel', t:'Leave Healy ~10:00 AM', s:'4h30m to Anchorage. Departure is 8:00 PM — no need to rush'},
+    {k:'travel', t:'Leave Fairbanks ~11:00 AM (Sun 23 Aug)', s:'Checkout, then drive south to Anchorage for the 8:00 PM flight. No need to rush'},
     {k:'free',   t:'Denali View South (mile 135) · Byers Lake (mile 147)', s:'Both on the road. Talkeetna is a reasonable lunch stop'},
-    {k:'travel', t:'Return car, ANC by ~3:00 PM', s:'Five hours of margin on a 4.5-hour drive'}
+    {k:'travel', t:'Return car, ANC by ~6:00 PM', s:'Return the rental car ahead of the 8:00 PM departure'}
   ]}
 ];
 
-const STOPS = [
+const STOPS0 = [
   {day:1, kind:'travel', name:'Anchorage', sub:'Arrival base', lat:61.2181, lng:-149.9003,
-   facts:{'Night':'1 (14 Aug)','Arrive':'9:30 PM'},
-   text:'Airport-adjacent for a late landing. You come back through on the 23rd but don\'t sleep here again.'},
+   facts:{'Night':'1 (Fri 14 Aug)','Arrive':'9:30 PM','Hotel':'Wildbirch Hotel, downtown'},
+   text:'Land at ANC, collect the car, Wildbirch Hotel downtown. Nothing forced. You come back through on the 23rd but don\'t sleep here again.'},
   {day:2, kind:'paid', name:'Alaska Wildlife Conservation Center', sub:'Portage · Seward Hwy mile 79', lat:60.8130, lng:-148.9930,
-   facts:{'Cost':'~$30pp','Time':'Late morning','Note':'1.5 mi south of Portage station'},
-   text:'A rescue sanctuary where bears, moose, musk ox and wood bison are a certainty. This is the wildlife guarantee that replaced the bear-viewing flight — $60 for the two of you instead of $1,300.'},
+   facts:{'Cost':'~$30pp','Time':'Late morning, Sat 15 Aug','Note':'1.5 mi south of Portage station'},
+   text:'A rescue sanctuary where bears, moose, musk ox and wood bison are a certainty — the only guaranteed wildlife on the trip. Walk-up fine, no reservation.'},
   {day:2, kind:'paid', name:'Portage Train Depot', sub:'Board the Glacier Discovery', lat:60.7870, lng:-148.9930,
    facts:{'Depart':'1:30 PM','Return':'5:15 PM','Fare':'$94pp RT'},
    text:'Boarding at Portage instead of Anchorage keeps the car with you and skips the pointless Whittier legs. Park here, ride out, come back to it.'},
   {day:2, kind:'free', name:'Spencer Glacier Whistle Stop', sub:'Roadless — rail access only', lat:60.7133, lng:-148.9333,
    facts:{'On ground':'1:45 – 4:40 PM','Walk':'1.3 mi to the glacier'},
-   text:'Backcountry in the Chugach National Forest with no road to it. A maintained gravel path leads to Spencer Lake and the glacier face. Covered picnic tables and outhouses; nothing else.'},
+   text:'Backcountry in the Chugach National Forest with no road to it. A maintained gravel path leads to Spencer Lake and the glacier face. After: drive Portage → Seward, ~1h35m, arrive ~7:00 PM, check into 31435 Lois Way for 3 nights.'},
   {day:3, kind:'free', name:'Harding Icefield Trail', sub:'Exit Glacier, Kenai Fjords NP', lat:60.1878, lng:-149.6320,
-   facts:{'Full':'7.8 mi / 3,100 ft','Smart turn':'Top of the Cliffs, 4.6 mi / 2,000 ft','Cost':'Free'},
+   facts:{'Full':'7.8 mi / 3,100 ft','Date':'Sun 16 Aug','Cost':'Free'},
    text:'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise.'},
   {day:4, kind:'anchor', name:'Seward Harbor', sub:'Northwestern Fjord departure', lat:60.1042, lng:-149.4422,
-   facts:{'Sails':'8:30 AM – 5:00 PM','Cost':'$309pp','Operator':'Major Marine'},
-   text:'Non-negotiable, and the single biggest wildlife day: three tidewater glacier faces, humpbacks, orcas, Steller sea lions, puffins, sea otters. One departure daily and it sells out in August. Deli lunch included.'},
-  {day:5, kind:'free', name:'Independence Mine', sub:'Hatcher Pass — optional', lat:61.7897, lng:-149.2794,
-   facts:{'Walk':'Under 1 mi','Cost':'Parking only'},
-   text:'An abandoned gold mine in an alpine bowl. Pure bonus on a rest day — the point of the 18th is arriving in Palmer with your legs intact.'},
+   facts:{'Sails':'8:30 AM – 5:00 PM, Mon 17 Aug','Cost':'$309pp','Operator':'Major Marine'},
+   text:'Non-negotiable, and the single biggest wildlife day: three tidewater glacier faces, humpbacks, orcas, puffins. One departure daily and it sells out in August. Deli lunch included.'},
+  {day:5, kind:'paid', name:'Independence Mine', sub:'Hatcher Pass — optional', lat:61.7897, lng:-149.2794,
+   facts:{'Walk':'Under 1 mi','Cost':'$15 entry + $5 parking'},
+   text:'An abandoned gold mine in an alpine bowl. Skip it without guilt — Bodenburg Butte is the free alternative if the weather or energy calls for something lighter. Drive Seward → Palmer first, ~3.5 hrs, check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights.'},
+  {day:5, kind:'free', name:'Bodenburg Butte', sub:'Alternative to Independence Mine', lat:61.5760, lng:-149.0440,
+   facts:{'Cost':'Free','Note':'Shorter alpine-view alternative'},
+   text:'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter.'},
   {day:6, kind:'free', name:'Reed Lakes Trailhead', sub:'Archangel Road', lat:61.7847, lng:-149.2314,
-   facts:{'Distance':'8.6 mi RT / 2,250 ft','Parking':'$5','Rain plan':'Gold Mint Trail'},
+   facts:{'Distance':'8.6 mi RT / 2,250 ft','Date':'Wed 19 Aug','Parking':'$5'},
    text:'Easy first 1.5 mi on an old mining road, then switchbacks, then a car-sized boulder field marked by cairns — slow and hands-on, genuinely slippery when wet. Lower Reed 3,750 ft, Upper Reed 4,250 ft.'},
   {day:7, kind:'anchor', name:'Talkeetna Airport', sub:'Denali flight + glacier landing', lat:62.3205, lng:-150.0937,
-   facts:{'Slot':'Earliest morning','Cost':'$475–615pp','Operators':'K2 · Talkeetna Air Taxi · Sheldon'},
-   text:'The anchor of the trip and roughly half the activity budget. Operators never guarantee the landing but refund the glacier supplement if conditions prevent touchdown — your downside is a scenic flight, not a loss. Morning slots have the best weather odds.'},
+   facts:{'Slot':'4:00 PM, Thu 20 Aug','Cost':'$475–615pp','Operators':'K2 · Talkeetna Air Taxi · Sheldon'},
+   text:'The anchor of the trip and roughly half the activity budget. Drive Palmer → Talkeetna first (~1h45m, day-stop only). Ask about Kahiltna vs Ruth and the weather-rollover policy. After: drive Talkeetna → Healy, ~2h45m, check into "Altair" for 1 night.'},
   {day:8, kind:'paid', name:'Denali Fat Truck Tours', sub:'Otto Lake Rd, Healy', lat:63.8642, lng:-148.9800,
-   facts:{'Duration':'3 hrs','Cost':'From $249pp','Open':'Mon – Sat'},
-   text:'An amphibious SHERP — heated, sealed, 2 psi ground pressure. Mining trails, cliffs, lake crossings and tundra where nothing else drives. Closed Sundays, which is why it sits on Friday.'},
+   facts:{'Duration':'3 hrs','Time':'1:00 PM, Fri 21 Aug','Cost':'From $249pp','Open':'Mon – Sat'},
+   text:'An amphibious SHERP — heated, sealed, 2 psi ground pressure. Mining trails, cliffs, lake crossings and tundra where nothing else drives. Closed Sundays, which is why it sits on Friday. This is also the flight rollover day: if Thu was scrubbed, Fly Denali takes it instead.'},
+  {day:8, kind:'travel', name:'Fairbanks', sub:'8750 Parks Highway', lat:64.8610, lng:-147.8267,
+   facts:{'Nights':'2 (21 – 23 Aug)'},
+   text:'Drive from Healy after the SHERP tour, check in for 2 nights, dinner in town.'},
+  {day:8, kind:'paid', name:'Chena Hot Springs', sub:'Geothermal soaking pools', lat:65.0561, lng:-146.0785,
+   facts:{'Time':'That evening','Back':'~Midnight'},
+   text:'Geothermal soaking pools. Deliberately paired with the SHERP-tour day so it doesn\'t land the night before the Aug 23 drive.'},
   {day:9, kind:'paid', name:'Denali Bus Depot', sub:'Park Road transit', lat:63.7300, lng:-148.9150,
-   facts:{'Fare':'$33.50pp','Entry':'$15pp','Reserve':'Strongly recommended'},
-   text:'Green transit buses, hop-on hop-off. Book ahead — walk-up is unreliable in August. Private vehicles are limited to Mile 15 at Savage River.'},
+   facts:{'Time':'11:30 AM, Sat 22 Aug','Fare':'$33.50pp','Entry':'$15pp','Reserve':'Strongly recommended'},
+   text:'Green transit buses, hop-on hop-off. Drive from Fairbanks yourself. Book ahead — walk-up is unreliable in August.'},
   {day:9, kind:'paid', name:'East Fork Bridge — Mile 43', sub:'End of the road, 2026', lat:63.5350, lng:-149.8200,
    facts:{'Turnaround':'Mile 43','Closed beyond':'Pretty Rocks landslide'},
-   text:'The bus turns here for the whole 2026 season. Eielson and Wonder Lake are out until 2027. Truncated as it is, this stretch is the wildlife you gave up when bear viewing died — grizzlies, caribou, Dall sheep, moose.'},
+   text:'The bus turns here for the whole 2026 season. Bears, caribou, Dall sheep. Back to Fairbanks ~8:35 PM.'},
+  {day:9, kind:'free', name:'Savage Alpine Trail', sub:'Savage River → Mountain Vista, mile 15', lat:63.7350, lng:-148.9330,
+   facts:{'Distance':'4 mi one-way / ~1,500 ft','Cost':'No reservation'},
+   text:'Strenuous but no reservation — drive there yourself, no bus ticket needed. Private vehicles are limited to Mile 15 at Savage River.'},
   {day:10, kind:'free', name:'Denali View South', sub:'Parks Hwy mile 135', lat:62.6470, lng:-150.2360,
    facts:{'Stop':'15 min','Cost':'Free'},
-   text:'On the drive out, with an 8 PM departure you have hours to spare. Byers Lake at mile 147 is the other worthwhile pull-off.'},
+   text:'On the drive out, Sun 23 Aug — leaving Fairbanks ~11:00 AM for the 8:00 PM flight, no need to rush. Talkeetna is a reasonable lunch stop.'},
+  {day:10, kind:'free', name:'Byers Lake', sub:'Parks Hwy mile 147', lat:62.8460, lng:-150.0350,
+   facts:{'Stop':'15 min','Cost':'Free'},
+   text:'The other worthwhile pull-off on the drive south, alongside Denali View South at mile 135.'},
   {day:10, kind:'travel', name:'Ted Stevens Anchorage Intl', sub:'Depart 8:00 PM', lat:61.1743, lng:-149.9962,
-   facts:{'Target':'~3:00 PM','Drive':'4h30m from Healy'},
-   text:'Return the car and still have hours of margin. Alaska highways lose time to construction and RVs — the buffer is the point.'}
+   facts:{'Target':'~6:00 PM','Drive':'From Fairbanks'},
+   text:'Return the rental car ahead of the 8:00 PM departure.'}
 ];
 
 const BOOKINGS0 = [
@@ -695,10 +730,12 @@ const BOOKINGS0 = [
   {tier:3, name:'Alaska Wildlife Conservation Center', meta:'Walk-up fine — no reservation needed', when:'Sat 15 Aug', url:'https://www.alaskawildlife.org/'},
 
   {tier:4, name:'Fly Denali — north-side glacier landing', meta:'Healy River Airport · free shuttle in the Denali area', when:'Backup for Fri 21 Aug', url:'https://www.flydenali.com/glacier-landing'},
-  {tier:4, name:'Harding Icefield · Reed Lakes · Independence Mine', meta:'No booking — parking fees only', when:'16, 19, 18 Aug', url:'https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm'}
+  {tier:4, name:'Harding Icefield Trail', meta:'No booking — parking fees only', when:'16 Aug', url:'https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm'},
+  {tier:4, name:'Reed Lakes Trail', meta:'No booking — parking fees only', when:'19 Aug', url:'https://www.alaska.org/detail/reed-lakes-trail'},
+  {tier:4, name:'Independence Mine State Historical Park', meta:'No booking — parking fees only', when:'18 Aug', url:'https://dnr.alaska.gov/parks/aspunits/matsu/indepmineshp.htm'}
 ];
 
-const TIERS = {
+const TIERS0 = {
   1:{tag:'Book first', cls:'t1',  note:'Weather-sensitive, limited aircraft, sells out'},
   2:{tag:'Locks the shape', cls:'t2', note:'Everything else bends around these'},
   3:{tag:'Secondary', cls:'t3', note:'Flexible, but cheaper and easier booked early'},
@@ -707,27 +744,31 @@ const TIERS = {
 
 const BUDGET0 = [
   {grp:'Lodging — 9 nights'},
-  {n:'Anchorage', u:200, q:1, c:'lodge'},
-  {n:'Seward', u:200, q:3, c:'lodge'},
-  {n:'Palmer', u:200, q:1, c:'lodge'},
-  {n:'Talkeetna', u:200, q:1, c:'lodge'},
-  {n:'Healy / Denali', u:250, q:3, c:'lodge'},
+  {n:'Anchorage', u:null, q:1, c:'lodge', note:'Wildbirch Hotel, downtown — price TBD'},
+  {n:'Seward', u:413, q:3, c:'lodge', note:'31435 Lois Way'},
+  {n:'Palmer', u:189, q:2, c:'lodge', note:'7061 Finger Lake Ave, "Clover Hill Cabin"'},
+  {n:'Healy / Denali', u:298, q:1, c:'lodge', note:'"Altair"'},
+  {n:'Fairbanks', u:337, q:2, c:'lodge', note:'8750 Parks Highway — price TBD'},
   {grp:'Transport'},
-  {n:'Rental car, 10 days', u:1750, q:1, c:'trans'},
-  {n:'Fuel (~950 mi)', u:200, q:1, c:'trans'},
+  {n:'Rental car, 10 days', u:1929, q:1, c:'trans'},
+  {n:'Fuel', u:285, q:1, c:'trans'},
   {grp:'Activities'},
-  {n:'Northwestern Fjord cruise', u:309, q:2, c:'act'},
-  {n:'Denali flight + glacier landing', u:545, q:2, c:'act'},
+  {n:'Northwestern Fjord cruise', u:297, q:2, c:'act'},
+  {n:'Denali flight + glacier landing', u:722, q:2, c:'act'},
   {n:'Denali Fat Truck SHERP tour', u:249, q:2, c:'act'},
   {n:'Spencer Glacier train (Portage RT)', u:94, q:2, c:'act'},
   {n:'Denali transit bus — Mile 43', u:33.5, q:2, c:'act'},
   {n:'Denali park entrance', u:15, q:2, c:'act'},
   {n:'Alaska Wildlife Conservation Center', u:30, q:2, c:'act'},
   {n:'Reed Lakes parking', u:5, q:1, c:'act'},
+  {n:'Independence Mine entry + parking', u:20, q:1, c:'act', note:'Optional — Bodenburg Butte is the free alternative'},
+  {n:'Chena Hot Springs', u:20, q:2, c:'act', note:'Optional'},
   {grp:'Living & slack'},
   {n:'Food & groceries, per day', u:135, q:10, c:'food'},
   {n:'Contingency · tips · bear spray', u:400, q:1, c:'misc'}
 ];
+
+const BUDGET_TARGET0 = {low:7000, high:9000};
 
 const KIND_COLOR = {anchor:'#A8402F', paid:'#2F7E99', free:'#9A7C33', travel:'#6E8792'};
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
@@ -743,10 +784,58 @@ function loadState(){
   }catch(e){ return null; }
 }
 const saved = loadState();
-let plan     = (saved && saved.plan)     ? saved.plan     : structuredClone(PLAN0);
-let budget   = (saved && saved.budget)   ? saved.budget   : structuredClone(BUDGET0);
-let bookings = (saved && saved.bookings) ? saved.bookings : structuredClone(BOOKINGS0);
+let plan        = (saved && saved.plan)        ? saved.plan        : structuredClone(PLAN0);
+let budget      = (saved && saved.budget)      ? saved.budget      : structuredClone(BUDGET0);
+let bookings    = (saved && saved.bookings)    ? saved.bookings    : structuredClone(BOOKINGS0);
+let stops       = (saved && saved.stops)       ? saved.stops       : structuredClone(STOPS0);
+let dates       = (saved && saved.dates)       ? saved.dates       : structuredClone(DATES0);
+let tiers       = (saved && saved.tiers)       ? saved.tiers       : structuredClone(TIERS0);
+let budgetTarget = (saved && saved.budgetTarget) ? saved.budgetTarget : structuredClone(BUDGET_TARGET0);
 let booked   = new Set((saved && saved.booked) || []);
+
+/* One-time migration: earlier versions of this file bundled Harding
+   Icefield, Reed Lakes, and Independence Mine into a single backup row,
+   and/or had these under a different tier. Bring any saved session up
+   to the current defaults by name, without touching booked status. */
+(function migrateBundledBackup(){
+  const OLD_NAME = 'Harding Icefield · Reed Lakes · Independence Mine';
+  const idx = bookings.findIndex(b => b.name === OLD_NAME);
+  if(idx !== -1){
+    const names = ['Harding Icefield Trail', 'Reed Lakes Trail', 'Independence Mine State Historical Park'];
+    const replacements = names
+      .map(n => BOOKINGS0.find(b => b.name === n))
+      .filter(Boolean)
+      .map(b => structuredClone(b));
+    bookings.splice(idx, 1, ...replacements);
+    booked.delete(OLD_NAME);
+
+    /* Re-sync tier/date/link for anything that matches a current default
+       by name — a saved session carrying the old bundled row can also have
+       these three under a stale tier (e.g. "the mine" filed under the wrong
+       section) from that same earlier version. Only do this as part of the
+       one-time migration — never on an already-migrated session, or it would
+       clobber a user's own edits to tier/when/url/meta on every load. */
+    bookings.forEach(b => {
+      const canonical = BOOKINGS0.find(c => c.name === b.name);
+      if(!canonical) return;
+      b.tier = canonical.tier;
+      b.when = canonical.when;
+      b.url  = canonical.url;
+      b.meta = canonical.meta;
+    });
+  }
+
+  /* Add back any current default entries that are simply missing from
+     the saved session entirely (e.g. added to this file after the
+     session was first saved) — not just ones present under a stale
+     name or tier. */
+  const missing = ['Harding Icefield Trail', 'Reed Lakes Trail', 'Independence Mine State Historical Park']
+    .filter(n => !bookings.some(b => b.name === n))
+    .map(n => BOOKINGS0.find(b => b.name === n))
+    .filter(Boolean)
+    .map(b => structuredClone(b));
+  bookings.push(...missing);
+})();
 
 /* ============================================================
    SIGNATURE — traverse profile
@@ -754,7 +843,7 @@ let booked   = new Set((saved && saved.booked) || []);
 function drawProfile(){
   const svg = document.getElementById('profile');
   const W = 1000, H = 190, top = 26, bot = 138;
-  const els = PLAN0.map(d => d.elev);
+  const els = plan.map(d => d.elev);
   const max = 7600;
   const x = i => 46 + i * ((W - 92) / (els.length - 1));
   const y = v => bot - (v / max) * (bot - top);
@@ -785,7 +874,7 @@ function drawProfile(){
   g += `<path d="${line}" fill="none" stroke="#4FB6D8" stroke-width="1.8" stroke-linejoin="round"/>`;
 
   els.forEach((v,i) => {
-    const px = x(i), py = y(v), dt = DATES[i], p = PLAN0[i];
+    const px = x(i), py = y(v), dt = dates[i], p = plan[i];
     const col = v >= 4000 ? '#8FDDF0' : '#4FB6D8';
     g += `<g class="stn" role="link" tabindex="0" data-i="${i}"
               aria-label="Day ${dt.n}, ${dt.d} — ${p.label}, ${v.toLocaleString()} feet">
@@ -806,10 +895,12 @@ function drawProfile(){
   svg.innerHTML = g;
   svg.querySelectorAll('.stn').forEach(el => {
     const go = () => {
-      document.getElementById('plan').scrollIntoView({behavior:'smooth'});
       const card = document.querySelectorAll('.day')[+el.dataset.i];
-      if(card){ card.style.transition='background .5s'; card.style.background='#E2EFF3';
-                setTimeout(()=>card.style.background='',900); }
+      if(card){
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        card.style.transition='background .5s'; card.style.background='#E2EFF3';
+        setTimeout(()=>card.style.background='',900);
+      }
     };
     el.addEventListener('click', go);
     el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
@@ -822,14 +913,16 @@ function drawProfile(){
 let map, markers = [], bounds;
 function initMap(){
   map = L.map('map', {scrollWheelZoom:false}).setView([62.2,-149.5], 6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution:'&copy; OpenStreetMap contributors &copy; CARTO', subdomains:'abcd', maxZoom:18
-  }).addTo(map);
 
-  const latlngs = STOPS.map(s => [s.lat, s.lng]);
+  /* Draw markers/route FIRST, before touching tile layers. Tile images
+     depend on outbound network access that some viewers (e.g. opening
+     this file directly in a mobile browser's local-file mode) block
+     entirely. Markers and the route line are pure local drawing and
+     must never be skipped just because tiles can't load. */
+  const latlngs = stops.map(s => [s.lat, s.lng]);
   L.polyline(latlngs, {color:'#1D5A70', weight:2.2, opacity:.65, dashArray:'5 5'}).addTo(map);
 
-  STOPS.forEach((s,i) => {
+  stops.forEach((s,i) => {
     const icon = L.divIcon({
       className:'', iconSize:[26,26], iconAnchor:[13,13],
       html:`<div class="pin" style="background:${KIND_COLOR[s.kind]}">${s.day}</div>`
@@ -843,11 +936,49 @@ function initMap(){
   });
 
   bounds = L.latLngBounds(latlngs).pad(.12);
-  map.fitBounds(bounds);
+  /* No animation on this initial fit: initMap() runs once synchronously
+     at boot and again from refreshMap() moments later once a connected
+     file's stops load. If the first fit is still mid zoom-animation
+     when refreshMap() calls map.remove(), Leaflet's animation callback
+     fires afterward against a removed map's panes and throws. */
+  map.fitBounds(bounds, {animate:false});
   document.getElementById('fitBtn').onclick = () => map.fitBounds(bounds);
+
+  try{
+    L.tileLayer('https://basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution:'&copy; OpenStreetMap contributors &copy; CARTO', maxZoom:18
+    }).addTo(map);
+  }catch(e){ console.error('Tile layer failed to init', e); }
 }
 const gmapsSearch = q =>
   'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q + ', Alaska');
+
+/* Called after stops change post-boot (connected-file load, import) so
+   the map reflects data that arrived after initMap()'s first draw. */
+function refreshMap(){
+  if(!map) return;
+  map.remove();
+  markers = [];
+  initMap();
+}
+
+/* Leaflet sizes itself from the container's pixel size at init time.
+   On mobile, web fonts and layout reflow finish slightly later and
+   shift #map's real dimensions, leaving the map blank or cropped.
+   Re-measure after fonts load, on resize/rotate, and once more shortly
+   after boot as a safety net. */
+function refreshMapSize(){
+  if(map) map.invalidateSize();
+}
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(refreshMapSize);
+}
+window.addEventListener('resize', (() => {
+  let t;
+  return () => { clearTimeout(t); t = setTimeout(refreshMapSize, 200); };
+})());
+window.addEventListener('orientationchange', () => setTimeout(refreshMapSize, 300));
+setTimeout(refreshMapSize, 500);
 
 function buildRouteLink(){
   const key = ['Anchorage, AK','Alaska Wildlife Conservation Center, Portage AK','Seward, AK',
@@ -862,7 +993,7 @@ function buildRouteLink(){
    STOP ACCORDION
    ============================================================ */
 function renderStops(){
-  document.getElementById('stops').innerHTML = STOPS.map((s,i) => {
+  document.getElementById('stops').innerHTML = stops.map((s,i) => {
     const facts = Object.entries(s.facts)
       .map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
     return `<details class="stop" id="stop-${i}">
@@ -883,7 +1014,7 @@ function renderStops(){
 
   document.querySelectorAll('.stop').forEach((d,i) => {
     d.querySelector('summary').addEventListener('click', () => {
-      setTimeout(() => { if(d.open){ map.flyTo([STOPS[i].lat,STOPS[i].lng], 9, {duration:.7}); markers[i].openPopup(); } }, 10);
+      setTimeout(() => { if(d.open){ map.flyTo([stops[i].lat,stops[i].lng], 9, {duration:.7}); markers[i].openPopup(); } }, 10);
     });
   });
 }
@@ -898,11 +1029,15 @@ function openStop(i){
    ITINERARY — drag & drop
    ============================================================ */
 let dragDay = null, dragAct = null;
+let openAddDays = new Set();
+let openBudgetGrps = new Set();
+let openBackupAdd = false;
+let expandedCompleteTiers = new Set();
 
 function renderPlan(){
   const wrap = document.getElementById('days');
   wrap.innerHTML = plan.map((d,di) => {
-    const dt = DATES[di];
+    const dt = dates[di];
     const acts = d.acts.map((a,ai) => `
       <li draggable="true" data-d="${di}" data-a="${ai}">
         <span class="dot d-${a.k}"></span>
@@ -922,13 +1057,25 @@ function renderPlan(){
         <span class="day-base">${esc(d.base)}</span>
       </header>
       <ul class="acts" data-drop="${di}">${acts || '<li style="cursor:default;color:var(--ink-3);font-size:13px">Nothing planned — add something below.</li>'}</ul>
-      <div class="day-foot">
-        <input class="add-in" placeholder="Add an activity…" data-add="${di}" aria-label="Add activity to day ${dt.n}">
-        <input class="add-in" placeholder="Details (optional)" data-adddetail="${di}" aria-label="Details for new activity on day ${dt.n}" style="flex:1.2">
+      <div class="day-foot">${openAddDays.has(di) ? `
+        <input class="add-in" id="actAdd-${di}" placeholder="Add an activity…" data-add="${di}" aria-label="Add activity to day ${dt.n}">
+        <input class="add-in" id="actAddDetail-${di}" placeholder="Details (optional)" data-adddetail="${di}" aria-label="Details for new activity on day ${dt.n}" style="flex:1.2">
         <button class="btn btn-sm" data-addbtn="${di}">Add</button>
-      </div>
+        <button class="btn btn-sm btn-ghost" data-addclose="${di}" aria-label="Close add form">Done</button>
+      ` : `
+        <button class="btn btn-sm btn-ghost" data-addopen="${di}">+ Add activity</button>
+      `}</div>
     </article>`;
   }).join('');
+
+  wrap.querySelectorAll('[data-addopen]').forEach(b => b.onclick = () => {
+    openAddDays.add(+b.dataset.addopen); renderPlan();
+    const fresh = document.querySelector(`[data-add="${b.dataset.addopen}"]`);
+    if(fresh) fresh.focus();
+  });
+  wrap.querySelectorAll('[data-addclose]').forEach(b => b.onclick = () => {
+    openAddDays.delete(+b.dataset.addclose); renderPlan();
+  });
 
   wrap.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => {
     const [d,a] = b.dataset.rm.split(':').map(Number);
@@ -1034,12 +1181,16 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 function renderBooking(){
   const host = document.getElementById('booking-list');
   host.innerHTML = [1,2,3,4].map(t => {
+    const tierBookings = bookings.filter(b => b.tier === t);
+    const allDone = tierBookings.length > 0 && tierBookings.every(b => booked.has(b.name));
+    const collapsed = allDone && !expandedCompleteTiers.has(t);
+
     const rows = bookings.map((b,gi) => ({b,gi})).filter(x => x.b.tier === t).map(({b,gi}) => {
       const on = booked.has(b.name);
       const rm = t === 4 ? `<button class="btn btn-sm btn-ghost" data-rmbk="${gi}" aria-label="Remove ${esc(b.name)}">Remove</button>` : '';
       const link = (b.url && b.url !== '#') ? `<a class="go" href="${esc(b.url)}" target="_blank" rel="noopener">Book →</a>` : '';
       return `<div class="book${on?' done':''}">
-        <input type="checkbox" ${on?'checked':''} data-bk="${esc(b.name)}" aria-label="Mark ${esc(b.name)} booked">
+        <input type="checkbox" id="bookCheck-${gi}" ${on?'checked':''} data-bk="${esc(b.name)}" aria-label="Mark ${esc(b.name)} booked">
         <span class="book-main"><span class="book-name">${esc(b.name)}</span>
           <span class="book-meta">${esc(b.meta)}</span></span>
         <span class="book-when">${esc(b.when)}</span>
@@ -1047,22 +1198,37 @@ function renderBooking(){
         ${rm}
       </div>`;
     }).join('');
-    const T = TIERS[t];
-    const addForm = t === 4 ? `<div class="book book-add">
+    const T = tiers[t];
+    const addForm = t === 4 ? (openBackupAdd ? `<div class="book book-add">
         <input class="add-in" type="text" id="bkName" placeholder="Name" aria-label="New backup name" style="flex:1.4;min-width:130px">
         <input class="add-in" type="text" id="bkMeta" placeholder="Detail" aria-label="New backup detail" style="flex:1.4;min-width:130px">
         <input class="add-in" type="text" id="bkWhen" placeholder="When" aria-label="New backup timing" style="flex:0 0 110px;min-width:90px">
         <input class="add-in" type="text" id="bkUrl" placeholder="URL (optional)" aria-label="New backup link" style="flex:1.6;min-width:140px">
         <button class="btn btn-sm" id="bkAddBtn">Add</button>
-      </div>` : '';
+        <button class="btn btn-sm btn-ghost" id="bkAddClose" aria-label="Close add form">Done</button>
+      </div>` : `<div class="book book-add">
+        <button class="btn btn-sm btn-ghost" id="bkAddOpen">+ Add backup</button>
+      </div>`) : '';
+    const toggle = allDone ? `<button class="btn btn-sm btn-ghost tier-toggle${collapsed?' is-collapsed':''}" data-tiertoggle="${t}"
+        style="margin-left:auto" aria-label="${collapsed?'Expand':'Collapse'} ${esc(T.tag)}" title="${collapsed?'Expand':'Collapse'}">
+        <svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 L5 6.5 L8 3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>` : '';
     return `<div class="tier">
       <div class="tier-head">
         <span class="tier-tag ${T.cls}">${T.tag}</span>
-        <p>${T.note}</p>
+        <p>${T.note}${allDone?' — all booked':''}</p>
+        ${toggle}
       </div>
-      <div class="card">${rows}${addForm}</div>
+      ${collapsed ? '' : `<div class="card">${rows}${addForm}</div>`}
     </div>`;
   }).join('');
+
+  host.querySelectorAll('[data-tiertoggle]').forEach(b => b.onclick = () => {
+    const t = +b.dataset.tiertoggle;
+    if(expandedCompleteTiers.has(t)) expandedCompleteTiers.delete(t);
+    else expandedCompleteTiers.add(t);
+    renderBooking();
+  });
 
   host.querySelectorAll('[data-bk]').forEach(cb => cb.onchange = () => {
     cb.checked ? booked.add(cb.dataset.bk) : booked.delete(cb.dataset.bk);
@@ -1079,6 +1245,14 @@ function renderBooking(){
 
   const addBtn = document.getElementById('bkAddBtn');
   if(addBtn) addBtn.onclick = addBackup;
+  const addOpenBtn = document.getElementById('bkAddOpen');
+  if(addOpenBtn) addOpenBtn.onclick = () => {
+    openBackupAdd = true; renderBooking();
+    const fresh = document.getElementById('bkName');
+    if(fresh) fresh.focus();
+  };
+  const addCloseBtn = document.getElementById('bkAddClose');
+  if(addCloseBtn) addCloseBtn.onclick = () => { openBackupAdd = false; renderBooking(); };
   ['bkName','bkMeta','bkWhen','bkUrl'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.onkeydown = e => { if(e.key === 'Enter'){ e.preventDefault(); addBackup(); } };
@@ -1115,32 +1289,53 @@ function groupCatFor(label){
 function renderBudget(){
   let html = '';
   let curCat = 'misc';
+  let curGrp = '';
   budget.forEach((r,i) => {
     if(r.grp){
       curCat = groupCatFor(r.grp);
+      curGrp = r.grp;
       html += `<tr class="grp"><td colspan="5">${esc(r.grp)}</td></tr>`;
     } else {
+      const tbd = r.u === null || r.u === undefined;
       html += `<tr>
-        <td class="lbl">${esc(r.n)}</td>
-        <td class="num"><input class="cell-in" type="number" min="0" step="1" value="${r.u}" data-u="${i}" aria-label="Unit cost, ${esc(r.n)}"></td>
-        <td class="num"><input class="cell-in qty" type="number" min="0" step="1" value="${r.q}" data-q="${i}" aria-label="Quantity, ${esc(r.n)}"></td>
-        <td class="num total" data-t="${i}">${money(r.u*r.q)}</td>
+        <td class="lbl">${esc(r.n)}${r.note ? `<span class="row-note">${esc(r.note)}</span>` : ''}</td>
+        <td class="num"><input class="cell-in" id="budgetUnit-${i}" type="number" min="0" step="1" value="${tbd ? '' : r.u}" placeholder="${tbd ? 'TBD' : ''}" data-u="${i}" aria-label="Unit cost, ${esc(r.n)}"></td>
+        <td class="num"><input class="cell-in qty" id="budgetQty-${i}" type="number" min="0" step="1" value="${r.q}" data-q="${i}" aria-label="Quantity, ${esc(r.n)}"></td>
+        <td class="num total" data-t="${i}">${tbd ? 'TBD' : money(r.u*r.q)}</td>
         <td class="num"><button class="btn btn-sm btn-ghost" data-rmb="${i}" aria-label="Remove ${esc(r.n)}">Remove</button></td>
       </tr>`;
     }
     const next = budget[i+1];
     if(!next || next.grp){
       const at = i+1;
-      html += `<tr class="addrow">
-        <td class="lbl"><input class="add-in" type="text" data-bname="${at}" placeholder="Add a line…" aria-label="New line name, ${curCat}"></td>
-        <td class="num"><input class="cell-in" type="number" min="0" step="1" placeholder="0" data-bunit="${at}" aria-label="New line unit cost"></td>
-        <td class="num"><input class="cell-in qty" type="number" min="0" step="1" value="1" data-bqty="${at}" aria-label="New line quantity"></td>
-        <td></td>
-        <td class="num"><button class="btn btn-sm" data-addb="${at}" data-cat="${curCat}">Add</button></td>
-      </tr>`;
+      if(openBudgetGrps.has(curGrp)){
+        html += `<tr class="addrow">
+          <td class="lbl"><input class="add-in" id="budgetNewName-${at}" type="text" data-bname="${at}" placeholder="Add a line…" aria-label="New line name, ${curCat}"></td>
+          <td class="num"><input class="cell-in" id="budgetNewUnit-${at}" type="number" min="0" step="1" placeholder="0" data-bunit="${at}" aria-label="New line unit cost"></td>
+          <td class="num"><input class="cell-in qty" id="budgetNewQty-${at}" type="number" min="0" step="1" value="1" data-bqty="${at}" aria-label="New line quantity"></td>
+          <td></td>
+          <td class="num" style="white-space:nowrap">
+            <button class="btn btn-sm" data-addb="${at}" data-cat="${curCat}">Add</button>
+            <button class="btn btn-sm btn-ghost" data-addclosegrp="${esc(curGrp)}" aria-label="Close add form">Done</button>
+          </td>
+        </tr>`;
+      } else {
+        html += `<tr class="addrow">
+          <td colspan="5"><button class="btn btn-sm btn-ghost" data-addopengrp="${esc(curGrp)}">+ Add line</button></td>
+        </tr>`;
+      }
     }
   });
   document.getElementById('budgetBody').innerHTML = html;
+
+  document.querySelectorAll('[data-addopengrp]').forEach(b => b.onclick = () => {
+    openBudgetGrps.add(b.dataset.addopengrp); renderBudget();
+    const fresh = document.querySelector('[data-bname]');
+    if(fresh) fresh.focus();
+  });
+  document.querySelectorAll('[data-addclosegrp]').forEach(b => b.onclick = () => {
+    openBudgetGrps.delete(b.dataset.addclosegrp); renderBudget();
+  });
 
   document.querySelectorAll('[data-u],[data-q]').forEach(inp => {
     inp.oninput = () => {
@@ -1194,26 +1389,36 @@ function recalc(){
   document.getElementById('sumPP').textContent    = money(total/2);
   document.getElementById('sumPD').textContent    = money(total/10);
 
-  const pct = Math.max(0, Math.min(100, (total/9000)*100));
+  const {low, high} = budgetTarget;
+  document.getElementById('scaleLow').textContent  = '$' + Math.round(low/1000)  + 'k';
+  document.getElementById('scaleHigh').textContent = '$' + Math.round(high/1000) + 'k';
+
+  const pct = high > 0 ? Math.max(0, Math.min(100, (total/high)*100)) : 0;
   const bar = document.getElementById('gaugeBar');
   bar.style.width = pct + '%';
 
   const v = document.getElementById('verdict');
   const sub = document.getElementById('gaugeSub');
   v.className = 'verdict';
-  if(total > 9000){
+  if(total > high){
     bar.style.background = 'var(--alert)'; v.classList.add('v-over');
-    v.textContent = money(total-9000) + ' over the ceiling. The Denali flight tier is the biggest lever — the $475–615pp spread is $280 for two.';
+    v.textContent = money(total-high) + ' over the ceiling. The Denali flight tier is the biggest lever — the $475–615pp spread is $280 for two.';
     sub.textContent = 'over target';
-  } else if(total < 7000){
+  } else if(total < low){
     bar.style.background = 'var(--tundra)'; v.classList.add('v-warn');
-    v.textContent = money(7000-total) + ' under the floor. Room for a flight upgrade or a nicer night somewhere.';
+    v.textContent = money(low-total) + ' under the floor. Room for a flight upgrade or a nicer night somewhere.';
     sub.textContent = 'under target';
   } else {
     bar.style.background = 'var(--glacier)'; v.classList.add('v-ok');
-    v.textContent = 'Inside the window with ' + money(9000-total) + ' of headroom at the ceiling.';
+    v.textContent = 'Inside the window with ' + money(high-total) + ' of headroom at the ceiling.';
     sub.textContent = 'on target';
   }
+}
+
+function syncTargetInputs(){
+  const lo = document.getElementById('targetLow'), hi = document.getElementById('targetHigh');
+  if(lo) lo.value = budgetTarget.low;
+  if(hi) hi.value = budgetTarget.high;
 }
 
 /* ============================================================
@@ -1287,7 +1492,7 @@ async function writeToFile(){
     if(perm !== 'granted') perm = await fileHandle.requestPermission({mode:'readwrite'});
     if(perm !== 'granted') return;
     const writable = await fileHandle.createWritable();
-    await writable.write(JSON.stringify({plan,budget,bookings,booked:[...booked]}, null, 2));
+    await writable.write(JSON.stringify({plan,budget,bookings,stops,dates,tiers,budgetTarget,booked:[...booked]}, null, 2));
     await writable.close();
   }catch(err){ toast("Couldn't save to the connected file"); }
 }
@@ -1303,8 +1508,12 @@ async function useHandle(handle, loadContents){
         if(d.plan) plan = d.plan;
         if(d.budget) budget = d.budget;
         if(d.bookings) bookings = d.bookings;
+        if(d.stops) stops = d.stops;
+        if(d.dates) dates = d.dates;
+        if(d.tiers) tiers = d.tiers;
+        if(d.budgetTarget) budgetTarget = d.budgetTarget;
         if(d.booked) booked = new Set(d.booked);
-        renderPlan(); renderBudget(); renderBooking();
+        drawProfile(); renderPlan(); renderBudget(); renderBooking(); renderStops(); refreshMap(); syncTargetInputs();
         toast(`Loaded ${fileName}`);
       } else {
         toast(`Connected ${fileName} — saving here from now on`);
@@ -1354,6 +1563,10 @@ async function tryReconnect(){
         if(d.plan) plan = d.plan;
         if(d.budget) budget = d.budget;
         if(d.bookings) bookings = d.bookings;
+        if(d.stops) stops = d.stops;
+        if(d.dates) dates = d.dates;
+        if(d.tiers) tiers = d.tiers;
+        if(d.budgetTarget) budgetTarget = d.budgetTarget;
         if(d.booked) booked = new Set(d.booked);
       }
     } else {
@@ -1367,7 +1580,7 @@ async function tryReconnect(){
 
 function saveState(){
   try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({plan,budget,bookings,booked:[...booked]}));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({plan,budget,bookings,stops,dates,tiers,budgetTarget,booked:[...booked]}));
     markSaved();
   }catch(e){ /* private browsing / storage disabled — nothing to do */ }
   if(fileHandle) writeToFile();
@@ -1380,8 +1593,31 @@ function queueSave(){
 window.addEventListener('beforeunload', saveState);
 document.getElementById('connectBtn').onclick = connectFile;
 
+document.getElementById('importBtn').onclick = () => {
+  document.getElementById('importInput').click();
+};
+document.getElementById('importInput').onchange = async (e) => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if(!file) return;
+  try{
+    const text = await file.text();
+    const d = JSON.parse(text);
+    if(d.plan) plan = d.plan;
+    if(d.budget) budget = d.budget;
+    if(d.bookings) bookings = d.bookings;
+    if(d.stops) stops = d.stops;
+    if(d.dates) dates = d.dates;
+    if(d.tiers) tiers = d.tiers;
+    if(d.budgetTarget) budgetTarget = d.budgetTarget;
+    if(d.booked) booked = new Set(d.booked);
+    drawProfile(); renderPlan(); renderBudget(); renderBooking(); renderStops(); refreshMap(); syncTargetInputs();
+    saveState();
+    toast(`Imported ${file.name}`);
+  }catch(err){ toast("Couldn't import that file"); }
+};
 document.getElementById('exportBtn').onclick = () => {
-  const blob = new Blob([JSON.stringify({plan,budget,bookings,booked:[...booked]},null,2)],{type:'application/json'});
+  const blob = new Blob([JSON.stringify({plan,budget,bookings,stops,dates,tiers,budgetTarget,booked:[...booked]},null,2)],{type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = 'alaska-2026-plan.json';
@@ -1389,25 +1625,57 @@ document.getElementById('exportBtn').onclick = () => {
   toast('Saved alaska-2026-plan.json');
 };
 document.getElementById('resetBtn').onclick = () => {
-  plan = structuredClone(PLAN0); renderPlan(); saveState(); toast('Plan reset to the finalized version');
+  plan = structuredClone(PLAN0); drawProfile(); renderPlan(); saveState(); toast('Plan reset to the finalized version');
 };
 document.getElementById('budgetReset').onclick = () => {
   budget = structuredClone(BUDGET0); renderBudget(); saveState(); toast('Budget restored to defaults');
+};
+document.getElementById('targetLow').oninput = e => {
+  const v = parseFloat(e.target.value);
+  budgetTarget.low = isNaN(v) ? 0 : v;
+  recalc(); queueSave();
+};
+document.getElementById('targetHigh').oninput = e => {
+  const v = parseFloat(e.target.value);
+  budgetTarget.high = isNaN(v) ? 0 : v;
+  recalc(); queueSave();
 };
 
 /* ============================================================
    BOOT
    ============================================================ */
 drawProfile();
-try{ initMap(); }catch(e){ console.error('Map failed to load', e); }
+syncTargetInputs();
+
+/* Map tiles need reliable outbound network access, which some mobile
+   contexts (opening this file directly in a phone browser's local-file
+   mode) can't guarantee. Rather than detect failure after the fact,
+   just skip the map/route section entirely on mobile — the Google
+   Maps links above it still work fine. */
+function isMobileViewport(){
+  return /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent)
+      || window.matchMedia('(max-width: 820px)').matches;
+}
+if(isMobileViewport()){
+  const grid = document.querySelector('#route .grid-2');
+  if(grid) grid.style.display = 'none';
+  const desc = document.getElementById('routeDesc');
+  if(desc) desc.style.display = 'none';
+} else {
+  try{ initMap(); }catch(e){ console.error('Map failed to load', e); }
+}
 buildRouteLink();
 renderStops();
 
 (async function boot(){
   try{ await tryReconnect(); }catch(e){ console.error('Reconnect failed', e); }
+  drawProfile();
   renderPlan();
   renderBooking();
   renderBudget();
+  renderStops();
+  refreshMap();
+  syncTargetInputs();
   saveState();
   if(fileHandle) toast(`Connected to ${fileName}`);
   else if(pendingHandle) toast(`Click "Reconnect ${pendingHandle.name}" to resume saving there`);

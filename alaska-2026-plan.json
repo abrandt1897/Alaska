@@ -7,8 +7,8 @@
       "acts": [
         {
           "k": "travel",
-          "t": "Land at ANC, 9:30 PM",
-          "s": "Collect the car, airport-adjacent hotel. Nothing forced."
+          "t": "Land at ANC, 9:30 PM (Fri 14 Aug)",
+          "s": "Collect the car, Wildbirch Hotel downtown. Nothing forced."
         }
       ]
     },
@@ -20,7 +20,7 @@
         {
           "k": "paid",
           "t": "Alaska Wildlife Conservation Center",
-          "s": "Late morning. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp"
+          "s": "Late morning, Sat 15 Aug. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp. Walk-up fine, no reservation"
         },
         {
           "k": "paid",
@@ -35,7 +35,7 @@
         {
           "k": "travel",
           "t": "Drive to Seward",
-          "s": "Portage → Seward, ~1h35m. Arrive ~7:00 PM"
+          "s": "Portage → Seward, ~1h35m. Arrive ~7:00 PM. Check into 31435 Lois Way for 3 nights"
         }
       ]
     },
@@ -47,7 +47,7 @@
         {
           "k": "free",
           "t": "Harding Icefield Trail",
-          "s": "7.8 mi RT / 3,100 ft. Top of the Cliffs turnaround at 4.6 mi keeps Reed Lakes fun. Make noise below Marmot Meadows"
+          "s": "Sun 16 Aug. 7.8 mi RT / 3,100 ft. Make noise below Marmot Meadows"
         }
       ]
     },
@@ -59,7 +59,7 @@
         {
           "k": "anchor",
           "t": "Northwestern Fjord cruise",
-          "s": "Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included"
+          "s": "Mon 17 Aug. Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included"
         }
       ]
     },
@@ -71,24 +71,29 @@
         {
           "k": "travel",
           "t": "Seward → Palmer",
-          "s": "3.5 hrs. Deliberate rest day between the two big hikes"
+          "s": "Tue 18 Aug, ~3.5 hrs. Check into 7061 Finger Lake Ave, \"Clover Hill Cabin\", for 2 nights"
+        },
+        {
+          "k": "paid",
+          "t": "Independence Mine — optional",
+          "s": "Abandoned gold mine in an alpine bowl. Under a mile on foot. $15 entry + $5 parking. Skip it without guilt"
         },
         {
           "k": "free",
-          "t": "Independence Mine — optional",
-          "s": "Abandoned gold mine in an alpine bowl. Under a mile on foot. Skip it without guilt"
+          "t": "Bodenburg Butte — alternative",
+          "s": "Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter"
         }
       ]
     },
     {
-      "base": "→ Talkeetna",
+      "base": "Palmer",
       "elev": 4250,
       "label": "Reed Lakes",
       "acts": [
         {
           "k": "free",
           "t": "Reed Lakes",
-          "s": "8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd"
+          "s": "Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd"
         }
       ]
     },
@@ -99,35 +104,45 @@
       "acts": [
         {
           "k": "travel",
-          "t": "Drive to Talkeetna",
-          "s": "1h45m north. Gold Mint Trail is the flat-valley rain alternative"
+          "t": "Drive Palmer → Talkeetna",
+          "s": "Thu 20 Aug, ~1h45m north. Day-stop only — no overnight in Talkeetna. Gold Mint Trail is the flat-valley rain alternative"
         },
         {
           "k": "anchor",
           "t": "Denali flight + glacier landing",
-          "s": "Earliest morning slot. Ask about the Kahiltna vs Ruth difference and the weather-rollover policy. $475–615pp"
+          "s": "4:00 PM slot, ~2 hr flight. K2 Aviation / Talkeetna Air Taxi / Sheldon Air. Ask about Kahiltna vs Ruth and the weather-rollover policy. $475–615pp"
         },
         {
           "k": "travel",
           "t": "Talkeetna → Healy",
-          "s": "2h45m north on the Parks Highway"
+          "s": "~2h45m north on the Parks Highway. Check into \"Altair\" for 1 night"
         }
       ]
     },
     {
-      "base": "Healy",
+      "base": "→ Fairbanks",
       "elev": 1300,
-      "label": "Fat truck",
+      "label": "Fat truck + Chena",
       "acts": [
+        {
+          "k": "free",
+          "t": "Soft morning",
+          "s": "Fri 21 Aug. Healy checkout 11 AM — keep it soft. This is the flight rollover day: if Thu was scrubbed, Fly Denali takes it instead"
+        },
         {
           "k": "paid",
           "t": "Denali Fat Truck SHERP tour",
-          "s": "3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays"
+          "s": "1:00 PM, 3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays"
         },
         {
-          "k": "free",
-          "t": "Soft afternoon — keep it soft",
-          "s": "This is the flight rollover. If Thursday scrubbed, Fly Denali takes it. If not: Savage River Loop, Horseshoe Lake, or the sled dog demo"
+          "k": "travel",
+          "t": "Drive to Fairbanks",
+          "s": "Check into 8750 Parks Highway, Fairbanks, AK 99709 for 2 nights. Dinner in town"
+        },
+        {
+          "k": "paid",
+          "t": "Chena Hot Springs",
+          "s": "That evening — geothermal soaking pools. Back ~midnight. Deliberately paired with the SHERP-tour day so it doesn't land the night before the Aug 23 drive"
         }
       ]
     },
@@ -139,7 +154,12 @@
         {
           "k": "paid",
           "t": "Park Road transit bus to Mile 43",
-          "s": "$33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead"
+          "s": "Sat 22 Aug, 11:30 AM, ~4 hrs. $33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead. Drive from Fairbanks yourself"
+        },
+        {
+          "k": "free",
+          "t": "Savage Alpine Trail",
+          "s": "4 mi one-way / ~1,500 ft, connects Savage River to Mountain Vista at Mile 15 Park Rd. Strenuous but no reservation — drive there yourself, no bus ticket needed. Back to Fairbanks ~8:35 PM"
         }
       ]
     },
@@ -150,8 +170,8 @@
       "acts": [
         {
           "k": "travel",
-          "t": "Leave Healy ~10:00 AM",
-          "s": "4h30m to Anchorage. Departure is 8:00 PM — no need to rush"
+          "t": "Leave Fairbanks ~11:00 AM (Sun 23 Aug)",
+          "s": "Checkout, then drive south to Anchorage for the 8:00 PM flight. No need to rush"
         },
         {
           "k": "free",
@@ -160,13 +180,8 @@
         },
         {
           "k": "travel",
-          "t": "Return car, ANC by ~3:00 PM",
-          "s": "Five hours of margin on a 4.5-hour drive"
-        },
-        {
-          "k": "free",
-          "t": "Return car to ANC by 6pm",
-          "s": "Six hour drive from Airbnb"
+          "t": "Return car, ANC by ~6:00 PM",
+          "s": "Return the rental car ahead of the 8:00 PM departure"
         }
       ]
     }
@@ -176,28 +191,39 @@
       "grp": "Lodging — 9 nights"
     },
     {
+      "n": "Anchorage",
+      "u": null,
+      "q": 1,
+      "c": "lodge",
+      "note": "Wildbirch Hotel, downtown — price TBD"
+    },
+    {
       "n": "Seward",
       "u": 413,
       "q": 3,
-      "c": "lodge"
+      "c": "lodge",
+      "note": "31435 Lois Way"
     },
     {
       "n": "Palmer",
       "u": 189,
       "q": 2,
-      "c": "lodge"
+      "c": "lodge",
+      "note": "7061 Finger Lake Ave, \"Clover Hill Cabin\""
     },
     {
       "n": "Healy / Denali",
       "u": 298,
       "q": 1,
-      "c": "lodge"
+      "c": "lodge",
+      "note": "\"Altair\""
     },
     {
       "n": "Fairbanks",
       "u": 337,
-      "q": 3,
-      "c": "lodge"
+      "q": 2,
+      "c": "lodge",
+      "note": "8750 Parks Highway — price TBD"
     },
     {
       "grp": "Transport"
@@ -209,8 +235,8 @@
       "c": "trans"
     },
     {
-      "n": "Fuel (~950 mi)",
-      "u": 200,
+      "n": "Fuel",
+      "u": 285,
       "q": 1,
       "c": "trans"
     },
@@ -266,6 +292,20 @@
       "c": "act"
     },
     {
+      "n": "Independence Mine entry + parking",
+      "u": 20,
+      "q": 1,
+      "c": "act",
+      "note": "Optional — Bodenburg Butte is the free alternative"
+    },
+    {
+      "n": "Chena Hot Springs",
+      "u": 20,
+      "q": 2,
+      "c": "act",
+      "note": "Optional"
+    },
+    {
       "grp": "Living & slack"
     }
   ],
@@ -273,9 +313,9 @@
     {
       "tier": 1,
       "name": "Denali flight + glacier landing",
-      "meta": "K2 Aviation · Talkeetna Air Taxi · Sheldon Air",
-      "when": "Thu 20 Aug, first slot",
-      "url": "https://www.flyk2.com/"
+      "meta": "Talkeetna Air Taxi",
+      "when": "Thu 20 Aug, 4:00 PM slot",
+      "url": "https://www.talkeetnaair.com/"
     },
     {
       "tier": 1,
@@ -287,22 +327,29 @@
     {
       "tier": 2,
       "name": "Seward lodging — 3 nights",
-      "meta": "Busiest town on the route",
-      "when": "15 – 17 Aug",
+      "meta": "31435 Lois Way. Busiest town on the route",
+      "when": "15 – 18 Aug",
       "url": "https://www.google.com/travel/hotels/Seward%20Alaska"
     },
     {
       "tier": 2,
-      "name": "Healy / Denali lodging — 3 nights",
-      "meta": "Price these before committing to the shape",
-      "when": "20 – 22 Aug",
+      "name": "Healy / Denali lodging — 1 night",
+      "meta": "\"Altair\"",
+      "when": "20 – 21 Aug",
       "url": "https://www.google.com/travel/hotels/Healy%20Alaska"
     },
     {
       "tier": 2,
+      "name": "Fairbanks lodging — 2 nights",
+      "meta": "8750 Parks Highway, Fairbanks, AK 99709",
+      "when": "21 – 23 Aug",
+      "url": "https://www.google.com/travel/hotels/Fairbanks%20Alaska"
+    },
+    {
+      "tier": 2,
       "name": "Denali Park Road transit bus",
-      "meta": "Reserve ahead — walk-up unreliable in August",
-      "when": "Sat 22 Aug",
+      "meta": "Reserve ahead — walk-up unreliable in August. Drive from Fairbanks",
+      "when": "Sat 22 Aug, 11:30 AM",
       "url": "https://www.reservedenali.com/"
     },
     {
@@ -316,7 +363,7 @@
       "tier": 3,
       "name": "Denali Fat Truck SHERP tour",
       "meta": "Closed Sundays — Friday is the slot",
-      "when": "Fri 21 Aug",
+      "when": "Fri 21 Aug, 1:00 PM",
       "url": "https://www.denalifattrucktours.com/3-hour-sherp-tour-denali-fat-truck-tours/"
     },
     {
@@ -328,22 +375,15 @@
     },
     {
       "tier": 3,
-      "name": "Talkeetna lodging — 1 night",
-      "meta": "Small town, limited inventory",
-      "when": "19 Aug",
-      "url": "https://www.google.com/travel/hotels/Talkeetna%20Alaska"
-    },
-    {
-      "tier": 3,
-      "name": "Palmer lodging — 1 night",
-      "meta": "Easiest to find",
-      "when": "18 Aug",
+      "name": "Palmer lodging — 2 nights",
+      "meta": "7061 Finger Lake Ave, \"Clover Hill Cabin\"",
+      "when": "18 – 20 Aug",
       "url": "https://www.google.com/travel/hotels/Palmer%20Alaska"
     },
     {
       "tier": 3,
       "name": "Anchorage lodging — 1 night",
-      "meta": "Airport-adjacent for the 9:30 PM landing",
+      "meta": "Wildbirch Hotel, downtown — for the 9:30 PM landing",
       "when": "14 Aug",
       "url": "https://www.google.com/travel/hotels/Anchorage%20Alaska"
     },
@@ -356,20 +396,385 @@
     },
     {
       "tier": 4,
-      "name": "Harding Icefield · Reed Lakes · Independence Mine",
+      "name": "Harding Icefield Trail",
       "meta": "No booking — parking fees only",
-      "when": "16, 19, 18 Aug",
+      "when": "16 Aug",
       "url": "https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm"
+    },
+    {
+      "tier": 4,
+      "name": "Reed Lakes Trail",
+      "meta": "No booking — parking fees only",
+      "when": "19 Aug",
+      "url": "https://www.alaska.org/detail/reed-lakes-trail"
+    },
+    {
+      "tier": 4,
+      "name": "Independence Mine State Historical Park",
+      "meta": "$15 entry + $5 parking. Optional — Bodenburg Butte is the free alternative",
+      "when": "18 Aug",
+      "url": "https://www.salmonberrytours.com/tour/independence-mine-state-historical-park/"
+    },
+    {
+      "tier": 4,
+      "name": "Savage Alpine Trail",
+      "meta": "No booking — Mile 15 Park Rd, drive there yourself, paired with the transit-bus day",
+      "when": "22 Aug",
+      "url": "https://www.nps.gov/dena/planyourvisit/savage-alpine-trail.htm"
+    },
+    {
+      "tier": 4,
+      "name": "Chena Hot Springs",
+      "meta": "No booking — walk-up. Evening of the SHERP-tour day, back ~midnight — deliberately not the night before the Aug 23 drive",
+      "when": "Fri 21 Aug, evening",
+      "url": "https://www.chenahotsprings.com/"
     }
   ],
+  "stops": [
+    {
+      "day": 1,
+      "kind": "travel",
+      "name": "Anchorage",
+      "sub": "Arrival base",
+      "lat": 61.2181,
+      "lng": -149.9003,
+      "facts": {
+        "Night": "1 (Fri 14 Aug)",
+        "Arrive": "9:30 PM",
+        "Hotel": "Wildbirch Hotel, downtown"
+      },
+      "text": "Land at ANC, collect the car, Wildbirch Hotel downtown. Nothing forced. You come back through on the 23rd but don't sleep here again."
+    },
+    {
+      "day": 2,
+      "kind": "paid",
+      "name": "Alaska Wildlife Conservation Center",
+      "sub": "Portage · Seward Hwy mile 79",
+      "lat": 60.813,
+      "lng": -148.993,
+      "facts": {
+        "Cost": "~$30pp",
+        "Time": "Late morning, Sat 15 Aug",
+        "Note": "1.5 mi south of Portage station"
+      },
+      "text": "A rescue sanctuary where bears, moose, musk ox and wood bison are a certainty — the only guaranteed wildlife on the trip. Walk-up fine, no reservation."
+    },
+    {
+      "day": 2,
+      "kind": "paid",
+      "name": "Portage Train Depot",
+      "sub": "Board the Glacier Discovery",
+      "lat": 60.787,
+      "lng": -148.993,
+      "facts": {
+        "Depart": "1:30 PM",
+        "Return": "5:15 PM",
+        "Fare": "$94pp RT"
+      },
+      "text": "Boarding at Portage instead of Anchorage keeps the car with you and skips the pointless Whittier legs. Park here, ride out, come back to it."
+    },
+    {
+      "day": 2,
+      "kind": "free",
+      "name": "Spencer Glacier Whistle Stop",
+      "sub": "Roadless — rail access only",
+      "lat": 60.7133,
+      "lng": -148.9333,
+      "facts": {
+        "On ground": "1:45 – 4:40 PM",
+        "Walk": "1.3 mi to the glacier"
+      },
+      "text": "Backcountry in the Chugach National Forest with no road to it. A maintained gravel path leads to Spencer Lake and the glacier face. After: drive Portage → Seward, ~1h35m, arrive ~7:00 PM, check into 31435 Lois Way for 3 nights."
+    },
+    {
+      "day": 3,
+      "kind": "free",
+      "name": "Harding Icefield Trail",
+      "sub": "Exit Glacier, Kenai Fjords NP",
+      "lat": 60.1878,
+      "lng": -149.632,
+      "facts": {
+        "Full": "7.8 mi / 3,100 ft",
+        "Date": "Sun 16 Aug",
+        "Cost": "Free"
+      },
+      "text": "The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise."
+    },
+    {
+      "day": 4,
+      "kind": "anchor",
+      "name": "Seward Harbor",
+      "sub": "Northwestern Fjord departure",
+      "lat": 60.1042,
+      "lng": -149.4422,
+      "facts": {
+        "Sails": "8:30 AM – 5:00 PM, Mon 17 Aug",
+        "Cost": "$309pp",
+        "Operator": "Major Marine"
+      },
+      "text": "Non-negotiable, and the single biggest wildlife day: three tidewater glacier faces, humpbacks, orcas, puffins. One departure daily and it sells out in August. Deli lunch included."
+    },
+    {
+      "day": 5,
+      "kind": "paid",
+      "name": "Independence Mine",
+      "sub": "Hatcher Pass — optional",
+      "lat": 61.7897,
+      "lng": -149.2794,
+      "facts": {
+        "Walk": "Under 1 mi",
+        "Cost": "$15 entry + $5 parking"
+      },
+      "text": "An abandoned gold mine in an alpine bowl. Skip it without guilt — Bodenburg Butte is the free alternative if the weather or energy calls for something lighter. Drive Seward → Palmer first, ~3.5 hrs, check into 7061 Finger Lake Ave, \"Clover Hill Cabin\", for 2 nights."
+    },
+    {
+      "day": 5,
+      "kind": "free",
+      "name": "Bodenburg Butte",
+      "sub": "Alternative to Independence Mine",
+      "lat": 61.576,
+      "lng": -149.044,
+      "facts": {
+        "Cost": "Free",
+        "Note": "Shorter alpine-view alternative"
+      },
+      "text": "Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter."
+    },
+    {
+      "day": 6,
+      "kind": "free",
+      "name": "Reed Lakes Trailhead",
+      "sub": "Archangel Road",
+      "lat": 61.7847,
+      "lng": -149.2314,
+      "facts": {
+        "Distance": "8.6 mi RT / 2,250 ft",
+        "Date": "Wed 19 Aug",
+        "Parking": "$5"
+      },
+      "text": "Easy first 1.5 mi on an old mining road, then switchbacks, then a car-sized boulder field marked by cairns — slow and hands-on, genuinely slippery when wet. Lower Reed 3,750 ft, Upper Reed 4,250 ft."
+    },
+    {
+      "day": 7,
+      "kind": "anchor",
+      "name": "Talkeetna Airport",
+      "sub": "Denali flight + glacier landing",
+      "lat": 62.3205,
+      "lng": -150.0937,
+      "facts": {
+        "Slot": "4:00 PM, Thu 20 Aug",
+        "Cost": "$475–615pp",
+        "Operators": "K2 · Talkeetna Air Taxi · Sheldon"
+      },
+      "text": "The anchor of the trip and roughly half the activity budget. Drive Palmer → Talkeetna first (~1h45m, day-stop only). Ask about Kahiltna vs Ruth and the weather-rollover policy. After: drive Talkeetna → Healy, ~2h45m, check into \"Altair\" for 1 night."
+    },
+    {
+      "day": 8,
+      "kind": "paid",
+      "name": "Denali Fat Truck Tours",
+      "sub": "Otto Lake Rd, Healy",
+      "lat": 63.8642,
+      "lng": -148.98,
+      "facts": {
+        "Duration": "3 hrs",
+        "Time": "1:00 PM, Fri 21 Aug",
+        "Cost": "From $249pp",
+        "Open": "Mon – Sat"
+      },
+      "text": "An amphibious SHERP — heated, sealed, 2 psi ground pressure. Mining trails, cliffs, lake crossings and tundra where nothing else drives. Closed Sundays, which is why it sits on Friday. This is also the flight rollover day: if Thu was scrubbed, Fly Denali takes it instead."
+    },
+    {
+      "day": 8,
+      "kind": "travel",
+      "name": "Fairbanks",
+      "sub": "8750 Parks Highway",
+      "lat": 64.861,
+      "lng": -147.8267,
+      "facts": {
+        "Nights": "2 (21 – 23 Aug)"
+      },
+      "text": "Drive from Healy after the SHERP tour, check in for 2 nights, dinner in town."
+    },
+    {
+      "day": 8,
+      "kind": "paid",
+      "name": "Chena Hot Springs",
+      "sub": "Geothermal soaking pools",
+      "lat": 65.0561,
+      "lng": -146.0785,
+      "facts": {
+        "Time": "That evening",
+        "Back": "~Midnight"
+      },
+      "text": "Geothermal soaking pools. Deliberately paired with the SHERP-tour day so it doesn't land the night before the Aug 23 drive."
+    },
+    {
+      "day": 9,
+      "kind": "paid",
+      "name": "Denali Bus Depot",
+      "sub": "Park Road transit",
+      "lat": 63.73,
+      "lng": -148.915,
+      "facts": {
+        "Time": "11:30 AM, Sat 22 Aug",
+        "Fare": "$33.50pp",
+        "Entry": "$15pp",
+        "Reserve": "Strongly recommended"
+      },
+      "text": "Green transit buses, hop-on hop-off. Drive from Fairbanks yourself. Book ahead — walk-up is unreliable in August."
+    },
+    {
+      "day": 9,
+      "kind": "paid",
+      "name": "East Fork Bridge — Mile 43",
+      "sub": "End of the road, 2026",
+      "lat": 63.535,
+      "lng": -149.82,
+      "facts": {
+        "Turnaround": "Mile 43",
+        "Closed beyond": "Pretty Rocks landslide"
+      },
+      "text": "The bus turns here for the whole 2026 season. Bears, caribou, Dall sheep. Back to Fairbanks ~8:35 PM."
+    },
+    {
+      "day": 9,
+      "kind": "free",
+      "name": "Savage Alpine Trail",
+      "sub": "Savage River → Mountain Vista, mile 15",
+      "lat": 63.735,
+      "lng": -148.933,
+      "facts": {
+        "Distance": "4 mi one-way / ~1,500 ft",
+        "Cost": "No reservation"
+      },
+      "text": "Strenuous but no reservation — drive there yourself, no bus ticket needed. Private vehicles are limited to Mile 15 at Savage River."
+    },
+    {
+      "day": 10,
+      "kind": "free",
+      "name": "Denali View South",
+      "sub": "Parks Hwy mile 135",
+      "lat": 62.647,
+      "lng": -150.236,
+      "facts": {
+        "Stop": "15 min",
+        "Cost": "Free"
+      },
+      "text": "On the drive out, Sun 23 Aug — leaving Fairbanks ~11:00 AM for the 8:00 PM flight, no need to rush. Talkeetna is a reasonable lunch stop."
+    },
+    {
+      "day": 10,
+      "kind": "free",
+      "name": "Byers Lake",
+      "sub": "Parks Hwy mile 147",
+      "lat": 62.846,
+      "lng": -150.035,
+      "facts": {
+        "Stop": "15 min",
+        "Cost": "Free"
+      },
+      "text": "The other worthwhile pull-off on the drive south, alongside Denali View South at mile 135."
+    },
+    {
+      "day": 10,
+      "kind": "travel",
+      "name": "Ted Stevens Anchorage Intl",
+      "sub": "Depart 8:00 PM",
+      "lat": 61.1743,
+      "lng": -149.9962,
+      "facts": {
+        "Target": "~6:00 PM",
+        "Drive": "From Fairbanks"
+      },
+      "text": "Return the rental car ahead of the 8:00 PM departure."
+    }
+  ],
+  "dates": [
+    {
+      "n": 1,
+      "dow": "Friday",
+      "d": "14 Aug"
+    },
+    {
+      "n": 2,
+      "dow": "Saturday",
+      "d": "15 Aug"
+    },
+    {
+      "n": 3,
+      "dow": "Sunday",
+      "d": "16 Aug"
+    },
+    {
+      "n": 4,
+      "dow": "Monday",
+      "d": "17 Aug"
+    },
+    {
+      "n": 5,
+      "dow": "Tuesday",
+      "d": "18 Aug"
+    },
+    {
+      "n": 6,
+      "dow": "Wednesday",
+      "d": "19 Aug"
+    },
+    {
+      "n": 7,
+      "dow": "Thursday",
+      "d": "20 Aug"
+    },
+    {
+      "n": 8,
+      "dow": "Friday",
+      "d": "21 Aug"
+    },
+    {
+      "n": 9,
+      "dow": "Saturday",
+      "d": "22 Aug"
+    },
+    {
+      "n": 10,
+      "dow": "Sunday",
+      "d": "23 Aug"
+    }
+  ],
+  "tiers": {
+    "1": {
+      "tag": "Book first",
+      "cls": "t1",
+      "note": "Weather-sensitive, limited aircraft, sells out"
+    },
+    "2": {
+      "tag": "Locks the shape",
+      "cls": "t2",
+      "note": "Everything else bends around these"
+    },
+    "3": {
+      "tag": "Secondary",
+      "cls": "t3",
+      "note": "Flexible, but cheaper and easier booked early"
+    },
+    "4": {
+      "tag": "No booking / backup",
+      "cls": "t4",
+      "note": "Hold in reserve"
+    }
+  },
+  "budgetTarget": {
+    "low": 7000,
+    "high": 9000
+  },
   "booked": [
     "Denali flight + glacier landing",
     "Northwestern Fjord cruise",
     "Seward lodging — 3 nights",
-    "Healy / Denali lodging — 3 nights",
+    "Healy / Denali lodging — 1 night",
+    "Fairbanks lodging — 2 nights",
     "Rental car — 10 days",
-    "Talkeetna lodging — 1 night",
-    "Palmer lodging — 1 night",
+    "Palmer lodging — 2 nights",
     "Anchorage lodging — 1 night",
     "Alaska Wildlife Conservation Center",
     "Spencer Glacier train — Portage RT",
