@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alaska · 14–23 Aug 2026 · Trip Plan</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+
+<style>
+/* ============================================================
+   TOKENS — cold-water survey chart
+   ============================================================ */
+:root{
+  --ink:#0B1D26;
+  --ink-2:#3A5460;
+  --ink-3:#6E8792;
+  --paper:#E9EFEE;
+  --surface:#FFFFFF;
+  --line:#C6D3D1;
+  --line-soft:#DFE7E6;
+  --glacier:#2F7E99;
+  --glacier-dk:#1D5A70;
+  --glacier-wash:#E2EFF3;
+  --tundra:#9A7C33;
+  --tundra-wash:#F4EEDC;
+  --alert:#A8402F;
+  --alert-wash:#F7E7E4;
+
+  --r:3px;
+  --gap:20px;
+  --rail:252px;
+
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --display:"Archivo","IBM Plex Sans",system-ui,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display);margin:0;letter-spacing:-.015em;line-height:1.12}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--glacier-dk)}
+
+.eyebrow{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   SHELL
+   ============================================================ */
+.shell{display:flex;min-height:100vh;align-items:flex-start}
+
+.rail{
+  width:var(--rail);flex:0 0 var(--rail);position:sticky;top:0;height:100vh;
+  background:var(--ink);color:#DCE7E9;padding:26px 22px;
+  display:flex;flex-direction:column;gap:26px;overflow-y:auto;
+}
+.rail-mark{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.03em;color:#fff;line-height:1.05}
+.rail-mark span{display:block;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.16em;color:#7FA6B2;margin-top:7px}
+
+.rail nav{display:flex;flex-direction:column;gap:1px}
+.rail nav a{
+  display:flex;align-items:baseline;gap:10px;padding:8px 10px;
+  color:#B9CDD3;text-decoration:none;border-radius:var(--r);
+  font-size:13.5px;transition:background .14s,color .14s;
+}
+.rail nav a i{font-family:var(--mono);font-size:10px;color:#5E8794;font-style:normal}
+.rail nav a:hover,.rail nav a:focus-visible{background:rgba(255,255,255,.09);color:#fff}
+
+.rail-stat{border-top:1px solid rgba(255,255,255,.14);padding-top:16px;margin-top:auto}
+.rail-stat dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:7px 10px;font-size:12.5px}
+.rail-stat dt{color:#7FA6B2}
+.rail-stat dd{margin:0;font-family:var(--mono);color:#fff;text-align:right}
+
+.main{flex:1;min-width:0;padding:30px 34px 90px;max-width:1220px}
+
+section{margin-bottom:44px;scroll-margin-top:20px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.sec-head h2{font-size:23px;font-weight:700}
+.sec-head p{margin:5px 0 0;color:var(--ink-2);font-size:13.5px;max-width:62ch}
+
+/* ============================================================
+   SIGNATURE — traverse profile
+   ============================================================ */
+.hero{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 26px 8px;margin-bottom:30px;
+}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:22px;flex-wrap:wrap;margin-bottom:6px}
+.hero h1{font-size:31px;font-weight:800;letter-spacing:-.03em}
+.hero h1 em{font-style:normal;color:var(--glacier)}
+.hero-sub{margin:8px 0 0;color:var(--ink-2);font-size:14px;max-width:56ch}
+.hero-key{display:flex;gap:22px;flex-wrap:wrap}
+.hero-key div{text-align:right}
+.hero-key b{display:block;font-family:var(--mono);font-size:19px;font-weight:600}
+
+.profile-scroll{overflow-x:auto;overflow-y:hidden;margin:0 -4px}
+#profile{width:100%;min-width:660px;height:auto;display:block}
+#profile .stn{cursor:pointer}
+#profile .stn:focus-visible rect.hit{outline:2px solid var(--glacier);outline-offset:1px}
+.profile-note{
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);padding:0 0 16px;border-top:1px solid var(--line-soft);margin-top:2px;padding-top:9px;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.grid-2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:var(--gap);align-items:start}
+
+/* --- map --- */
+#map{height:520px;border-radius:var(--r) var(--r) 0 0;z-index:0;background:#DCE5E4}
+.map-foot{
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;
+  padding:11px 14px;border-top:1px solid var(--line-soft);
+}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-2)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:baseline}
+
+.pin{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;color:#fff;
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  border:2px solid #fff;box-shadow:0 1px 4px rgba(11,29,38,.4);
+}
+
+/* --- stop accordion --- */
+.stops{max-height:520px;overflow-y:auto}
+.stop{border-bottom:1px solid var(--line-soft)}
+.stop:last-child{border-bottom:0}
+.stop > summary{
+  width:100%;display:flex;align-items:center;gap:11px;
+  padding:11px 14px;cursor:pointer;list-style:none;
+}
+.stop > summary::-webkit-details-marker{display:none}
+.stop > summary::marker{content:''}
+.stop > summary:hover{background:var(--glacier-wash)}
+.stop > summary:focus-visible{outline:2px solid var(--glacier);outline-offset:-2px}
+.stop-day{
+  flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:#fff;
+}
+.stop-name{flex:1;font-weight:500;font-size:14px;line-height:1.25}
+.stop-name small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-top:2px}
+.chev{flex:0 0 auto;color:var(--ink-3);transition:transform .18s}
+.stop[open] .chev{transform:rotate(90deg)}
+.stop-body{padding:0 14px 14px 51px;font-size:13.5px;color:var(--ink-2)}
+.stop-body p{margin:0 0 9px}
+.stop-body .facts{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px;margin:0 0 10px}
+.stop-body .facts dt{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding-top:3px}
+.stop-body .facts dd{margin:0}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  padding:6px 11px;font-size:12.5px;cursor:pointer;color:var(--ink);
+  transition:border-color .14s,background .14s;
+}
+.btn:hover{border-color:var(--glacier);background:var(--glacier-wash)}
+.btn:focus-visible{outline:2px solid var(--glacier);outline-offset:1px}
+.btn-primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn-primary:hover{background:var(--glacier-dk);border-color:var(--glacier-dk)}
+.btn-sm{padding:3px 8px;font-size:11.5px}
+.btn-ghost{background:none;border-color:transparent;color:var(--ink-3)}
+.btn-ghost:hover{color:var(--alert);background:var(--alert-wash);border-color:transparent}
+
+/* ============================================================
+   BUDGET
+   ============================================================ */
+.budget-wrap{display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:var(--gap);align-items:start}
+table{width:100%;border-collapse:collapse}
+thead th{
+  font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+thead th.num,tbody td.num{text-align:right}
+tbody td{padding:5px 12px;border-bottom:1px solid var(--line-soft);font-size:13.5px;vertical-align:middle}
+tbody tr:hover{background:#F5F9F8}
+tbody tr.grp td{
+  background:var(--paper);font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-2);padding:7px 12px;font-weight:600;
+}
+td.lbl{width:44%}
+.cell-in{
+  width:100%;background:transparent;border:1px solid transparent;border-radius:var(--r);
+  padding:4px 7px;font-family:var(--mono);font-size:13px;text-align:right;
+  font-variant-numeric:tabular-nums;transition:border-color .12s,background .12s;
+}
+.cell-in:hover{border-color:var(--line)}
+.cell-in:focus{outline:none;border-color:var(--glacier);background:var(--glacier-wash)}
+.cell-in.qty{width:62px}
+td.total{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.addrow td{padding:6px 12px;background:var(--paper)}
+tr.addrow input.add-in{width:100%;background:var(--surface)}
+tfoot td{padding:13px 12px;border-top:2px solid var(--ink);font-family:var(--display);font-weight:700;font-size:17px}
+tfoot td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.gauge{padding:20px;position:sticky;top:20px}
+.gauge h3{font-size:13px;font-weight:600;margin-bottom:3px}
+.gauge .big{font-family:var(--mono);font-size:33px;font-weight:600;letter-spacing:-.02em;margin:12px 0 2px;font-variant-numeric:tabular-nums}
+.gauge .cap{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-bottom:18px}
+.bar{height:9px;background:var(--paper);border:1px solid var(--line);border-radius:99px;position:relative;overflow:hidden}
+.bar span{position:absolute;inset:0 auto 0 0;background:var(--glacier);transition:width .3s ease,background .3s}
+.bar-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:6px}
+.verdict{margin-top:16px;padding:11px 13px;border-radius:var(--r);font-size:12.5px;line-height:1.45}
+.v-ok{background:var(--glacier-wash);color:var(--glacier-dk)}
+.v-warn{background:var(--tundra-wash);color:#6C551D}
+.v-over{background:var(--alert-wash);color:var(--alert)}
+.gauge dl{margin:16px 0 0;display:grid;grid-template-columns:1fr auto;gap:6px 10px;font-size:12.5px;border-top:1px solid var(--line-soft);padding-top:14px}
+.gauge dt{color:var(--ink-2)}
+.gauge dd{margin:0;font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   BOOKING
+   ============================================================ */
+.tier{margin-bottom:20px}
+.tier-head{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.tier-head h3{font-size:15px;font-weight:600}
+.tier-tag{
+  font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  padding:3px 8px;border-radius:99px;
+}
+.t1{background:var(--alert-wash);color:var(--alert)}
+.t2{background:var(--tundra-wash);color:#6C551D}
+.t3{background:var(--glacier-wash);color:var(--glacier-dk)}
+.t4{background:var(--paper);color:var(--ink-3);border:1px solid var(--line)}
+.tier-head p{margin:0;font-size:12.5px;color:var(--ink-3)}
+
+.book{display:flex;align-items:center;gap:13px;padding:11px 14px;border-bottom:1px solid var(--line-soft)}
+.book:last-child{border-bottom:0}
+.book.done{background:#F5F9F8}
+.book.done .book-name{text-decoration:line-through;text-decoration-color:var(--ink-3);color:var(--ink-3)}
+.book input[type=checkbox]{width:16px;height:16px;accent-color:var(--glacier);cursor:pointer;flex:0 0 auto}
+.book-main{flex:1;min-width:0}
+.book-name{font-weight:500;font-size:14px}
+.book-meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-top:2px}
+.book-when{font-family:var(--mono);font-size:12px;color:var(--ink-2);white-space:nowrap;flex:0 0 auto}
+.book a.go{
+  flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;border:1px solid var(--line);border-radius:var(--r);padding:5px 10px;
+  color:var(--glacier-dk);transition:background .14s,border-color .14s;
+}
+.book a.go:hover{background:var(--glacier-wash);border-color:var(--glacier)}
+.book-add{flex-wrap:wrap;background:var(--paper)}
+
+/* ============================================================
+   ITINERARY
+   ============================================================ */
+.days{display:flex;flex-direction:column;gap:11px}
+.day{border-left:3px solid var(--line)}
+.day.drag-over{border-left-color:var(--glacier);background:var(--glacier-wash)}
+.day.dragging{opacity:.42}
+.day-head{display:flex;align-items:center;gap:12px;padding:12px 15px;border-bottom:1px solid var(--line-soft)}
+.grip{
+  cursor:grab;color:var(--ink-3);flex:0 0 auto;padding:3px;line-height:0;
+  border:0;background:none;border-radius:var(--r);
+}
+.grip:active{cursor:grabbing}
+.grip:focus-visible{outline:2px solid var(--glacier)}
+.day-n{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;
+}
+.day-when{flex:1;min-width:0}
+.day-when b{font-family:var(--display);font-size:15px;font-weight:700;display:block}
+.day-when span{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.day-base{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-2);
+  background:var(--paper);border:1px solid var(--line-soft);border-radius:99px;padding:4px 11px;white-space:nowrap;
+}
+.acts{list-style:none;margin:0;padding:7px 15px 7px 57px}
+.acts li{
+  display:flex;align-items:flex-start;gap:10px;padding:7px 9px;border-radius:var(--r);
+  cursor:grab;border:1px solid transparent;
+}
+.acts li:hover{background:var(--paper);border-color:var(--line-soft)}
+.acts li.dragging{opacity:.42}
+.acts li.drag-over{border-color:var(--glacier);background:var(--glacier-wash)}
+.dot{flex:0 0 auto;width:7px;height:7px;border-radius:50%;margin-top:8px}
+.d-anchor{background:var(--alert)}
+.d-paid{background:var(--glacier)}
+.d-free{background:var(--tundra)}
+.d-travel{background:var(--ink-3)}
+.act-txt{flex:1;min-width:0;font-size:13.5px}
+.act-txt b{font-weight:500;display:block}
+.act-txt small{display:block;color:var(--ink-3);font-size:12px;margin-top:1px}
+.day-foot{padding:0 15px 12px 57px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.add-in{
+  flex:1;min-width:150px;border:1px solid var(--line);border-radius:var(--r);
+  padding:6px 10px;font-size:13px;background:var(--surface);
+}
+.add-in:focus{outline:none;border-color:var(--glacier)}
+
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hint{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+footer.pg{border-top:1px solid var(--line);padding-top:18px;color:var(--ink-3);font-size:12.5px;line-height:1.6}
+footer.pg b{color:var(--ink-2);font-weight:600}
+
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(90px);
+  background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.05em;
+  transition:transform .28s cubic-bezier(.2,.8,.3,1);z-index:9999;pointer-events:none;
+}
+.toast.up{transform:translateX(-50%) translateY(0)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .grid-2,.budget-wrap{grid-template-columns:1fr}
+  .gauge{position:static}
+  #map{height:400px}
+  .stops{max-height:none}
+}
+@media (max-width:820px){
+  .shell{flex-direction:column}
+  .rail{
+    width:100%;flex:none;height:auto;position:static;
+    flex-direction:row;align-items:center;flex-wrap:wrap;gap:14px;padding:16px 18px;
+  }
+  .rail nav{flex-direction:row;flex-wrap:wrap;gap:2px}
+  .rail nav a i{display:none}
+  .rail-stat{display:none}
+  .main{padding:22px 18px 70px}
+  .hero{padding:18px 18px 6px}
+  .hero h1{font-size:24px}
+  td.lbl{width:auto}
+  .book{flex-wrap:wrap}
+  .book-when{order:3;width:100%;padding-left:29px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ============ RAIL ============ -->
+  <aside class="rail">
+    <div class="rail-mark">Alaska<br>2026<span>14 – 23 Aug · 9 nights</span></div>
+    <nav>
+      <a href="#traverse"><i>01</i> Traverse</a>
+      <a href="#route"><i>02</i> Route &amp; stops</a>
+      <a href="#plan"><i>03</i> Day plan</a>
+      <a href="#booking"><i>04</i> Booking queue</a>
+      <a href="#budget"><i>05</i> Budget</a>
+    </nav>
+    <div class="rail-stat">
+      <dl>
+        <dt>Travellers</dt><dd>2</dd>
+        <dt>Driving</dt><dd>~950 mi</dd>
+        <dt>Nat. parks</dt><dd>2</dd>
+        <dt>Booked</dt><dd id="railBooked">0 / 14</dd>
+        <dt>Budget</dt><dd id="railBudget">$0</dd>
+        <dt>File</dt><dd id="railFile">Not connected</dd>
+        <dt>Autosave</dt><dd id="railSaved">—</dd>
+      </dl>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- SIGNATURE -->
+    <div class="hero" id="traverse">
+      <div class="hero-top">
+        <div>
+          <p class="eyebrow">Anchorage · Seward · Hatcher Pass · Talkeetna · Denali</p>
+          <h1>Tidewater to <em>interior</em>.</h1>
+          <p class="hero-sub">Ten days, sea level to a glacier landing and back. Every station below is a day — click one to jump to it.</p>
+        </div>
+        <div class="hero-key">
+          <div><span class="eyebrow">High point</span><b>7,200 ft</b></div>
+          <div><span class="eyebrow">Low point</span><b>0 ft</b></div>
+          <div><span class="eyebrow">Big hikes</span><b>2</b></div>
+        </div>
+      </div>
+      <div class="profile-scroll">
+        <svg id="profile" viewBox="0 0 1000 196" role="img"
+             aria-label="Elevation profile of the ten-day route, from sea level at Seward to a 7,200 foot glacier landing."></svg>
+      </div>
+      <p class="profile-note">Elevation of each day's high point · not to horizontal scale</p>
+    </div>
+
+    <!-- ROUTE -->
+    <section id="route">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">02 — Route &amp; stops</p>
+          <h2>Where everything sits</h2>
+          <p>Markers are numbered by day. Open a stop for detail and a direct Google Maps link.</p>
+        </div>
+        <a class="btn btn-primary" id="gmapsRoute" href="#" target="_blank" rel="noopener">Open full route in Google Maps</a>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div id="map"></div>
+          <div class="map-foot">
+            <div class="legend">
+              <span><i style="background:#A8402F"></i>Anchor — can't move</span>
+              <span><i style="background:#2F7E99"></i>Booked activity</span>
+              <span><i style="background:#9A7C33"></i>Free / on foot</span>
+              <span><i style="background:#6E8792"></i>Transit</span>
+            </div>
+            <button class="btn btn-sm" id="fitBtn">Reset view</button>
+          </div>
+        </div>
+        <div class="card stops" id="stops"></div>
+      </div>
+    </section>
+
+    <!-- ITINERARY -->
+    <section id="plan">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">03 — Day plan</p>
+          <h2>Day by day</h2>
+          <p>Drag a day by its handle to swap what happens on which date — dates stay put, the plan moves. Drag activities between days, or add and remove them.</p>
+        </div>
+        <div class="toolbar">
+          <span class="hint" id="planHint"></span>
+          <button class="btn btn-primary" id="connectBtn">Connect file</button>
+          <button class="btn" id="exportBtn">Save file</button>
+          <button class="btn" id="resetBtn">Reset plan</button>
+        </div>
+      </div>
+      <div class="days" id="days"></div>
+    </section>
+
+    <!-- BOOKING -->
+    <section id="booking">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">04 — Booking queue</p>
+          <h2>Book in this order</h2>
+          <p>Ordered by what fails hardest if you leave it late. The first two are weather-sensitive and sell out; everything below bends around them.</p>
+        </div>
+        <span class="hint" id="bookCount"></span>
+      </div>
+      <div id="booking-list"></div>
+    </section>
+
+    <!-- BUDGET -->
+    <section id="budget">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow">05 — Budget</p>
+          <h2>On the ground, excluding flights</h2>
+          <p>Every unit cost and quantity is editable. Totals update as you type.</p>
+        </div>
+        <button class="btn" id="budgetReset">Restore defaults</button>
+      </div>
+      <div class="budget-wrap">
+        <div class="card" style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th class="lbl">Line</th>
+                <th class="num">Unit&nbsp;$</th>
+                <th class="num">Qty</th>
+                <th class="num">Total</th>
+                <th class="num"></th>
+              </tr>
+            </thead>
+            <tbody id="budgetBody"></tbody>
+            <tfoot>
+              <tr><td colspan="3">Total on the ground</td><td class="num" id="grand">$0</td><td></td></tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="card gauge">
+          <p class="eyebrow">Against target</p>
+          <h3>$7,000 – $9,000</h3>
+          <div class="big" id="gaugeNum">$0</div>
+          <div class="cap" id="gaugeSub">—</div>
+          <div class="bar"><span id="gaugeBar" style="width:0%"></span></div>
+          <div class="bar-scale"><span>$0</span><span>$7k</span><span>$9k</span></div>
+          <div class="verdict v-ok" id="verdict">—</div>
+          <dl>
+            <dt>Activities only</dt><dd id="sumAct">$0</dd>
+            <dt>Lodging</dt><dd id="sumLodge">$0</dd>
+            <dt>Per person</dt><dd id="sumPP">$0</dd>
+            <dt>Per day</dt><dd id="sumPD">$0</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pg">
+      <p><b>Prices verified July 2026</b> against operator sites — Alaska Railroad, Major Marine Tours, Denali Fat Truck Tours, NPS Denali. Confirm at booking; operators change rates and seasons without notice.</p>
+      <p><b>Two things this plan is exposed to.</b> The Denali flight is the largest single line and the most likely to cancel — Friday afternoon in Healy is the only rollover, with Fly Denali out of Healy River Airport as the north-side fallback. And Denali Park Road is closed beyond Mile 43 for all of summer 2026, so the bus turns at East Fork.</p>
+      <p><b>Map coordinates are approximate</b> and meant for orientation. Every Google Maps link searches by place name, so use those for navigation.</p>
+    </footer>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ============================================================
+   DATA — finalized plan only
+   ============================================================ */
+const DATES = [
+  {n:1,  dow:'Friday',    d:'14 Aug'},
+  {n:2,  dow:'Saturday',  d:'15 Aug'},
+  {n:3,  dow:'Sunday',    d:'16 Aug'},
+  {n:4,  dow:'Monday',    d:'17 Aug'},
+  {n:5,  dow:'Tuesday',   d:'18 Aug'},
+  {n:6,  dow:'Wednesday', d:'19 Aug'},
+  {n:7,  dow:'Thursday',  d:'20 Aug'},
+  {n:8,  dow:'Friday',    d:'21 Aug'},
+  {n:9,  dow:'Saturday',  d:'22 Aug'},
+  {n:10, dow:'Sunday',    d:'23 Aug'}
+];
+
+const PLAN0 = [
+  {base:'Anchorage', elev:100, label:'Anchorage', acts:[
+    {k:'travel', t:'Land at ANC, 9:30 PM', s:'Collect the car, airport-adjacent hotel. Nothing forced.'}
+  ]},
+  {base:'→ Seward', elev:300, label:'Portage / Spencer', acts:[
+    {k:'paid',   t:'Alaska Wildlife Conservation Center', s:'Late morning. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp'},
+    {k:'paid',   t:'Spencer Glacier Whistle Stop train', s:'Board Portage 1:30 PM, back 5:15 PM. $94pp round trip'},
+    {k:'free',   t:'Whistle-stop hike to the glacier', s:'1.3 mi gravel path to Spencer Lake and the glacier face'},
+    {k:'travel', t:'Drive to Seward', s:'Portage → Seward, ~1h35m. Arrive ~7:00 PM'}
+  ]},
+  {base:'Seward', elev:3527, label:'Harding Icefield', acts:[
+    {k:'free', t:'Harding Icefield Trail', s:'7.8 mi RT / 3,100 ft. Top of the Cliffs turnaround at 4.6 mi keeps Reed Lakes fun. Make noise below Marmot Meadows'}
+  ]},
+  {base:'Seward', elev:0, label:'Northwestern Fjord', acts:[
+    {k:'anchor', t:'Northwestern Fjord cruise', s:'Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included'}
+  ]},
+  {base:'→ Palmer', elev:3300, label:'Hatcher Pass', acts:[
+    {k:'travel', t:'Seward → Palmer', s:'3.5 hrs. Deliberate rest day between the two big hikes'},
+    {k:'free',   t:'Independence Mine — optional', s:'Abandoned gold mine in an alpine bowl. Under a mile on foot. Skip it without guilt'}
+  ]},
+  {base:'→ Talkeetna', elev:4250, label:'Reed Lakes', acts:[
+    {k:'free',   t:'Reed Lakes', s:'8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd'},
+    {k:'travel', t:'Drive to Talkeetna', s:'1h45m north. Gold Mint Trail is the flat-valley rain alternative'}
+  ]},
+  {base:'→ Healy', elev:7200, label:'Glacier landing', acts:[
+    {k:'anchor', t:'Denali flight + glacier landing', s:'Earliest morning slot. Ask about the Kahiltna vs Ruth difference and the weather-rollover policy. $475–615pp'},
+    {k:'travel', t:'Talkeetna → Healy', s:'2h45m north on the Parks Highway'}
+  ]},
+  {base:'Healy', elev:1300, label:'Fat truck', acts:[
+    {k:'paid', t:'Denali Fat Truck SHERP tour', s:'3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays'},
+    {k:'free', t:'Soft afternoon — keep it soft', s:'This is the flight rollover. If Thursday scrubbed, Fly Denali takes it. If not: Savage River Loop, Horseshoe Lake, or the sled dog demo'}
+  ]},
+  {base:'Denali NP', elev:2700, label:'Mile 43', acts:[
+    {k:'paid', t:'Park Road transit bus to Mile 43', s:'$33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead'}
+  ]},
+  {base:'→ Anchorage', elev:100, label:'Drive out', acts:[
+    {k:'travel', t:'Leave Healy ~10:00 AM', s:'4h30m to Anchorage. Departure is 8:00 PM — no need to rush'},
+    {k:'free',   t:'Denali View South (mile 135) · Byers Lake (mile 147)', s:'Both on the road. Talkeetna is a reasonable lunch stop'},
+    {k:'travel', t:'Return car, ANC by ~3:00 PM', s:'Five hours of margin on a 4.5-hour drive'}
+  ]}
+];
+
+const STOPS = [
+  {day:1, kind:'travel', name:'Anchorage', sub:'Arrival base', lat:61.2181, lng:-149.9003,
+   facts:{'Night':'1 (14 Aug)','Arrive':'9:30 PM'},
+   text:'Airport-adjacent for a late landing. You come back through on the 23rd but don\'t sleep here again.'},
+  {day:2, kind:'paid', name:'Alaska Wildlife Conservation Center', sub:'Portage · Seward Hwy mile 79', lat:60.8130, lng:-148.9930,
+   facts:{'Cost':'~$30pp','Time':'Late morning','Note':'1.5 mi south of Portage station'},
+   text:'A rescue sanctuary where bears, moose, musk ox and wood bison are a certainty. This is the wildlife guarantee that replaced the bear-viewing flight — $60 for the two of you instead of $1,300.'},
+  {day:2, kind:'paid', name:'Portage Train Depot', sub:'Board the Glacier Discovery', lat:60.7870, lng:-148.9930,
+   facts:{'Depart':'1:30 PM','Return':'5:15 PM','Fare':'$94pp RT'},
+   text:'Boarding at Portage instead of Anchorage keeps the car with you and skips the pointless Whittier legs. Park here, ride out, come back to it.'},
+  {day:2, kind:'free', name:'Spencer Glacier Whistle Stop', sub:'Roadless — rail access only', lat:60.7133, lng:-148.9333,
+   facts:{'On ground':'1:45 – 4:40 PM','Walk':'1.3 mi to the glacier'},
+   text:'Backcountry in the Chugach National Forest with no road to it. A maintained gravel path leads to Spencer Lake and the glacier face. Covered picnic tables and outhouses; nothing else.'},
+  {day:3, kind:'free', name:'Harding Icefield Trail', sub:'Exit Glacier, Kenai Fjords NP', lat:60.1878, lng:-149.6320,
+   facts:{'Full':'7.8 mi / 3,100 ft','Smart turn':'Top of the Cliffs, 4.6 mi / 2,000 ft','Cost':'Free'},
+   text:'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise.'},
+  {day:4, kind:'anchor', name:'Seward Harbor', sub:'Northwestern Fjord departure', lat:60.1042, lng:-149.4422,
+   facts:{'Sails':'8:30 AM – 5:00 PM','Cost':'$309pp','Operator':'Major Marine'},
+   text:'Non-negotiable, and the single biggest wildlife day: three tidewater glacier faces, humpbacks, orcas, Steller sea lions, puffins, sea otters. One departure daily and it sells out in August. Deli lunch included.'},
+  {day:5, kind:'free', name:'Independence Mine', sub:'Hatcher Pass — optional', lat:61.7897, lng:-149.2794,
+   facts:{'Walk':'Under 1 mi','Cost':'Parking only'},
+   text:'An abandoned gold mine in an alpine bowl. Pure bonus on a rest day — the point of the 18th is arriving in Palmer with your legs intact.'},
+  {day:6, kind:'free', name:'Reed Lakes Trailhead', sub:'Archangel Road', lat:61.7847, lng:-149.2314,
+   facts:{'Distance':'8.6 mi RT / 2,250 ft','Parking':'$5','Rain plan':'Gold Mint Trail'},
+   text:'Easy first 1.5 mi on an old mining road, then switchbacks, then a car-sized boulder field marked by cairns — slow and hands-on, genuinely slippery when wet. Lower Reed 3,750 ft, Upper Reed 4,250 ft.'},
+  {day:7, kind:'anchor', name:'Talkeetna Airport', sub:'Denali flight + glacier landing', lat:62.3205, lng:-150.0937,
+   facts:{'Slot':'Earliest morning','Cost':'$475–615pp','Operators':'K2 · Talkeetna Air Taxi · Sheldon'},
+   text:'The anchor of the trip and roughly half the activity budget. Operators never guarantee the landing but refund the glacier supplement if conditions prevent touchdown — your downside is a scenic flight, not a loss. Morning slots have the best weather odds.'},
+  {day:8, kind:'paid', name:'Denali Fat Truck Tours', sub:'Otto Lake Rd, Healy', lat:63.8642, lng:-148.9800,
+   facts:{'Duration':'3 hrs','Cost':'From $249pp','Open':'Mon – Sat'},
+   text:'An amphibious SHERP — heated, sealed, 2 psi ground pressure. Mining trails, cliffs, lake crossings and tundra where nothing else drives. Closed Sundays, which is why it sits on Friday.'},
+  {day:9, kind:'paid', name:'Denali Bus Depot', sub:'Park Road transit', lat:63.7300, lng:-148.9150,
+   facts:{'Fare':'$33.50pp','Entry':'$15pp','Reserve':'Strongly recommended'},
+   text:'Green transit buses, hop-on hop-off. Book ahead — walk-up is unreliable in August. Private vehicles are limited to Mile 15 at Savage River.'},
+  {day:9, kind:'paid', name:'East Fork Bridge — Mile 43', sub:'End of the road, 2026', lat:63.5350, lng:-149.8200,
+   facts:{'Turnaround':'Mile 43','Closed beyond':'Pretty Rocks landslide'},
+   text:'The bus turns here for the whole 2026 season. Eielson and Wonder Lake are out until 2027. Truncated as it is, this stretch is the wildlife you gave up when bear viewing died — grizzlies, caribou, Dall sheep, moose.'},
+  {day:10, kind:'free', name:'Denali View South', sub:'Parks Hwy mile 135', lat:62.6470, lng:-150.2360,
+   facts:{'Stop':'15 min','Cost':'Free'},
+   text:'On the drive out, with an 8 PM departure you have hours to spare. Byers Lake at mile 147 is the other worthwhile pull-off.'},
+  {day:10, kind:'travel', name:'Ted Stevens Anchorage Intl', sub:'Depart 8:00 PM', lat:61.1743, lng:-149.9962,
+   facts:{'Target':'~3:00 PM','Drive':'4h30m from Healy'},
+   text:'Return the car and still have hours of margin. Alaska highways lose time to construction and RVs — the buffer is the point.'}
+];
+
+const BOOKINGS0 = [
+  {tier:1, name:'Denali flight + glacier landing', meta:'K2 Aviation · Talkeetna Air Taxi · Sheldon Air', when:'Thu 20 Aug, first slot', url:'https://www.flyk2.com/'},
+  {tier:1, name:'Northwestern Fjord cruise', meta:'Major Marine Tours · one departure daily', when:'Mon 17 Aug, 8:30 AM', url:'https://majormarine.com/tour/8-5-hour-northwestern-fjord-cruise/'},
+
+  {tier:2, name:'Seward lodging — 3 nights', meta:'Busiest town on the route', when:'15 – 17 Aug', url:'https://www.google.com/travel/hotels/Seward%20Alaska'},
+  {tier:2, name:'Healy / Denali lodging — 3 nights', meta:'Price these before committing to the shape', when:'20 – 22 Aug', url:'https://www.google.com/travel/hotels/Healy%20Alaska'},
+  {tier:2, name:'Denali Park Road transit bus', meta:'Reserve ahead — walk-up unreliable in August', when:'Sat 22 Aug', url:'https://www.reservedenali.com/'},
+  {tier:2, name:'Spencer Glacier train — Portage RT', meta:'Alaska Railroad · Glacier Discovery', when:'Sat 15 Aug, 1:30 PM', url:'https://www.alaskarailroad.com/ride-a-train/buy-tickets'},
+
+  {tier:3, name:'Denali Fat Truck SHERP tour', meta:'Closed Sundays — Friday is the slot', when:'Fri 21 Aug', url:'https://www.denalifattrucktours.com/3-hour-sherp-tour-denali-fat-truck-tours/'},
+  {tier:3, name:'Rental car — 10 days', meta:'Confirm mileage policy · no 4WD needed', when:'14 – 23 Aug', url:'https://www.google.com/search?q=Anchorage+airport+car+rental+August+2026'},
+  {tier:3, name:'Talkeetna lodging — 1 night', meta:'Small town, limited inventory', when:'19 Aug', url:'https://www.google.com/travel/hotels/Talkeetna%20Alaska'},
+  {tier:3, name:'Palmer lodging — 1 night', meta:'Easiest to find', when:'18 Aug', url:'https://www.google.com/travel/hotels/Palmer%20Alaska'},
+  {tier:3, name:'Anchorage lodging — 1 night', meta:'Airport-adjacent for the 9:30 PM landing', when:'14 Aug', url:'https://www.google.com/travel/hotels/Anchorage%20Alaska'},
+  {tier:3, name:'Alaska Wildlife Conservation Center', meta:'Walk-up fine — no reservation needed', when:'Sat 15 Aug', url:'https://www.alaskawildlife.org/'},
+
+  {tier:4, name:'Fly Denali — north-side glacier landing', meta:'Healy River Airport · free shuttle in the Denali area', when:'Backup for Fri 21 Aug', url:'https://www.flydenali.com/glacier-landing'},
+  {tier:4, name:'Harding Icefield · Reed Lakes · Independence Mine', meta:'No booking — parking fees only', when:'16, 19, 18 Aug', url:'https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm'}
+];
+
+const TIERS = {
+  1:{tag:'Book first', cls:'t1',  note:'Weather-sensitive, limited aircraft, sells out'},
+  2:{tag:'Locks the shape', cls:'t2', note:'Everything else bends around these'},
+  3:{tag:'Secondary', cls:'t3', note:'Flexible, but cheaper and easier booked early'},
+  4:{tag:'No booking / backup', cls:'t4', note:'Hold in reserve'}
+};
+
+const BUDGET0 = [
+  {grp:'Lodging — 9 nights'},
+  {n:'Anchorage', u:200, q:1, c:'lodge'},
+  {n:'Seward', u:200, q:3, c:'lodge'},
+  {n:'Palmer', u:200, q:1, c:'lodge'},
+  {n:'Talkeetna', u:200, q:1, c:'lodge'},
+  {n:'Healy / Denali', u:250, q:3, c:'lodge'},
+  {grp:'Transport'},
+  {n:'Rental car, 10 days', u:1750, q:1, c:'trans'},
+  {n:'Fuel (~950 mi)', u:200, q:1, c:'trans'},
+  {grp:'Activities'},
+  {n:'Northwestern Fjord cruise', u:309, q:2, c:'act'},
+  {n:'Denali flight + glacier landing', u:545, q:2, c:'act'},
+  {n:'Denali Fat Truck SHERP tour', u:249, q:2, c:'act'},
+  {n:'Spencer Glacier train (Portage RT)', u:94, q:2, c:'act'},
+  {n:'Denali transit bus — Mile 43', u:33.5, q:2, c:'act'},
+  {n:'Denali park entrance', u:15, q:2, c:'act'},
+  {n:'Alaska Wildlife Conservation Center', u:30, q:2, c:'act'},
+  {n:'Reed Lakes parking', u:5, q:1, c:'act'},
+  {grp:'Living & slack'},
+  {n:'Food & groceries, per day', u:135, q:10, c:'food'},
+  {n:'Contingency · tips · bear spray', u:400, q:1, c:'misc'}
+];
+
+const KIND_COLOR = {anchor:'#A8402F', paid:'#2F7E99', free:'#9A7C33', travel:'#6E8792'};
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const STORAGE_KEY = 'alaska2026planner.v1';
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+const saved = loadState();
+let plan     = (saved && saved.plan)     ? saved.plan     : structuredClone(PLAN0);
+let budget   = (saved && saved.budget)   ? saved.budget   : structuredClone(BUDGET0);
+let bookings = (saved && saved.bookings) ? saved.bookings : structuredClone(BOOKINGS0);
+let booked   = new Set((saved && saved.booked) || []);
+
+/* ============================================================
+   SIGNATURE — traverse profile
+   ============================================================ */
+function drawProfile(){
+  const svg = document.getElementById('profile');
+  const W = 1000, H = 190, top = 26, bot = 138;
+  const els = PLAN0.map(d => d.elev);
+  const max = 7600;
+  const x = i => 46 + i * ((W - 92) / (els.length - 1));
+  const y = v => bot - (v / max) * (bot - top);
+
+  let pts = els.map((v,i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
+  const line = 'M' + pts.join(' L');
+  const area = line + ` L${x(els.length-1).toFixed(1)},${bot} L${x(0).toFixed(1)},${bot} Z`;
+
+  let g = `<defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2F7E99" stop-opacity=".22"/>
+      <stop offset="100%" stop-color="#2F7E99" stop-opacity=".03"/>
+    </linearGradient>
+    <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#2F7E99" stroke-width=".5" stroke-opacity=".3"/>
+    </pattern>
+  </defs>`;
+
+  /* contour reference lines */
+  [0, 2000, 4000, 6000].forEach(v => {
+    g += `<line x1="40" y1="${y(v).toFixed(1)}" x2="${W-40}" y2="${y(v).toFixed(1)}"
+             stroke="#C6D3D1" stroke-width="1" stroke-dasharray="${v===0?'0':'2 4'}"/>`;
+    g += `<text x="30" y="${(y(v)+3.5).toFixed(1)}" text-anchor="end"
+             font-family="IBM Plex Mono" font-size="9" fill="#6E8792">${v===0?'0':v/1000+'k'}</text>`;
+  });
+
+  g += `<path d="${area}" fill="url(#hatch)"/><path d="${area}" fill="url(#fill)"/>`;
+  g += `<path d="${line}" fill="none" stroke="#1D5A70" stroke-width="1.8" stroke-linejoin="round"/>`;
+
+  els.forEach((v,i) => {
+    const px = x(i), py = y(v), dt = DATES[i], p = PLAN0[i];
+    const col = v >= 4000 ? '#1D5A70' : '#2F7E99';
+    g += `<g class="stn" role="link" tabindex="0" data-i="${i}"
+              aria-label="Day ${dt.n}, ${dt.d} — ${p.label}, ${v.toLocaleString()} feet">
+      <line x1="${px}" y1="${py}" x2="${px}" y2="${bot}" stroke="#1D5A70" stroke-width=".6" stroke-opacity=".45"/>
+      <circle cx="${px}" cy="${py}" r="4.5" fill="#fff" stroke="${col}" stroke-width="2"/>
+      <text x="${px}" y="${(py-12).toFixed(1)}" text-anchor="middle"
+            font-family="IBM Plex Mono" font-size="9.5" font-weight="600" fill="#0B1D26">${v.toLocaleString()}</text>
+      <text x="${px}" y="${bot+18}" text-anchor="middle"
+            font-family="Archivo" font-size="11.5" font-weight="700" fill="#0B1D26">${dt.n}</text>
+      <text x="${px}" y="${bot+31}" text-anchor="middle"
+            font-family="IBM Plex Mono" font-size="8.5" fill="#6E8792">${dt.d.replace(' Aug','')}</text>
+      <text x="${px}" y="${bot+45}" text-anchor="middle"
+            font-family="IBM Plex Sans" font-size="9.5" fill="#3A5460">${p.label}</text>
+      <rect class="hit" x="${px-26}" y="${top-16}" width="52" height="${bot+50-top+16}" fill="transparent"/>
+    </g>`;
+  });
+
+  svg.innerHTML = g;
+  svg.querySelectorAll('.stn').forEach(el => {
+    const go = () => {
+      document.getElementById('plan').scrollIntoView({behavior:'smooth'});
+      const card = document.querySelectorAll('.day')[+el.dataset.i];
+      if(card){ card.style.transition='background .5s'; card.style.background='#E2EFF3';
+                setTimeout(()=>card.style.background='',900); }
+    };
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+  });
+}
+
+/* ============================================================
+   MAP
+   ============================================================ */
+let map, markers = [], bounds;
+function initMap(){
+  map = L.map('map', {scrollWheelZoom:false}).setView([62.2,-149.5], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution:'&copy; OpenStreetMap contributors &copy; CARTO', subdomains:'abcd', maxZoom:18
+  }).addTo(map);
+
+  const latlngs = STOPS.map(s => [s.lat, s.lng]);
+  L.polyline(latlngs, {color:'#1D5A70', weight:2.2, opacity:.65, dashArray:'5 5'}).addTo(map);
+
+  STOPS.forEach((s,i) => {
+    const icon = L.divIcon({
+      className:'', iconSize:[26,26], iconAnchor:[13,13],
+      html:`<div class="pin" style="background:${KIND_COLOR[s.kind]}">${s.day}</div>`
+    });
+    const m = L.marker([s.lat,s.lng],{icon}).addTo(map)
+      .bindPopup(`<strong style="font-family:Archivo,sans-serif;font-size:14px">${s.name}</strong><br>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6E8792">Day ${s.day} · ${s.sub}</span>
+        <br><a href="${gmapsSearch(s.name)}" target="_blank" rel="noopener" style="font-size:12px">Open in Google Maps →</a>`);
+    m.on('click', () => openStop(i));
+    markers.push(m);
+  });
+
+  bounds = L.latLngBounds(latlngs).pad(.12);
+  map.fitBounds(bounds);
+  document.getElementById('fitBtn').onclick = () => map.fitBounds(bounds);
+}
+const gmapsSearch = q =>
+  'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q + ', Alaska');
+
+function buildRouteLink(){
+  const key = ['Anchorage, AK','Alaska Wildlife Conservation Center, Portage AK','Seward, AK',
+               'Palmer, AK','Talkeetna, AK','Healy, AK','Ted Stevens Anchorage International Airport'];
+  const url = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(key[0]) +
+              '&destination=' + encodeURIComponent(key[key.length-1]) +
+              '&waypoints=' + key.slice(1,-1).map(encodeURIComponent).join('%7C') + '&travelmode=driving';
+  document.getElementById('gmapsRoute').href = url;
+}
+
+/* ============================================================
+   STOP ACCORDION
+   ============================================================ */
+function renderStops(){
+  document.getElementById('stops').innerHTML = STOPS.map((s,i) => {
+    const facts = Object.entries(s.facts)
+      .map(([k,v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+    return `<details class="stop" id="stop-${i}">
+      <summary>
+        <span class="stop-day" style="background:${KIND_COLOR[s.kind]}">${s.day}</span>
+        <span class="stop-name">${s.name}<small>${s.sub}</small></span>
+        <svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </summary>
+      <div class="stop-body">
+        <dl class="facts">${facts}</dl>
+        <p>${s.text}</p>
+        <a class="btn btn-sm" href="${gmapsSearch(s.name)}" target="_blank" rel="noopener">Google Maps →</a>
+      </div>
+    </details>`;
+  }).join('');
+
+  document.querySelectorAll('.stop').forEach((d,i) => {
+    d.querySelector('summary').addEventListener('click', () => {
+      setTimeout(() => { if(d.open){ map.flyTo([STOPS[i].lat,STOPS[i].lng], 9, {duration:.7}); markers[i].openPopup(); } }, 10);
+    });
+  });
+}
+function openStop(i){
+  const d = document.getElementById('stop-'+i);
+  document.querySelectorAll('.stop').forEach(o => { if(o!==d) o.open=false; });
+  d.open = true;
+  d.scrollIntoView({block:'nearest'});
+}
+
+/* ============================================================
+   ITINERARY — drag & drop
+   ============================================================ */
+let dragDay = null, dragAct = null;
+
+function renderPlan(){
+  const wrap = document.getElementById('days');
+  wrap.innerHTML = plan.map((d,di) => {
+    const dt = DATES[di];
+    const acts = d.acts.map((a,ai) => `
+      <li draggable="true" data-d="${di}" data-a="${ai}">
+        <span class="dot d-${a.k}"></span>
+        <span class="act-txt"><b>${esc(a.t)}</b>${a.s?`<small>${esc(a.s)}</small>`:''}</span>
+        <button class="btn btn-sm btn-ghost" data-rm="${di}:${ai}" aria-label="Remove ${esc(a.t)}">Remove</button>
+      </li>`).join('');
+    return `<article class="card day" draggable="false" data-d="${di}">
+      <header class="day-head">
+        <button class="grip" draggable="true" data-grip="${di}" aria-label="Reorder day ${dt.n}" title="Drag to move this day">
+          <svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><g fill="currentColor">
+            <circle cx="3" cy="3" r="1.4"/><circle cx="9" cy="3" r="1.4"/><circle cx="3" cy="8" r="1.4"/>
+            <circle cx="9" cy="8" r="1.4"/><circle cx="3" cy="13" r="1.4"/><circle cx="9" cy="13" r="1.4"/>
+          </g></svg>
+        </button>
+        <span class="day-n">${dt.n}</span>
+        <span class="day-when"><b>${dt.dow}</b><span>${dt.d} 2026</span></span>
+        <span class="day-base">${esc(d.base)}</span>
+      </header>
+      <ul class="acts" data-drop="${di}">${acts || '<li style="cursor:default;color:#6E8792;font-size:13px">Nothing planned — add something below.</li>'}</ul>
+      <div class="day-foot">
+        <input class="add-in" placeholder="Add an activity…" data-add="${di}" aria-label="Add activity to day ${dt.n}">
+        <input class="add-in" placeholder="Details (optional)" data-adddetail="${di}" aria-label="Details for new activity on day ${dt.n}" style="flex:1.2">
+        <button class="btn btn-sm" data-addbtn="${di}">Add</button>
+      </div>
+    </article>`;
+  }).join('');
+
+  wrap.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => {
+    const [d,a] = b.dataset.rm.split(':').map(Number);
+    plan[d].acts.splice(a,1); renderPlan(); queueSave(); toast('Activity removed');
+  });
+  wrap.querySelectorAll('[data-addbtn]').forEach(b => b.onclick = () => addAct(+b.dataset.addbtn));
+  wrap.querySelectorAll('[data-add]').forEach(i => i.onkeydown = e => {
+    if(e.key === 'Enter'){ e.preventDefault(); addAct(+i.dataset.add); }
+  });
+  wrap.querySelectorAll('[data-adddetail]').forEach(i => i.onkeydown = e => {
+    if(e.key === 'Enter'){ e.preventDefault(); addAct(+i.dataset.adddetail); }
+  });
+
+  /* day drag via grip */
+  wrap.querySelectorAll('[data-grip]').forEach(g => {
+    g.addEventListener('dragstart', e => {
+      dragDay = +g.dataset.grip; dragAct = null;
+      const card = g.closest('.day'); card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain','day');
+    });
+    g.addEventListener('dragend', () => {
+      wrap.querySelectorAll('.day').forEach(c => c.classList.remove('dragging','drag-over'));
+    });
+  });
+
+  wrap.querySelectorAll('.day').forEach(card => {
+    card.addEventListener('dragover', e => {
+      if(dragDay === null) return;
+      e.preventDefault(); card.classList.add('drag-over');
+    });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+    card.addEventListener('drop', e => {
+      if(dragDay === null) return;
+      e.preventDefault(); card.classList.remove('drag-over');
+      const to = +card.dataset.d;
+      if(to !== dragDay){
+        const [moved] = plan.splice(dragDay,1);
+        plan.splice(to,0,moved);
+        renderPlan(); queueSave(); toast('Day moved — dates stay fixed');
+      }
+      dragDay = null;
+    });
+  });
+
+  /* activity drag */
+  wrap.querySelectorAll('.acts li[draggable]').forEach(li => {
+    li.addEventListener('dragstart', e => {
+      dragAct = {d:+li.dataset.d, a:+li.dataset.a}; dragDay = null;
+      li.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain','act');
+      e.stopPropagation();
+    });
+    li.addEventListener('dragend', () => {
+      wrap.querySelectorAll('li').forEach(x => x.classList.remove('dragging','drag-over'));
+    });
+    li.addEventListener('dragover', e => {
+      if(!dragAct) return;
+      e.preventDefault(); e.stopPropagation(); li.classList.add('drag-over');
+    });
+    li.addEventListener('dragleave', () => li.classList.remove('drag-over'));
+    li.addEventListener('drop', e => {
+      if(!dragAct) return;
+      e.preventDefault(); e.stopPropagation(); li.classList.remove('drag-over');
+      const td = +li.dataset.d, ta = +li.dataset.a;
+      const [m] = plan[dragAct.d].acts.splice(dragAct.a,1);
+      plan[td].acts.splice(ta,0,m);
+      dragAct = null; renderPlan(); queueSave();
+    });
+  });
+
+  wrap.querySelectorAll('.acts').forEach(ul => {
+    ul.addEventListener('dragover', e => { if(dragAct){ e.preventDefault(); } });
+    ul.addEventListener('drop', e => {
+      if(!dragAct) return;
+      e.preventDefault();
+      const td = +ul.dataset.drop;
+      const [m] = plan[dragAct.d].acts.splice(dragAct.a,1);
+      plan[td].acts.push(m);
+      dragAct = null; renderPlan(); queueSave();
+    });
+  });
+
+  const n = plan.reduce((s,d) => s + d.acts.length, 0);
+  document.getElementById('planHint').textContent = n + ' activities across 10 days';
+}
+
+function addAct(di){
+  const input = document.querySelector(`[data-add="${di}"]`);
+  const detailInput = document.querySelector(`[data-adddetail="${di}"]`);
+  const v = input.value.trim();
+  const detail = detailInput ? detailInput.value.trim() : '';
+  if(!v) { input.focus(); return; }
+  plan[di].acts.push({k:'free', t:v, s:detail});
+  renderPlan(); queueSave();
+  const fresh = document.querySelector(`[data-add="${di}"]`);
+  if(fresh) fresh.focus();
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ============================================================
+   BOOKING
+   ============================================================ */
+function renderBooking(){
+  const host = document.getElementById('booking-list');
+  host.innerHTML = [1,2,3,4].map(t => {
+    const rows = bookings.map((b,gi) => ({b,gi})).filter(x => x.b.tier === t).map(({b,gi}) => {
+      const on = booked.has(b.name);
+      const rm = t === 4 ? `<button class="btn btn-sm btn-ghost" data-rmbk="${gi}" aria-label="Remove ${esc(b.name)}">Remove</button>` : '';
+      const link = (b.url && b.url !== '#') ? `<a class="go" href="${esc(b.url)}" target="_blank" rel="noopener">Book →</a>` : '';
+      return `<div class="book${on?' done':''}">
+        <input type="checkbox" ${on?'checked':''} data-bk="${esc(b.name)}" aria-label="Mark ${esc(b.name)} booked">
+        <span class="book-main"><span class="book-name">${esc(b.name)}</span>
+          <span class="book-meta">${esc(b.meta)}</span></span>
+        <span class="book-when">${esc(b.when)}</span>
+        ${link}
+        ${rm}
+      </div>`;
+    }).join('');
+    const T = TIERS[t];
+    const addForm = t === 4 ? `<div class="book book-add">
+        <input class="add-in" type="text" id="bkName" placeholder="Name" aria-label="New backup name" style="flex:1.4;min-width:130px">
+        <input class="add-in" type="text" id="bkMeta" placeholder="Detail" aria-label="New backup detail" style="flex:1.4;min-width:130px">
+        <input class="add-in" type="text" id="bkWhen" placeholder="When" aria-label="New backup timing" style="flex:0 0 110px;min-width:90px">
+        <input class="add-in" type="text" id="bkUrl" placeholder="URL (optional)" aria-label="New backup link" style="flex:1.6;min-width:140px">
+        <button class="btn btn-sm" id="bkAddBtn">Add</button>
+      </div>` : '';
+    return `<div class="tier">
+      <div class="tier-head">
+        <span class="tier-tag ${T.cls}">${T.tag}</span>
+        <p>${T.note}</p>
+      </div>
+      <div class="card">${rows}${addForm}</div>
+    </div>`;
+  }).join('');
+
+  host.querySelectorAll('[data-bk]').forEach(cb => cb.onchange = () => {
+    cb.checked ? booked.add(cb.dataset.bk) : booked.delete(cb.dataset.bk);
+    renderBooking(); queueSave();
+  });
+
+  host.querySelectorAll('[data-rmbk]').forEach(b => b.onclick = () => {
+    const gi = +b.dataset.rmbk;
+    const name = bookings[gi].name;
+    booked.delete(name);
+    bookings.splice(gi,1);
+    renderBooking(); queueSave(); toast(`Removed "${name}"`);
+  });
+
+  const addBtn = document.getElementById('bkAddBtn');
+  if(addBtn) addBtn.onclick = addBackup;
+  ['bkName','bkMeta','bkWhen','bkUrl'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.onkeydown = e => { if(e.key === 'Enter'){ e.preventDefault(); addBackup(); } };
+  });
+
+  const total = bookings.filter(b => b.tier < 4).length;
+  const done  = bookings.filter(b => b.tier < 4 && booked.has(b.name)).length;
+  document.getElementById('bookCount').textContent = done + ' of ' + total + ' booked';
+  document.getElementById('railBooked').textContent = done + ' / ' + total;
+}
+
+function addBackup(){
+  const name = document.getElementById('bkName').value.trim();
+  if(!name){ document.getElementById('bkName').focus(); return; }
+  const meta = document.getElementById('bkMeta').value.trim();
+  const when = document.getElementById('bkWhen').value.trim();
+  const url  = document.getElementById('bkUrl').value.trim();
+  bookings.push({tier:4, name, meta, when, url});
+  renderBooking(); queueSave(); toast(`Added "${name}"`);
+  const fresh = document.getElementById('bkName');
+  if(fresh) fresh.focus();
+}
+
+/* ============================================================
+   BUDGET
+   ============================================================ */
+function groupCatFor(label){
+  if(/lodging/i.test(label)) return 'lodge';
+  if(/transport/i.test(label)) return 'trans';
+  if(/activities/i.test(label)) return 'act';
+  return 'misc';
+}
+
+function renderBudget(){
+  let html = '';
+  let curCat = 'misc';
+  budget.forEach((r,i) => {
+    if(r.grp){
+      curCat = groupCatFor(r.grp);
+      html += `<tr class="grp"><td colspan="5">${esc(r.grp)}</td></tr>`;
+    } else {
+      html += `<tr>
+        <td class="lbl">${esc(r.n)}</td>
+        <td class="num"><input class="cell-in" type="number" min="0" step="1" value="${r.u}" data-u="${i}" aria-label="Unit cost, ${esc(r.n)}"></td>
+        <td class="num"><input class="cell-in qty" type="number" min="0" step="1" value="${r.q}" data-q="${i}" aria-label="Quantity, ${esc(r.n)}"></td>
+        <td class="num total" data-t="${i}">${money(r.u*r.q)}</td>
+        <td class="num"><button class="btn btn-sm btn-ghost" data-rmb="${i}" aria-label="Remove ${esc(r.n)}">Remove</button></td>
+      </tr>`;
+    }
+    const next = budget[i+1];
+    if(!next || next.grp){
+      const at = i+1;
+      html += `<tr class="addrow">
+        <td class="lbl"><input class="add-in" type="text" data-bname="${at}" placeholder="Add a line…" aria-label="New line name, ${curCat}"></td>
+        <td class="num"><input class="cell-in" type="number" min="0" step="1" placeholder="0" data-bunit="${at}" aria-label="New line unit cost"></td>
+        <td class="num"><input class="cell-in qty" type="number" min="0" step="1" value="1" data-bqty="${at}" aria-label="New line quantity"></td>
+        <td></td>
+        <td class="num"><button class="btn btn-sm" data-addb="${at}" data-cat="${curCat}">Add</button></td>
+      </tr>`;
+    }
+  });
+  document.getElementById('budgetBody').innerHTML = html;
+
+  document.querySelectorAll('[data-u],[data-q]').forEach(inp => {
+    inp.oninput = () => {
+      const i = +(inp.dataset.u ?? inp.dataset.q);
+      const v = parseFloat(inp.value);
+      budget[i][inp.dataset.u !== undefined ? 'u' : 'q'] = isNaN(v) ? 0 : v;
+      document.querySelector(`[data-t="${i}"]`).textContent = money(budget[i].u * budget[i].q);
+      recalc(); queueSave();
+    };
+  });
+
+  document.querySelectorAll('[data-rmb]').forEach(b => b.onclick = () => {
+    const i = +b.dataset.rmb;
+    const name = budget[i].n;
+    budget.splice(i,1);
+    renderBudget(); queueSave(); toast(`Removed "${name}"`);
+  });
+
+  document.querySelectorAll('[data-addb]').forEach(b => b.onclick = () => addBudgetLine(+b.dataset.addb, b.dataset.cat));
+  document.querySelectorAll('[data-bname]').forEach(inp => inp.onkeydown = e => {
+    if(e.key === 'Enter'){ e.preventDefault(); addBudgetLine(+inp.dataset.bname, inp.closest('tr').querySelector('[data-addb]').dataset.cat); }
+  });
+
+  recalc();
+}
+
+function addBudgetLine(at, cat){
+  const nameIn = document.querySelector(`[data-bname="${at}"]`);
+  const unitIn = document.querySelector(`[data-bunit="${at}"]`);
+  const qtyIn  = document.querySelector(`[data-bqty="${at}"]`);
+  const name = nameIn.value.trim();
+  if(!name){ nameIn.focus(); return; }
+  const u = parseFloat(unitIn.value); const q = parseFloat(qtyIn.value);
+  budget.splice(at, 0, {n:name, u:isNaN(u)?0:u, q:isNaN(q)?1:q, c:cat});
+  renderBudget(); queueSave(); toast(`Added "${name}"`);
+  const fresh = document.querySelector(`[data-bname="${at+1}"]`);
+  if(fresh) fresh.focus();
+}
+
+function recalc(){
+  const sum = f => budget.filter(r => !r.grp && f(r)).reduce((s,r) => s + r.u*r.q, 0);
+  const total  = sum(() => true);
+  const act    = sum(r => r.c === 'act');
+  const lodge  = sum(r => r.c === 'lodge');
+
+  document.getElementById('grand').textContent    = money(total);
+  document.getElementById('gaugeNum').textContent = money(total);
+  document.getElementById('railBudget').textContent = money(total);
+  document.getElementById('sumAct').textContent   = money(act);
+  document.getElementById('sumLodge').textContent = money(lodge);
+  document.getElementById('sumPP').textContent    = money(total/2);
+  document.getElementById('sumPD').textContent    = money(total/10);
+
+  const pct = Math.max(0, Math.min(100, (total/9000)*100));
+  const bar = document.getElementById('gaugeBar');
+  bar.style.width = pct + '%';
+
+  const v = document.getElementById('verdict');
+  const sub = document.getElementById('gaugeSub');
+  v.className = 'verdict';
+  if(total > 9000){
+    bar.style.background = 'var(--alert)'; v.classList.add('v-over');
+    v.textContent = money(total-9000) + ' over the ceiling. The Denali flight tier is the biggest lever — the $475–615pp spread is $280 for two.';
+    sub.textContent = 'over target';
+  } else if(total < 7000){
+    bar.style.background = 'var(--tundra)'; v.classList.add('v-warn');
+    v.textContent = money(7000-total) + ' under the floor. Room for a flight upgrade or a nicer night somewhere.';
+    sub.textContent = 'under target';
+  } else {
+    bar.style.background = 'var(--glacier)'; v.classList.add('v-ok');
+    v.textContent = 'Inside the window with ' + money(9000-total) + ' of headroom at the ceiling.';
+    sub.textContent = 'on target';
+  }
+}
+
+/* ============================================================
+   PERSISTENCE  (autosave to localStorage + a connected file)
+   ============================================================ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('up');
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('up'), 2100);
+}
+
+function markSaved(){
+  const el = document.getElementById('railSaved');
+  if(!el) return;
+  el.textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+}
+
+/* --- file connection (File System Access API, Chrome/Edge) --- */
+const FS_SUPPORTED = 'showSaveFilePicker' in window;
+const IDB_DB = 'alaska-planner', IDB_STORE = 'handles', IDB_KEY = 'planFile';
+let fileHandle = null, fileName = null, pendingHandle = null;
+
+function idbOpen(){
+  return new Promise((resolve,reject) => {
+    const rq = indexedDB.open(IDB_DB, 1);
+    rq.onupgradeneeded = () => rq.result.createObjectStore(IDB_STORE);
+    rq.onsuccess = () => resolve(rq.result);
+    rq.onerror = () => reject(rq.error);
+  });
+}
+async function idbSet(key, val){
+  const db = await idbOpen();
+  return new Promise((resolve,reject) => {
+    const tx = db.transaction(IDB_STORE,'readwrite');
+    tx.objectStore(IDB_STORE).put(val, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+async function idbGet(key){
+  const db = await idbOpen();
+  return new Promise((resolve,reject) => {
+    const tx = db.transaction(IDB_STORE,'readonly');
+    const rq = tx.objectStore(IDB_STORE).get(key);
+    rq.onsuccess = () => resolve(rq.result);
+    rq.onerror = () => reject(rq.error);
+  });
+}
+async function idbDel(key){
+  const db = await idbOpen();
+  return new Promise((resolve,reject) => {
+    const tx = db.transaction(IDB_STORE,'readwrite');
+    tx.objectStore(IDB_STORE).delete(key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function updateFileStatus(){
+  const rail = document.getElementById('railFile');
+  if(rail) rail.textContent = fileHandle ? fileName : 'Not connected';
+  const btn = document.getElementById('connectBtn');
+  if(!btn) return;
+  btn.textContent = fileHandle ? `File: ${fileName}` : (pendingHandle ? `Reconnect ${pendingHandle.name}` : 'Connect file');
+}
+
+async function writeToFile(){
+  if(!fileHandle) return;
+  try{
+    let perm = await fileHandle.queryPermission({mode:'readwrite'});
+    if(perm !== 'granted') perm = await fileHandle.requestPermission({mode:'readwrite'});
+    if(perm !== 'granted') return;
+    const writable = await fileHandle.createWritable();
+    await writable.write(JSON.stringify({plan,budget,bookings,booked:[...booked]}, null, 2));
+    await writable.close();
+  }catch(err){ toast("Couldn't save to the connected file"); }
+}
+
+async function useHandle(handle, loadContents){
+  fileHandle = handle; fileName = handle.name; pendingHandle = null;
+  try{ await idbSet(IDB_KEY, handle); }catch(e){ /* idb unavailable — file still works this session */ }
+  if(loadContents){
+    try{
+      const text = await (await handle.getFile()).text();
+      if(text.trim()){
+        const d = JSON.parse(text);
+        if(d.plan) plan = d.plan;
+        if(d.budget) budget = d.budget;
+        if(d.bookings) bookings = d.bookings;
+        if(d.booked) booked = new Set(d.booked);
+        renderPlan(); renderBudget(); renderBooking();
+        toast(`Loaded ${fileName}`);
+      } else {
+        toast(`Connected ${fileName} — saving here from now on`);
+      }
+    }catch(err){ toast(`Connected ${fileName} — will overwrite it on the next change`); }
+  }
+  updateFileStatus();
+  saveState();
+}
+
+async function connectFile(){
+  if(!FS_SUPPORTED){
+    toast('File connect needs Chrome or Edge — use Save file instead');
+    return;
+  }
+  if(pendingHandle){
+    try{
+      const perm = await pendingHandle.requestPermission({mode:'readwrite'});
+      if(perm === 'granted'){ await useHandle(pendingHandle, true); return; }
+      toast('Permission denied — pick a file instead');
+    }catch(err){ /* fall through to picker */ }
+  }
+  try{
+    const [handle] = await window.showOpenFilePicker({
+      types: [{description:'Alaska plan JSON', accept:{'application/json':['.json']}}]
+    });
+    const perm = await handle.requestPermission({mode:'readwrite'});
+    if(perm !== 'granted'){ toast('Permission denied — pick a file instead'); return; }
+    await useHandle(handle, true);
+  }catch(err){
+    if(err.name !== 'AbortError') toast("Couldn't connect that file");
+  }
+}
+
+async function tryReconnect(){
+  if(!FS_SUPPORTED) return;
+  let handle;
+  try{ handle = await idbGet(IDB_KEY); }catch(e){ return; }
+  if(!handle) return;
+  try{
+    const perm = await handle.queryPermission({mode:'readwrite'});
+    if(perm === 'granted'){
+      fileHandle = handle; fileName = handle.name;
+      const text = await (await handle.getFile()).text();
+      if(text.trim()){
+        const d = JSON.parse(text);
+        if(d.plan) plan = d.plan;
+        if(d.budget) budget = d.budget;
+        if(d.bookings) bookings = d.bookings;
+        if(d.booked) booked = new Set(d.booked);
+      }
+    } else {
+      pendingHandle = handle;
+    }
+  }catch(err){
+    try{ await idbDel(IDB_KEY); }catch(e){ /* ignore */ }
+  }
+  updateFileStatus();
+}
+
+function saveState(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({plan,budget,bookings,booked:[...booked]}));
+    markSaved();
+  }catch(e){ /* private browsing / storage disabled — nothing to do */ }
+  if(fileHandle) writeToFile();
+}
+let saveTimer = null;
+function queueSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveState, 500);
+}
+window.addEventListener('beforeunload', saveState);
+document.getElementById('connectBtn').onclick = connectFile;
+
+document.getElementById('exportBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify({plan,budget,bookings,booked:[...booked]},null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'alaska-2026-plan.json';
+  a.click(); URL.revokeObjectURL(a.href);
+  toast('Saved alaska-2026-plan.json');
+};
+document.getElementById('resetBtn').onclick = () => {
+  plan = structuredClone(PLAN0); renderPlan(); saveState(); toast('Plan reset to the finalized version');
+};
+document.getElementById('budgetReset').onclick = () => {
+  budget = structuredClone(BUDGET0); renderBudget(); saveState(); toast('Budget restored to defaults');
+};
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+drawProfile();
+initMap();
+buildRouteLink();
+renderStops();
+
+(async function boot(){
+  await tryReconnect();
+  renderPlan();
+  renderBooking();
+  renderBudget();
+  saveState();
+  if(fileHandle) toast(`Connected to ${fileName}`);
+  else if(pendingHandle) toast(`Click "Reconnect ${pendingHandle.name}" to resume saving there`);
+  else if(saved) toast('Restored your saved plan');
+})();
+</script>
+</body>
+</html>

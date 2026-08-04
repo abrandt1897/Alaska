@@ -1,0 +1,379 @@
+{
+  "plan": [
+    {
+      "base": "Anchorage",
+      "elev": 100,
+      "label": "Anchorage",
+      "acts": [
+        {
+          "k": "travel",
+          "t": "Land at ANC, 9:30 PM",
+          "s": "Collect the car, airport-adjacent hotel. Nothing forced."
+        }
+      ]
+    },
+    {
+      "base": "→ Seward",
+      "elev": 300,
+      "label": "Portage / Spencer",
+      "acts": [
+        {
+          "k": "paid",
+          "t": "Alaska Wildlife Conservation Center",
+          "s": "Late morning. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp"
+        },
+        {
+          "k": "paid",
+          "t": "Spencer Glacier Whistle Stop train",
+          "s": "Board Portage 1:30 PM, back 5:15 PM. $94pp round trip"
+        },
+        {
+          "k": "free",
+          "t": "Whistle-stop hike to the glacier",
+          "s": "1.3 mi gravel path to Spencer Lake and the glacier face"
+        },
+        {
+          "k": "travel",
+          "t": "Drive to Seward",
+          "s": "Portage → Seward, ~1h35m. Arrive ~7:00 PM"
+        }
+      ]
+    },
+    {
+      "base": "Seward",
+      "elev": 3527,
+      "label": "Harding Icefield",
+      "acts": [
+        {
+          "k": "free",
+          "t": "Harding Icefield Trail",
+          "s": "7.8 mi RT / 3,100 ft. Top of the Cliffs turnaround at 4.6 mi keeps Reed Lakes fun. Make noise below Marmot Meadows"
+        }
+      ]
+    },
+    {
+      "base": "Seward",
+      "elev": 0,
+      "label": "Northwestern Fjord",
+      "acts": [
+        {
+          "k": "anchor",
+          "t": "Northwestern Fjord cruise",
+          "s": "Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included"
+        }
+      ]
+    },
+    {
+      "base": "→ Palmer",
+      "elev": 3300,
+      "label": "Hatcher Pass",
+      "acts": [
+        {
+          "k": "travel",
+          "t": "Seward → Palmer",
+          "s": "3.5 hrs. Deliberate rest day between the two big hikes"
+        },
+        {
+          "k": "free",
+          "t": "Independence Mine — optional",
+          "s": "Abandoned gold mine in an alpine bowl. Under a mile on foot. Skip it without guilt"
+        }
+      ]
+    },
+    {
+      "base": "→ Talkeetna",
+      "elev": 4250,
+      "label": "Reed Lakes",
+      "acts": [
+        {
+          "k": "free",
+          "t": "Reed Lakes",
+          "s": "8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd"
+        }
+      ]
+    },
+    {
+      "base": "→ Healy",
+      "elev": 7200,
+      "label": "Glacier landing",
+      "acts": [
+        {
+          "k": "travel",
+          "t": "Drive to Talkeetna",
+          "s": "1h45m north. Gold Mint Trail is the flat-valley rain alternative"
+        },
+        {
+          "k": "anchor",
+          "t": "Denali flight + glacier landing",
+          "s": "Earliest morning slot. Ask about the Kahiltna vs Ruth difference and the weather-rollover policy. $475–615pp"
+        },
+        {
+          "k": "travel",
+          "t": "Talkeetna → Healy",
+          "s": "2h45m north on the Parks Highway"
+        }
+      ]
+    },
+    {
+      "base": "Healy",
+      "elev": 1300,
+      "label": "Fat truck",
+      "acts": [
+        {
+          "k": "paid",
+          "t": "Denali Fat Truck SHERP tour",
+          "s": "3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays"
+        },
+        {
+          "k": "free",
+          "t": "Soft afternoon — keep it soft",
+          "s": "This is the flight rollover. If Thursday scrubbed, Fly Denali takes it. If not: Savage River Loop, Horseshoe Lake, or the sled dog demo"
+        }
+      ]
+    },
+    {
+      "base": "Denali NP",
+      "elev": 2700,
+      "label": "Mile 43",
+      "acts": [
+        {
+          "k": "paid",
+          "t": "Park Road transit bus to Mile 43",
+          "s": "$33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead"
+        }
+      ]
+    },
+    {
+      "base": "→ Anchorage",
+      "elev": 100,
+      "label": "Drive out",
+      "acts": [
+        {
+          "k": "travel",
+          "t": "Leave Healy ~10:00 AM",
+          "s": "4h30m to Anchorage. Departure is 8:00 PM — no need to rush"
+        },
+        {
+          "k": "free",
+          "t": "Denali View South (mile 135) · Byers Lake (mile 147)",
+          "s": "Both on the road. Talkeetna is a reasonable lunch stop"
+        },
+        {
+          "k": "travel",
+          "t": "Return car, ANC by ~3:00 PM",
+          "s": "Five hours of margin on a 4.5-hour drive"
+        },
+        {
+          "k": "free",
+          "t": "Return car to ANC by 6pm",
+          "s": "Six hour drive from Airbnb"
+        }
+      ]
+    }
+  ],
+  "budget": [
+    {
+      "grp": "Lodging — 9 nights"
+    },
+    {
+      "n": "Seward",
+      "u": 413,
+      "q": 3,
+      "c": "lodge"
+    },
+    {
+      "n": "Palmer",
+      "u": 189,
+      "q": 2,
+      "c": "lodge"
+    },
+    {
+      "n": "Healy / Denali",
+      "u": 298,
+      "q": 1,
+      "c": "lodge"
+    },
+    {
+      "n": "Fairbanks",
+      "u": 337,
+      "q": 3,
+      "c": "lodge"
+    },
+    {
+      "grp": "Transport"
+    },
+    {
+      "n": "Rental car, 10 days",
+      "u": 1929,
+      "q": 1,
+      "c": "trans"
+    },
+    {
+      "n": "Fuel (~950 mi)",
+      "u": 200,
+      "q": 1,
+      "c": "trans"
+    },
+    {
+      "grp": "Activities"
+    },
+    {
+      "n": "Northwestern Fjord cruise",
+      "u": 297,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Denali flight + glacier landing",
+      "u": 722,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Denali Fat Truck SHERP tour",
+      "u": 249,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Spencer Glacier train (Portage RT)",
+      "u": 94,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Denali transit bus — Mile 43",
+      "u": 33.5,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Denali park entrance",
+      "u": 15,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Alaska Wildlife Conservation Center",
+      "u": 30,
+      "q": 2,
+      "c": "act"
+    },
+    {
+      "n": "Reed Lakes parking",
+      "u": 5,
+      "q": 1,
+      "c": "act"
+    },
+    {
+      "grp": "Living & slack"
+    }
+  ],
+  "bookings": [
+    {
+      "tier": 1,
+      "name": "Denali flight + glacier landing",
+      "meta": "K2 Aviation · Talkeetna Air Taxi · Sheldon Air",
+      "when": "Thu 20 Aug, first slot",
+      "url": "https://www.flyk2.com/"
+    },
+    {
+      "tier": 1,
+      "name": "Northwestern Fjord cruise",
+      "meta": "Major Marine Tours · one departure daily",
+      "when": "Mon 17 Aug, 8:30 AM",
+      "url": "https://majormarine.com/tour/8-5-hour-northwestern-fjord-cruise/"
+    },
+    {
+      "tier": 2,
+      "name": "Seward lodging — 3 nights",
+      "meta": "Busiest town on the route",
+      "when": "15 – 17 Aug",
+      "url": "https://www.google.com/travel/hotels/Seward%20Alaska"
+    },
+    {
+      "tier": 2,
+      "name": "Healy / Denali lodging — 3 nights",
+      "meta": "Price these before committing to the shape",
+      "when": "20 – 22 Aug",
+      "url": "https://www.google.com/travel/hotels/Healy%20Alaska"
+    },
+    {
+      "tier": 2,
+      "name": "Denali Park Road transit bus",
+      "meta": "Reserve ahead — walk-up unreliable in August",
+      "when": "Sat 22 Aug",
+      "url": "https://www.reservedenali.com/"
+    },
+    {
+      "tier": 2,
+      "name": "Spencer Glacier train — Portage RT",
+      "meta": "Alaska Railroad · Glacier Discovery",
+      "when": "Sat 15 Aug, 1:30 PM",
+      "url": "https://www.alaskarailroad.com/ride-a-train/buy-tickets"
+    },
+    {
+      "tier": 3,
+      "name": "Denali Fat Truck SHERP tour",
+      "meta": "Closed Sundays — Friday is the slot",
+      "when": "Fri 21 Aug",
+      "url": "https://www.denalifattrucktours.com/3-hour-sherp-tour-denali-fat-truck-tours/"
+    },
+    {
+      "tier": 3,
+      "name": "Rental car — 10 days",
+      "meta": "Confirm mileage policy · no 4WD needed",
+      "when": "14 – 23 Aug",
+      "url": "https://www.google.com/search?q=Anchorage+airport+car+rental+August+2026"
+    },
+    {
+      "tier": 3,
+      "name": "Talkeetna lodging — 1 night",
+      "meta": "Small town, limited inventory",
+      "when": "19 Aug",
+      "url": "https://www.google.com/travel/hotels/Talkeetna%20Alaska"
+    },
+    {
+      "tier": 3,
+      "name": "Palmer lodging — 1 night",
+      "meta": "Easiest to find",
+      "when": "18 Aug",
+      "url": "https://www.google.com/travel/hotels/Palmer%20Alaska"
+    },
+    {
+      "tier": 3,
+      "name": "Anchorage lodging — 1 night",
+      "meta": "Airport-adjacent for the 9:30 PM landing",
+      "when": "14 Aug",
+      "url": "https://www.google.com/travel/hotels/Anchorage%20Alaska"
+    },
+    {
+      "tier": 3,
+      "name": "Alaska Wildlife Conservation Center",
+      "meta": "Walk-up fine — no reservation needed",
+      "when": "Sat 15 Aug",
+      "url": "https://www.alaskawildlife.org/"
+    },
+    {
+      "tier": 4,
+      "name": "Harding Icefield · Reed Lakes · Independence Mine",
+      "meta": "No booking — parking fees only",
+      "when": "16, 19, 18 Aug",
+      "url": "https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm"
+    }
+  ],
+  "booked": [
+    "Denali flight + glacier landing",
+    "Northwestern Fjord cruise",
+    "Seward lodging — 3 nights",
+    "Healy / Denali lodging — 3 nights",
+    "Rental car — 10 days",
+    "Talkeetna lodging — 1 night",
+    "Palmer lodging — 1 night",
+    "Anchorage lodging — 1 night",
+    "Alaska Wildlife Conservation Center",
+    "Spencer Glacier train — Portage RT",
+    "Denali Park Road transit bus",
+    "Denali Fat Truck SHERP tour"
+  ]
+}
