@@ -15,20 +15,23 @@
    TOKENS — cold-water survey chart
    ============================================================ */
 :root{
-  --ink:#0B1D26;
-  --ink-2:#3A5460;
-  --ink-3:#6E8792;
-  --paper:#E9EFEE;
-  --surface:#FFFFFF;
-  --line:#C6D3D1;
-  --line-soft:#DFE7E6;
-  --glacier:#2F7E99;
-  --glacier-dk:#1D5A70;
-  --glacier-wash:#E2EFF3;
-  --tundra:#9A7C33;
-  --tundra-wash:#F4EEDC;
-  --alert:#A8402F;
-  --alert-wash:#F7E7E4;
+  color-scheme:dark;
+  --ink:#F1F6F5;
+  --ink-2:#B6C6C8;
+  --ink-3:#82969A;
+  --paper:#000000;
+  --surface:#111617;
+  --line:#2B3536;
+  --line-soft:#1B2223;
+  --glacier:#4FB6D8;
+  --glacier-dk:#8FDDF0;
+  --glacier-wash:#0F262C;
+  --tundra:#D9B24F;
+  --tundra-lt:#E9C878;
+  --tundra-wash:#26200E;
+  --alert:#E76A50;
+  --alert-wash:#2C1613;
+  --navy:#0B1D26;
 
   --r:3px;
   --gap:20px;
@@ -41,6 +44,7 @@
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:24px}
+html,body{overflow-x:hidden}
 body{
   margin:0;background:var(--paper);color:var(--ink);
   font-family:var(--sans);font-size:15px;line-height:1.55;
@@ -63,7 +67,7 @@ a{color:var(--glacier-dk)}
 
 .rail{
   width:var(--rail);flex:0 0 var(--rail);position:sticky;top:0;height:100vh;
-  background:var(--ink);color:#DCE7E9;padding:26px 22px;
+  background:var(--navy);color:#DCE7E9;padding:26px 22px;
   display:flex;flex-direction:column;gap:26px;overflow-y:auto;
 }
 .rail-mark{font-family:var(--display);font-weight:800;font-size:21px;letter-spacing:-.03em;color:#fff;line-height:1.05}
@@ -173,7 +177,7 @@ section{margin-bottom:44px;scroll-margin-top:20px}
 }
 .btn:hover{border-color:var(--glacier);background:var(--glacier-wash)}
 .btn:focus-visible{outline:2px solid var(--glacier);outline-offset:1px}
-.btn-primary{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn-primary{background:var(--navy);border-color:var(--navy);color:#fff}
 .btn-primary:hover{background:var(--glacier-dk);border-color:var(--glacier-dk)}
 .btn-sm{padding:3px 8px;font-size:11.5px}
 .btn-ghost{background:none;border-color:transparent;color:var(--ink-3)}
@@ -190,7 +194,7 @@ thead th{
 }
 thead th.num,tbody td.num{text-align:right}
 tbody td{padding:5px 12px;border-bottom:1px solid var(--line-soft);font-size:13.5px;vertical-align:middle}
-tbody tr:hover{background:#F5F9F8}
+tbody tr:hover{background:var(--line-soft)}
 tbody tr.grp td{
   background:var(--paper);font-family:var(--mono);font-size:10px;letter-spacing:.12em;
   text-transform:uppercase;color:var(--ink-2);padding:7px 12px;font-weight:600;
@@ -219,7 +223,7 @@ tfoot td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .bar-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--ink-3);margin-top:6px}
 .verdict{margin-top:16px;padding:11px 13px;border-radius:var(--r);font-size:12.5px;line-height:1.45}
 .v-ok{background:var(--glacier-wash);color:var(--glacier-dk)}
-.v-warn{background:var(--tundra-wash);color:#6C551D}
+.v-warn{background:var(--tundra-wash);color:var(--tundra-lt)}
 .v-over{background:var(--alert-wash);color:var(--alert)}
 .gauge dl{margin:16px 0 0;display:grid;grid-template-columns:1fr auto;gap:6px 10px;font-size:12.5px;border-top:1px solid var(--line-soft);padding-top:14px}
 .gauge dt{color:var(--ink-2)}
@@ -236,14 +240,14 @@ tfoot td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
   padding:3px 8px;border-radius:99px;
 }
 .t1{background:var(--alert-wash);color:var(--alert)}
-.t2{background:var(--tundra-wash);color:#6C551D}
+.t2{background:var(--tundra-wash);color:var(--tundra-lt)}
 .t3{background:var(--glacier-wash);color:var(--glacier-dk)}
 .t4{background:var(--paper);color:var(--ink-3);border:1px solid var(--line)}
 .tier-head p{margin:0;font-size:12.5px;color:var(--ink-3)}
 
 .book{display:flex;align-items:center;gap:13px;padding:11px 14px;border-bottom:1px solid var(--line-soft)}
 .book:last-child{border-bottom:0}
-.book.done{background:#F5F9F8}
+.book.done{background:var(--line-soft)}
 .book.done .book-name{text-decoration:line-through;text-decoration-color:var(--ink-3);color:var(--ink-3)}
 .book input[type=checkbox]{width:16px;height:16px;accent-color:var(--glacier);cursor:pointer;flex:0 0 auto}
 .book-main{flex:1;min-width:0}
@@ -274,7 +278,7 @@ tfoot td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .grip:focus-visible{outline:2px solid var(--glacier)}
 .day-n{
   flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
-  background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;
+  background:var(--navy);color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;
 }
 .day-when{flex:1;min-width:0}
 .day-when b{font-family:var(--display);font-size:15px;font-weight:700;display:block}
@@ -317,7 +321,7 @@ footer.pg b{color:var(--ink-2);font-weight:600}
 
 .toast{
   position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(90px);
-  background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;
+  background:var(--navy);color:#fff;padding:10px 18px;border-radius:99px;
   font-family:var(--mono);font-size:12px;letter-spacing:.05em;
   transition:transform .28s cubic-bezier(.2,.8,.3,1);z-index:9999;pointer-events:none;
 }
@@ -333,7 +337,7 @@ footer.pg b{color:var(--ink-2);font-weight:600}
   .stops{max-height:none}
 }
 @media (max-width:820px){
-  .shell{flex-direction:column}
+  .shell{flex-direction:column;align-items:stretch}
   .rail{
     width:100%;flex:none;height:auto;position:static;
     flex-direction:row;align-items:center;flex-wrap:wrap;gap:14px;padding:16px 18px;
@@ -347,6 +351,52 @@ footer.pg b{color:var(--ink-2);font-weight:600}
   td.lbl{width:auto}
   .book{flex-wrap:wrap}
   .book-when{order:3;width:100%;padding-left:29px}
+}
+@media (max-width:560px){
+  .main{padding:18px 14px 60px}
+  .hero{padding:16px 16px 6px}
+  .hero h1{font-size:21px}
+  .hero-sub{font-size:13px}
+  .hero-top{gap:14px}
+  .hero-key{gap:16px;flex:1 1 100%;justify-content:space-between}
+  .hero-key div{text-align:left}
+  .sec-head{gap:10px}
+  .sec-head h2{font-size:19px}
+  .sec-head .btn{width:100%;justify-content:center}
+  #map{height:300px}
+  .day-head{flex-wrap:wrap;padding:10px 12px}
+  .day-base{order:1;flex:1 1 100%;margin-left:42px;width:calc(100% - 42px)}
+  .acts{padding:6px 12px 6px 42px}
+  .day-foot{padding:0 12px 12px 42px;flex-direction:column;align-items:stretch}
+  .day-foot .add-in{min-width:0;width:100%}
+  .day-foot button{width:100%}
+  .stop-body{padding:0 12px 12px 40px}
+  .book{flex-wrap:wrap;padding:10px 12px}
+  .book-main{flex:1 1 60%}
+  .book a.go{order:2}
+  .book-add{gap:8px}
+  .book-add .add-in{flex:1 1 100%!important;min-width:0!important}
+  .budget-wrap{gap:14px}
+  #budget table{table-layout:fixed}
+  thead th{padding:8px 3px;font-size:9px}
+  thead th:first-child,tbody td.lbl{padding-left:8px}
+  tbody td{padding:5px 3px}
+  tbody tr.grp td{padding:7px 8px}
+  tr.addrow td{padding:6px 3px}
+  tr.addrow td:first-child{padding-left:8px}
+  td.lbl{font-size:12px;width:34%;word-break:break-word}
+  thead th.num:nth-child(2),tbody td.num:nth-child(2){width:17%}
+  thead th.num:nth-child(3),tbody td.num:nth-child(3){width:13%}
+  thead th.num:nth-child(4),tbody td.num:nth-child(4){width:18%}
+  thead th.num:nth-child(5),tbody td.num:nth-child(5){width:18%}
+  .cell-in{padding:3px 2px;font-size:11.5px}
+  .cell-in.qty{width:100%}
+  td.total{font-size:11.5px;white-space:normal;word-break:break-word}
+  #budget td:last-child{padding:5px 2px}
+  #budget td:last-child .btn-sm{width:100%;box-sizing:border-box;padding:3px 1px;font-size:9px;white-space:normal;word-break:break-word;line-height:1.1;text-align:center}
+  .gauge{padding:16px}
+  .toolbar{width:100%}
+  .toolbar .btn{flex:1 1 auto}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -413,7 +463,10 @@ footer.pg b{color:var(--ink-2);font-weight:600}
           <h2>Where everything sits</h2>
           <p>Markers are numbered by day. Open a stop for detail and a direct Google Maps link.</p>
         </div>
-        <a class="btn btn-primary" id="gmapsRoute" href="#" target="_blank" rel="noopener">Open full route in Google Maps</a>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <a class="btn btn-primary" id="gmapsRoute" href="#" target="_blank" rel="noopener">Open full route in Google Maps</a>
+          <a class="btn" href="https://www.google.com/maps/d/edit?mid=1CNqvltJpThWlUWTsVRkuucHQqTp6s_c&amp;usp=sharing" target="_blank" rel="noopener">Open Alaska Google My Map</a>
+        </div>
       </div>
       <div class="grid-2">
         <div class="card">
@@ -712,40 +765,40 @@ function drawProfile(){
 
   let g = `<defs>
     <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2F7E99" stop-opacity=".22"/>
-      <stop offset="100%" stop-color="#2F7E99" stop-opacity=".03"/>
+      <stop offset="0%" stop-color="#4FB6D8" stop-opacity=".28"/>
+      <stop offset="100%" stop-color="#4FB6D8" stop-opacity=".04"/>
     </linearGradient>
     <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-      <line x1="0" y1="0" x2="0" y2="6" stroke="#2F7E99" stroke-width=".5" stroke-opacity=".3"/>
+      <line x1="0" y1="0" x2="0" y2="6" stroke="#4FB6D8" stroke-width=".5" stroke-opacity=".35"/>
     </pattern>
   </defs>`;
 
   /* contour reference lines */
   [0, 2000, 4000, 6000].forEach(v => {
     g += `<line x1="40" y1="${y(v).toFixed(1)}" x2="${W-40}" y2="${y(v).toFixed(1)}"
-             stroke="#C6D3D1" stroke-width="1" stroke-dasharray="${v===0?'0':'2 4'}"/>`;
+             stroke="#2B3536" stroke-width="1" stroke-dasharray="${v===0?'0':'2 4'}"/>`;
     g += `<text x="30" y="${(y(v)+3.5).toFixed(1)}" text-anchor="end"
-             font-family="IBM Plex Mono" font-size="9" fill="#6E8792">${v===0?'0':v/1000+'k'}</text>`;
+             font-family="IBM Plex Mono" font-size="9" fill="#82969A">${v===0?'0':v/1000+'k'}</text>`;
   });
 
   g += `<path d="${area}" fill="url(#hatch)"/><path d="${area}" fill="url(#fill)"/>`;
-  g += `<path d="${line}" fill="none" stroke="#1D5A70" stroke-width="1.8" stroke-linejoin="round"/>`;
+  g += `<path d="${line}" fill="none" stroke="#4FB6D8" stroke-width="1.8" stroke-linejoin="round"/>`;
 
   els.forEach((v,i) => {
     const px = x(i), py = y(v), dt = DATES[i], p = PLAN0[i];
-    const col = v >= 4000 ? '#1D5A70' : '#2F7E99';
+    const col = v >= 4000 ? '#8FDDF0' : '#4FB6D8';
     g += `<g class="stn" role="link" tabindex="0" data-i="${i}"
               aria-label="Day ${dt.n}, ${dt.d} — ${p.label}, ${v.toLocaleString()} feet">
-      <line x1="${px}" y1="${py}" x2="${px}" y2="${bot}" stroke="#1D5A70" stroke-width=".6" stroke-opacity=".45"/>
-      <circle cx="${px}" cy="${py}" r="4.5" fill="#fff" stroke="${col}" stroke-width="2"/>
+      <line x1="${px}" y1="${py}" x2="${px}" y2="${bot}" stroke="#4FB6D8" stroke-width=".6" stroke-opacity=".45"/>
+      <circle cx="${px}" cy="${py}" r="4.5" fill="#111617" stroke="${col}" stroke-width="2"/>
       <text x="${px}" y="${(py-12).toFixed(1)}" text-anchor="middle"
-            font-family="IBM Plex Mono" font-size="9.5" font-weight="600" fill="#0B1D26">${v.toLocaleString()}</text>
+            font-family="IBM Plex Mono" font-size="9.5" font-weight="600" fill="#F1F6F5">${v.toLocaleString()}</text>
       <text x="${px}" y="${bot+18}" text-anchor="middle"
-            font-family="Archivo" font-size="11.5" font-weight="700" fill="#0B1D26">${dt.n}</text>
+            font-family="Archivo" font-size="11.5" font-weight="700" fill="#F1F6F5">${dt.n}</text>
       <text x="${px}" y="${bot+31}" text-anchor="middle"
-            font-family="IBM Plex Mono" font-size="8.5" fill="#6E8792">${dt.d.replace(' Aug','')}</text>
+            font-family="IBM Plex Mono" font-size="8.5" fill="#82969A">${dt.d.replace(' Aug','')}</text>
       <text x="${px}" y="${bot+45}" text-anchor="middle"
-            font-family="IBM Plex Sans" font-size="9.5" fill="#3A5460">${p.label}</text>
+            font-family="IBM Plex Sans" font-size="9.5" fill="#B6C6C8">${p.label}</text>
       <rect class="hit" x="${px-26}" y="${top-16}" width="52" height="${bot+50-top+16}" fill="transparent"/>
     </g>`;
   });
@@ -868,7 +921,7 @@ function renderPlan(){
         <span class="day-when"><b>${dt.dow}</b><span>${dt.d} 2026</span></span>
         <span class="day-base">${esc(d.base)}</span>
       </header>
-      <ul class="acts" data-drop="${di}">${acts || '<li style="cursor:default;color:#6E8792;font-size:13px">Nothing planned — add something below.</li>'}</ul>
+      <ul class="acts" data-drop="${di}">${acts || '<li style="cursor:default;color:var(--ink-3);font-size:13px">Nothing planned — add something below.</li>'}</ul>
       <div class="day-foot">
         <input class="add-in" placeholder="Add an activity…" data-add="${di}" aria-label="Add activity to day ${dt.n}">
         <input class="add-in" placeholder="Details (optional)" data-adddetail="${di}" aria-label="Details for new activity on day ${dt.n}" style="flex:1.2">
@@ -1346,12 +1399,12 @@ document.getElementById('budgetReset').onclick = () => {
    BOOT
    ============================================================ */
 drawProfile();
-initMap();
+try{ initMap(); }catch(e){ console.error('Map failed to load', e); }
 buildRouteLink();
 renderStops();
 
 (async function boot(){
-  await tryReconnect();
+  try{ await tryReconnect(); }catch(e){ console.error('Reconnect failed', e); }
   renderPlan();
   renderBooking();
   renderBudget();
