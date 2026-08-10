@@ -768,7 +768,6 @@ const TIERS0 = {
 
 const BUDGET0 = [
   {grp:'Lodging — 9 nights'},
-  {n:'Anchorage', u:null, q:1, c:'lodge', note:'Wildbirch Hotel, downtown — price TBD'},
   {n:'Seward', u:413, q:3, c:'lodge', note:'31435 Lois Way'},
   {n:'Palmer', u:189, q:2, c:'lodge', note:'7061 Finger Lake Ave, "Clover Hill Cabin"'},
   {n:'Healy / Denali', u:298, q:1, c:'lodge', note:'"Altair"'},
@@ -777,22 +776,25 @@ const BUDGET0 = [
   {n:'Rental car, 10 days', u:1929, q:1, c:'trans'},
   {n:'Fuel', u:285, q:1, c:'trans'},
   {grp:'Activities'},
-  {n:'Northwestern Fjord cruise', u:297, q:2, c:'act'},
+  {n:'Northwestern Fjord cruise', u:340, q:2, c:'act'},
   {n:'Denali flight + glacier landing', u:722, q:2, c:'act'},
   {n:'Denali Fat Truck SHERP tour', u:249, q:2, c:'act'},
   {n:'Spencer Glacier train (Portage RT)', u:94, q:2, c:'act'},
-  {n:'Denali transit bus — Mile 43', u:33.5, q:2, c:'act'},
+  {n:'Denali transit bus — Mile 43', u:34, q:2, c:'act'},
   {n:'Denali park entrance', u:15, q:2, c:'act'},
   {n:'Alaska Wildlife Conservation Center', u:30, q:2, c:'act'},
   {n:'Reed Lakes parking', u:5, q:1, c:'act'},
   {n:'Independence Mine entry + parking', u:20, q:1, c:'act', note:'Optional — Bodenburg Butte is the free alternative'},
   {n:'Chena Hot Springs', u:20, q:2, c:'act', note:'Optional'},
-  {grp:'Living & slack'},
-  {n:'Food & groceries, per day', u:135, q:10, c:'food'},
-  {n:'Contingency · tips · bear spray', u:400, q:1, c:'misc'}
+  {grp:'Living & slack'}
 ];
 
 const BUDGET_TARGET0 = {low:7000, high:9000};
+
+const BOOKED0 = ['Denali flight + glacier landing', 'Northwestern Fjord cruise', 'Seward lodging — 3 nights',
+  'Healy / Denali lodging — 1 night', 'Fairbanks lodging — 2 nights', 'Rental car — 10 days',
+  'Palmer lodging — 2 nights', 'Anchorage lodging — 1 night', 'Alaska Wildlife Conservation Center',
+  'Spencer Glacier train — Portage RT', 'Denali Park Road transit bus', 'Denali Fat Truck SHERP tour'];
 
 const KIND_COLOR = {anchor:'#A8402F', paid:'#2F7E99', free:'#9A7C33', travel:'#6E8792'};
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
@@ -815,7 +817,7 @@ let stops       = (saved && saved.stops)       ? saved.stops       : structuredC
 let dates       = (saved && saved.dates)       ? saved.dates       : structuredClone(DATES0);
 let tiers       = (saved && saved.tiers)       ? saved.tiers       : structuredClone(TIERS0);
 let budgetTarget = (saved && saved.budgetTarget) ? saved.budgetTarget : structuredClone(BUDGET_TARGET0);
-let booked   = new Set((saved && saved.booked) || []);
+let booked   = new Set((saved && saved.booked) || BOOKED0);
 
 /* One-time migration: earlier versions of this file bundled Harding
    Icefield, Reed Lakes, and Independence Mine into a single backup row,
