@@ -514,7 +514,7 @@ footer.pg b{color:var(--ink-2);font-weight:600}
           <button class="btn" id="importBtn">Import file</button>
           <input type="file" id="importInput" accept="application/json,.json" style="display:none">
           <button class="btn" id="exportBtn">Save file</button>
-          <button class="btn" id="resetBtn">Reset plan</button>
+          <button class="btn" id="resetBtn">Reset</button>
         </div>
       </div>
       <div class="days" id="days"></div>
@@ -1652,7 +1652,18 @@ document.getElementById('exportBtn').onclick = () => {
   toast('Saved alaska-2026-plan.json');
 };
 document.getElementById('resetBtn').onclick = () => {
-  plan = structuredClone(PLAN0); drawProfile(); renderPlan(); saveState(); toast('Plan reset to the finalized version');
+  if(!confirm('Reset everything and clear all saved data from this device? This can\'t be undone.')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  plan = structuredClone(PLAN0);
+  budget = structuredClone(BUDGET0);
+  bookings = structuredClone(BOOKINGS0);
+  stops = structuredClone(STOPS0);
+  dates = structuredClone(DATES0);
+  tiers = structuredClone(TIERS0);
+  budgetTarget = structuredClone(BUDGET_TARGET0);
+  booked = new Set(BOOKED0);
+  drawProfile(); renderPlan(); renderBooking(); renderBudget(); renderStops(); refreshMap(); syncTargetInputs();
+  toast('All data reset to defaults');
 };
 document.getElementById('budgetReset').onclick = () => {
   budget = structuredClone(BUDGET0); renderBudget(); saveState(); toast('Budget restored to defaults');
