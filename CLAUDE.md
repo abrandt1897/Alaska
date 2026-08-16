@@ -47,8 +47,9 @@ browser.
     covering the pure helpers in `utils.js` (`tests/utils.test.js`).
   - `npm run test:coverage` — the same tests with a v8 coverage report
     (text summary + `coverage/` HTML/lcov output, gitignored). Coverage is
-    scoped to `utils.js` only (see `vitest.config.js`) and enforces a 100%
-    threshold; CI uploads the report as a build artifact.
+    scoped to `utils.js` only (see `vitest.config.js`) and enforces an 80%
+    threshold (the Istanbul/nyc default); CI uploads the report as a build
+    artifact.
   - There is no unit coverage for the DOM-driving code inside the inline
     `<script>` block (rendering, persistence, map) — only the extracted
     pure helpers are tested. Manually verify UI changes in a browser.

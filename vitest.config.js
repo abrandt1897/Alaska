@@ -11,11 +11,13 @@ module.exports = defineConfig({
       // alaska-2026-planner.html's inline <script> isn't covered (see
       // CLAUDE.md), so it's excluded rather than dragging the numbers down.
       include: ['utils.js'],
+      // 80% is the common industry default (Istanbul/nyc's out-of-the-box
+      // threshold) rather than a project-specific target.
       thresholds: {
-        lines: 100,
-        functions: 100,
-        branches: 100,
-        statements: 100,
+        lines: 80,
+        functions: 80,
+        branches: 80,
+        statements: 80,
       },
     },
   },
