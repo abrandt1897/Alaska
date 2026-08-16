@@ -5,6 +5,7 @@
   "description": "A single-file, client-only trip planner for a 2026 Alaska trip.",
   "type": "commonjs",
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{html,js,css,json}\" --ignore-path .prettierignore",
     "format:check": "prettier --check \"**/*.{html,js,css,json}\" --ignore-path .prettierignore",
