@@ -45,9 +45,17 @@ browser.
     `*.js`, and `*.json` (see `.prettierignore` for exclusions).
   - `npm test` / `npm run test:watch` — Vitest unit tests in `tests/`,
     covering the pure helpers in `utils.js` (`tests/utils.test.js`).
+  - `npm run test:coverage` — the same tests with a v8 coverage report
+    (text summary + `coverage/` HTML/lcov output, gitignored). Coverage is
+    scoped to `utils.js` only (see `vitest.config.js`) and enforces a 100%
+    threshold; CI uploads the report as a build artifact.
   - There is no unit coverage for the DOM-driving code inside the inline
     `<script>` block (rendering, persistence, map) — only the extracted
     pure helpers are tested. Manually verify UI changes in a browser.
+- CI (`.github/workflows/ci.yml`) runs lint, format:check, and test:coverage
+  on every push and pull request. The same three checks also run locally as
+  a pre-push git hook (`.githooks/pre-push`), auto-installed by `npm install`
+  via the `prepare` script (`git config core.hooksPath .githooks`).
 
 ## Architecture
 Almost everything lives in `alaska-2026-planner.html`; a handful of pure

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Runs lint, format check, and tests before allowing a push.
+# Runs lint, format check, and tests (with coverage) before allowing a push.
 # Installed automatically via `npm install` (see package.json "prepare" script),
 # which sets `git config core.hooksPath .githooks`.
 
@@ -7,4 +7,4 @@ set -e
 
 npm run lint
 npm run format:check
-npm test
+npm run test:coverage
