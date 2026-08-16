@@ -621,19 +621,28 @@ const PLAN0 = [
     {k:'free',   t:'Whistle-stop hike to the glacier', s:'1.3 mi gravel path to Spencer Lake and the glacier face', g:'https://www.google.com/maps/search/?api=1&query=Spencer+Glacier+Whistle+Stop+Girdwood+AK'},
     {k:'travel', t:'Drive to Seward', s:'Portage → Seward, ~1h35m. Arrive ~7:00 PM. Check into 31435 Lois Way for 3 nights', g:'https://www.google.com/maps/search/?api=1&query=31435+Lois+Way+Seward+AK+99664'}
   ]},
-  {base:'Seward', elev:3527, label:'Harding Icefield', acts:[
-    {k:'free', t:'Harding Icefield Trail', s:'Sun 16 Aug. 7.8 mi RT / 3,100 ft. Make noise below Marmot Meadows', g:'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK'}
+  {base:'Seward', elev:0, label:'Homer day trip', acts:[
+    {k:'travel', t:'Depart Seward for Homer', s:'Sun 16 Aug, 9:00 AM. Seward Hwy → Sterling Hwy through Cooper Landing, Sterling, Soldotna, Ninilchik, Anchor Point. ~6.5 hrs total driving. Swapped in for Harding Icefield — 100% rain in Seward with gusts to 30 mph', g:'https://www.google.com/maps/search/?api=1&query=Homer+AK'},
+    {k:'free',   t:'Cooper Landing SRS — Kenai Lake viewing deck', s:'10:00 AM, 10–15 min stop. Dall sheep, waterfowl', g:'https://www.google.com/maps/search/?api=1&query=Cooper+Landing+State+Recreation+Site+Cooper+Landing+AK'},
+    {k:'free',   t:'Stariski SRS · Anchor Point pull-offs', s:'12:15 PM. Cook Inlet + volcano views, weather permitting', g:'https://www.google.com/maps/search/?api=1&query=Stariski+State+Recreation+Site+AK'},
+    {k:'free',   t:'Homer Baycrest Overlook', s:'12:45 PM. Kachemak Bay and the Homer Spit', g:'https://www.google.com/maps/search/?api=1&query=Baycrest+Overlook+Homer+AK'},
+    {k:'paid',   t:'Lunch on the Spit', s:'1:15 PM. Boardwalk Fish & Chips or Captain Pattie\'s', g:'https://www.google.com/maps/search/?api=1&query=Homer+Spit+AK'},
+    {k:'free',   t:'Alaska Islands & Ocean Visitor Center', s:'2:30 – 3:45 PM. Indoor, free', g:'https://www.google.com/maps/search/?api=1&query=Alaska+Islands+and+Ocean+Visitor+Center+Homer+AK'},
+    {k:'paid',   t:'Pratt Museum', s:'4:00 – 5:00 PM. Indoor', g:'https://www.google.com/maps/search/?api=1&query=Pratt+Museum+Homer+AK'},
+    {k:'paid',   t:'Dinner in Homer', s:'5:30 PM. Fat Olives or Broken Oar Oyster Bar, after a short walk/browse on the Spit', g:'https://www.google.com/maps/search/?api=1&query=Homer+AK'},
+    {k:'travel', t:'Return to Seward', s:'Depart Homer 7:00 PM, back in Seward ~10:15 PM', g:'https://www.google.com/maps/search/?api=1&query=Seward+AK'}
   ]},
   {base:'Seward', elev:0, label:'Northwestern Fjord', acts:[
     {k:'anchor', t:'Northwestern Fjord cruise', s:'Mon 17 Aug. Major Marine, 8:30 AM – 5:00 PM. Three tidewater glaciers, humpbacks, orcas, puffins. $309pp, deli lunch included', g:'https://www.google.com/maps/search/?api=1&query=Harbor+360+Hotel+1412+4th+Ave+Seward+AK+99664'}
   ]},
-  {base:'→ Palmer', elev:3300, label:'Hatcher Pass', acts:[
-    {k:'travel', t:'Seward → Palmer', s:'Tue 18 Aug, ~3.5 hrs. Check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights', g:'https://www.google.com/maps/search/?api=1&query=7061+Finger+Lake+Ave+Palmer+AK'},
-    {k:'paid',   t:'Independence Mine — optional', s:'Abandoned gold mine in an alpine bowl. Under a mile on foot. $15 entry + $5 parking. Skip it without guilt', g:'https://www.google.com/maps/search/?api=1&query=Independence+Mine+State+Historical+Park+Hatcher+Pass+Rd+Palmer+AK'},
-    {k:'free',   t:'Bodenburg Butte — alternative', s:'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter', g:'https://www.google.com/maps/search/?api=1&query=Bodenburg+Butte+West+Trailhead+Mothershead+Ln+Butte+AK'}
+  {base:'→ Palmer', elev:3527, label:'Harding Icefield', acts:[
+    {k:'free',   t:'Harding Icefield Trail', s:'Tue 18 Aug. 7.8 mi RT / 3,100 ft. Make noise below Marmot Meadows. Moved from Sunday — driest day in the 3-day outlook', g:'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK'},
+    {k:'travel', t:'Seward → Palmer', s:'After the hike, ~3.5 hrs. Check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights', g:'https://www.google.com/maps/search/?api=1&query=7061+Finger+Lake+Ave+Palmer+AK'}
   ]},
   {base:'Palmer', elev:4250, label:'Reed Lakes', acts:[
-    {k:'free',   t:'Reed Lakes', s:'Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd', g:'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK'}
+    {k:'free',   t:'Reed Lakes', s:'Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd', g:'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK'},
+    {k:'paid',   t:'Independence Mine — optional', s:'Abandoned gold mine in an alpine bowl. Under a mile on foot. $15 entry + $5 parking. Potential stop after Reed Lakes. Skip it without guilt', g:'https://www.google.com/maps/search/?api=1&query=Independence+Mine+State+Historical+Park+Hatcher+Pass+Rd+Palmer+AK'},
+    {k:'free',   t:'Bodenburg Butte — alternative', s:'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter', g:'https://www.google.com/maps/search/?api=1&query=Bodenburg+Butte+West+Trailhead+Mothershead+Ln+Butte+AK'}
   ]},
   {base:'→ Healy', elev:7200, label:'Glacier landing', acts:[
     {k:'travel', t:'Drive Palmer → Talkeetna', s:'Thu 20 Aug, ~1h45m north. Day-stop only — no overnight in Talkeetna. Gold Mint Trail is the flat-valley rain alternative', g:'https://www.google.com/maps/search/?api=1&query=Talkeetna%2C+AK'},
@@ -674,26 +683,30 @@ const STOPS0 = [
    facts:{'On ground':'1:45 – 4:40 PM','Walk':'1.3 mi to the glacier'},
    text:'Backcountry in the Chugach National Forest with no road to it. A maintained gravel path leads to Spencer Lake and the glacier face. After: drive Portage → Seward, ~1h35m, arrive ~7:00 PM, check into 31435 Lois Way for 3 nights.',
    maps:'https://www.google.com/maps/search/?api=1&query=Spencer+Glacier+Whistle+Stop+Girdwood+AK'},
-  {day:3, kind:'free', name:'Harding Icefield Trail', sub:'Exit Glacier, Kenai Fjords NP', lat:60.1878, lng:-149.6320,
-   facts:{'Full':'7.8 mi / 3,100 ft','Date':'Sun 16 Aug','Cost':'Free'},
-   text:'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise.',
-   maps:'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK'},
+  {day:3, kind:'free', name:'Homer Day Trip', sub:'Kachemak Bay, via the Sterling Hwy', lat:59.6425, lng:-151.5483,
+   facts:{'Date':'Sun 16 Aug','Drive':'~6.5 hrs total','Cost':'Free — lunch/dinner extra'},
+   text:'Swapped in for Harding Icefield — Sunday forecast is 100% rain in Seward with gusts to 30 mph, too severe for an exposed alpine trail. Homer runs milder (90–93% precip, 61°F, light winds). Depart Seward 9:00 AM via Cooper Landing SRS, Stariski SRS/Anchor Point pull-offs, and Homer Baycrest Overlook. Lunch on the Spit, then the Alaska Islands & Ocean Visitor Center and the Pratt Museum (both indoor). Dinner in Homer, depart 7:00 PM, back in Seward ~10:15 PM.',
+   maps:'https://www.google.com/maps/search/?api=1&query=Homer+AK'},
   {day:4, kind:'anchor', name:'Seward Harbor', sub:'Northwestern Fjord departure', lat:60.1042, lng:-149.4422,
    facts:{'Sails':'8:30 AM – 5:00 PM, Mon 17 Aug','Cost':'$309pp','Operator':'Major Marine'},
    text:'Non-negotiable, and the single biggest wildlife day: three tidewater glacier faces, humpbacks, orcas, puffins. One departure daily and it sells out in August. Deli lunch included.',
    maps:'https://www.google.com/maps/search/?api=1&query=Harbor+360+Hotel+1412+4th+Ave+Seward+AK+99664'},
-  {day:5, kind:'paid', name:'Independence Mine', sub:'Hatcher Pass — optional', lat:61.7897, lng:-149.2794,
-   facts:{'Walk':'Under 1 mi','Cost':'$15 entry + $5 parking'},
-   text:'An abandoned gold mine in an alpine bowl. Skip it without guilt — Bodenburg Butte is the free alternative if the weather or energy calls for something lighter. Drive Seward → Palmer first, ~3.5 hrs, check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights.',
-   maps:'https://www.google.com/maps/search/?api=1&query=Independence+Mine+State+Historical+Park+Hatcher+Pass+Rd+Palmer+AK'},
-  {day:5, kind:'free', name:'Bodenburg Butte', sub:'Alternative to Independence Mine', lat:61.5760, lng:-149.0440,
-   facts:{'Cost':'Free','Note':'Shorter alpine-view alternative'},
-   text:'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter.',
-   maps:'https://www.google.com/maps/search/?api=1&query=Bodenburg+Butte+West+Trailhead+Mothershead+Ln+Butte+AK'},
+  {day:5, kind:'free', name:'Harding Icefield Trail', sub:'Exit Glacier, Kenai Fjords NP', lat:60.1878, lng:-149.6320,
+   facts:{'Full':'7.8 mi / 3,100 ft','Date':'Tue 18 Aug','Cost':'Free'},
+   text:'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise. Moved from Sunday — Tuesday is the driest day in the 3-day outlook (70% precip, no high-wind flag). Drive Seward → Palmer after, ~3.5 hrs, check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights.',
+   maps:'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK'},
   {day:6, kind:'free', name:'Reed Lakes Trailhead', sub:'Archangel Road', lat:61.7847, lng:-149.2314,
    facts:{'Distance':'8.6 mi RT / 2,250 ft','Date':'Wed 19 Aug','Parking':'$5'},
    text:'Easy first 1.5 mi on an old mining road, then switchbacks, then a car-sized boulder field marked by cairns — slow and hands-on, genuinely slippery when wet. Lower Reed 3,750 ft, Upper Reed 4,250 ft.',
    maps:'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK'},
+  {day:6, kind:'paid', name:'Independence Mine', sub:'Hatcher Pass — optional', lat:61.7897, lng:-149.2794,
+   facts:{'Walk':'Under 1 mi','Cost':'$15 entry + $5 parking'},
+   text:'An abandoned gold mine in an alpine bowl. Potential stop after Reed Lakes. Skip it without guilt — Bodenburg Butte is the free alternative if the weather or energy calls for something lighter.',
+   maps:'https://www.google.com/maps/search/?api=1&query=Independence+Mine+State+Historical+Park+Hatcher+Pass+Rd+Palmer+AK'},
+  {day:6, kind:'free', name:'Bodenburg Butte', sub:'Alternative to Independence Mine', lat:61.5760, lng:-149.0440,
+   facts:{'Cost':'Free','Note':'Shorter alpine-view alternative'},
+   text:'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter.',
+   maps:'https://www.google.com/maps/search/?api=1&query=Bodenburg+Butte+West+Trailhead+Mothershead+Ln+Butte+AK'},
   {day:7, kind:'anchor', name:'Talkeetna Airport', sub:'Denali flight + glacier landing', lat:62.3205, lng:-150.0937,
    facts:{'Slot':'4:00 PM, Thu 20 Aug','Cost':'$475–615pp','Operators':'K2 · Talkeetna Air Taxi · Sheldon'},
    text:'The anchor of the trip and roughly half the activity budget. Drive Palmer → Talkeetna first (~1h45m, day-stop only). Ask about Kahiltna vs Ruth and the weather-rollover policy. After: drive Talkeetna → Healy, ~2h45m, check into "Altair" for 1 night.',
@@ -752,9 +765,10 @@ const BOOKINGS0 = [
   {tier:3, name:'Anchorage lodging — 1 night', meta:'Wildbirch Hotel, downtown — for the 9:30 PM landing', when:'14 Aug', url:'https://www.google.com/travel/hotels/Anchorage%20Alaska'},
   {tier:3, name:'Alaska Wildlife Conservation Center', meta:'Walk-up fine — no reservation needed', when:'Sat 15 Aug', url:'https://www.alaskawildlife.org/'},
 
-  {tier:4, name:'Harding Icefield Trail', meta:'No booking — parking fees only', when:'16 Aug', url:'https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm'},
+  {tier:4, name:'Homer Day Trip', meta:'No booking — free, replaces Harding Icefield on the rainy day', when:'16 Aug', url:'https://www.alaska.org/destination/homer'},
+  {tier:4, name:'Harding Icefield Trail', meta:'No booking — parking fees only', when:'18 Aug', url:'https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm'},
   {tier:4, name:'Reed Lakes Trail', meta:'No booking — parking fees only', when:'19 Aug', url:'https://www.alaska.org/detail/reed-lakes-trail'},
-  {tier:4, name:'Independence Mine State Historical Park', meta:'$15 entry + $5 parking. Optional — Bodenburg Butte is the free alternative', when:'18 Aug', url:'https://www.salmonberrytours.com/tour/independence-mine-state-historical-park/'},
+  {tier:4, name:'Independence Mine State Historical Park', meta:'$15 entry + $5 parking. Optional — Bodenburg Butte is the free alternative', when:'19 Aug', url:'https://www.salmonberrytours.com/tour/independence-mine-state-historical-park/'},
   {tier:4, name:'Savage Alpine Trail', meta:'No booking — Mile 15 Park Rd, drive there yourself, paired with the transit-bus day', when:'22 Aug', url:'https://www.nps.gov/dena/planyourvisit/savage-alpine-trail.htm'},
   {tier:4, name:'Chena Hot Springs', meta:'No booking — walk-up. Evening of the SHERP-tour day, back ~midnight — deliberately not the night before the Aug 23 drive', when:'Fri 21 Aug, evening', url:'https://www.chenahotsprings.com/'}
 ];
