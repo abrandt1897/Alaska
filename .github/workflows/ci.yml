@@ -4,6 +4,15 @@ on:
   push:
   pull_request:
 
+# Least-privilege token: these checks only need to read the repo.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref instead of piling them up.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   checks:
     runs-on: ubuntu-latest

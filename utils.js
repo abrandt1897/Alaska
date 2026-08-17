@@ -77,6 +77,10 @@ function buildRouteUrl(waypoints) {
   );
 }
 
+// UMD-style export guard: the false branch only runs in the browser (where
+// utils.js is loaded via <script>), which has no unit tests by design, so
+// it's unreachable from Node/Vitest. Annotate it rather than contort a test.
+/* v8 ignore next */
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
     money,
