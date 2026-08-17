@@ -25,11 +25,12 @@ browser.
   runs in, so it works exactly like the code used to when it lived inline.
   It also has a CommonJS `module.exports` guard so Node/Vitest can `require`/
   `import` it directly.
-- `alaska-2026-plan.json` — a saved/exported snapshot of app state
-  (`plan`, `budget`, `bookings`, `stops`, `dates`, `tiers`, `budgetTarget`, `booked`).
-  It is **not** loaded by the app automatically — it's produced by the
-  "Save file" button or the file-connection feature, and can be re-imported
-  from within the app. Treat it as trip data, not app config.
+
+The app's "Save file" button exports the current state (`plan`, `budget`,
+`bookings`, `stops`, `dates`, `tiers`, `budgetTarget`, `booked`) as a
+`alaska-2026-plan.json` download, and that file can be re-imported from
+within the app. No such snapshot is tracked in the repo — it's user data,
+not app config, and the app never loads one automatically.
 
 ## Running / Testing
 - Open `alaska-2026-planner.html` directly in a browser (double-click, or
@@ -77,5 +78,5 @@ helpers live in `utils.js` (see Files above) purely so they're unit-testable:
   scoped to the relevant section (styles / seed data / persistence / render
   logic) rather than reflowing unrelated parts.
 - Trip content changes (itinerary text, prices, timings) belong in the
-  `*0` seed constants, not in `alaska-2026-plan.json` — that file is just a
-  snapshot users generate from the running app.
+  `*0` seed constants — not in any exported `alaska-2026-plan.json`
+  snapshot, which is just a copy users generate from the running app.

@@ -4,7 +4,7 @@ const globals = require('globals');
 
 module.exports = [
   {
-    ignores: ['node_modules/**', 'coverage/**', 'alaska-2026-plan.json'],
+    ignores: ['node_modules/**', 'coverage/**'],
   },
   {
     files: ['**/*.js'],
