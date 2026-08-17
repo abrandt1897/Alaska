@@ -39,9 +39,21 @@ not app config, and the app never loads one automatically.
 - The "Connect file" feature (live save-to-disk) only works in Chromium
   browsers; Safari/Firefox fall back to `localStorage` + manual "Save file" export.
 - Dev tooling (Node/npm only — the app itself still needs no build step):
-  - `npm install` once to pull in ESLint, Prettier, and Vitest.
+  - `npm install` once to pull in ESLint, TypeScript, Prettier, and Vitest.
   - `npm run lint` — ESLint (flat config in `eslint.config.js`), via
     `eslint-plugin-html` for the inline `<script>` blocks in the HTML files.
+    `utils.js` and `tests/**/*.js` additionally get strict, type-checked
+    linting (`typescript-eslint`'s `strictTypeChecked` config) — types come
+    from the JSDoc annotations in `utils.js`, checked against `tsconfig.json`
+    (`checkJs`). The HTML files stay on plain (non type-checked) linting:
+    `eslint-plugin-html` extracts the inline `<script>` into a virtual,
+    in-memory file that never exists on disk, so there's nothing for
+    TypeScript's `include`-based project resolution to see.
+  - `npm run typecheck` — `tsc -p tsconfig.json` (`--noEmit`). This is a
+    separate step from `lint`: typescript-eslint's typed rules use type
+    information to enhance specific lint rules, but they don't replicate a
+    full compile — real type errors (e.g. an argument that doesn't match a
+    JSDoc `@typedef`) only surface here, not from ESLint alone.
   - `npm run format` / `npm run format:check` — Prettier over `*.html`,
     `*.js`, and `*.json` (see `.prettierignore` for exclusions).
   - `npm test` / `npm run test:watch` — Vitest unit tests in `tests/`,
@@ -50,14 +62,18 @@ not app config, and the app never loads one automatically.
     (text summary + `coverage/` HTML/lcov output, gitignored). Coverage is
     scoped to `utils.js` only (see `vitest.config.js`) and enforces an 80%
     threshold (the Istanbul/nyc default); CI uploads the report as a build
-    artifact.
+    artifact. A couple of defensive branches that exist only to satisfy the
+    type checker (never reachable given the code's own invariants, e.g. the
+    UMD export guard's browser-only path) are marked `/* v8 ignore next */`
+    rather than contorted into a test.
   - There is no unit coverage for the DOM-driving code inside the inline
     `<script>` block (rendering, persistence, map) — only the extracted
     pure helpers are tested. Manually verify UI changes in a browser.
-- CI (`.github/workflows/ci.yml`) runs lint, format:check, and test:coverage
-  on every push and pull request. The same three checks also run locally as
-  a pre-push git hook (`.githooks/pre-push`), auto-installed by `npm install`
-  via the `prepare` script (`git config core.hooksPath .githooks`).
+- CI (`.github/workflows/ci.yml`) runs lint, typecheck, format:check, and
+  test:coverage on every push and pull request. The same four checks also
+  run locally as a pre-push git hook (`.githooks/pre-push`), auto-installed
+  by `npm install` via the `prepare` script (`git config core.hooksPath
+  .githooks`).
 
 ## Architecture
 Almost everything lives in `alaska-2026-planner.html`; a handful of pure

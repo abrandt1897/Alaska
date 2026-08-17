@@ -7,6 +7,7 @@
   "scripts": {
     "prepare": "git config core.hooksPath .githooks || true",
     "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
     "format": "prettier --write \"**/*.{html,js,css,json}\" --ignore-path .prettierignore",
     "format:check": "prettier --check \"**/*.{html,js,css,json}\" --ignore-path .prettierignore",
     "test": "vitest run",
@@ -19,8 +20,9 @@
     "eslint": "^10.8.1",
     "eslint-plugin-html": "^8.1.4",
     "globals": "^17.11.0",
-    "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.67.0",
     "vitest": "^4.1.10"
   }
 }
