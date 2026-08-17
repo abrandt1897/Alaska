@@ -25,11 +25,12 @@ browser.
   runs in, so it works exactly like the code used to when it lived inline.
   It also has a CommonJS `module.exports` guard so Node/Vitest can `require`/
   `import` it directly.
-- `alaska-2026-plan.json` — a saved/exported snapshot of app state
-  (`plan`, `budget`, `bookings`, `stops`, `dates`, `tiers`, `budgetTarget`, `booked`).
-  It is **not** loaded by the app automatically — it's produced by the
-  "Save file" button or the file-connection feature, and can be re-imported
-  from within the app. Treat it as trip data, not app config.
+
+The app's "Save file" button exports the current state (`plan`, `budget`,
+`bookings`, `stops`, `dates`, `tiers`, `budgetTarget`, `booked`) as a
+`alaska-2026-plan.json` download, and that file can be re-imported from
+within the app. No such snapshot is tracked in the repo — it's user data,
+not app config, and the app never loads one automatically.
 
 ## Running / Testing
 - Open `alaska-2026-planner.html` directly in a browser (double-click, or
@@ -38,9 +39,21 @@ browser.
 - The "Connect file" feature (live save-to-disk) only works in Chromium
   browsers; Safari/Firefox fall back to `localStorage` + manual "Save file" export.
 - Dev tooling (Node/npm only — the app itself still needs no build step):
-  - `npm install` once to pull in ESLint, Prettier, and Vitest.
+  - `npm install` once to pull in ESLint, TypeScript, Prettier, and Vitest.
   - `npm run lint` — ESLint (flat config in `eslint.config.js`), via
     `eslint-plugin-html` for the inline `<script>` blocks in the HTML files.
+    `utils.js` and `tests/**/*.js` additionally get strict, type-checked
+    linting (`typescript-eslint`'s `strictTypeChecked` config) — types come
+    from the JSDoc annotations in `utils.js`, checked against `tsconfig.json`
+    (`checkJs`). The HTML files stay on plain (non type-checked) linting:
+    `eslint-plugin-html` extracts the inline `<script>` into a virtual,
+    in-memory file that never exists on disk, so there's nothing for
+    TypeScript's `include`-based project resolution to see.
+  - `npm run typecheck` — `tsc -p tsconfig.json` (`--noEmit`). This is a
+    separate step from `lint`: typescript-eslint's typed rules use type
+    information to enhance specific lint rules, but they don't replicate a
+    full compile — real type errors (e.g. an argument that doesn't match a
+    JSDoc `@typedef`) only surface here, not from ESLint alone.
   - `npm run format` / `npm run format:check` — Prettier over `*.html`,
     `*.js`, and `*.json` (see `.prettierignore` for exclusions).
   - `npm test` / `npm run test:watch` — Vitest unit tests in `tests/`,
@@ -49,14 +62,18 @@ browser.
     (text summary + `coverage/` HTML/lcov output, gitignored). Coverage is
     scoped to `utils.js` only (see `vitest.config.js`) and enforces an 80%
     threshold (the Istanbul/nyc default); CI uploads the report as a build
-    artifact.
+    artifact. A couple of defensive branches that exist only to satisfy the
+    type checker (never reachable given the code's own invariants, e.g. the
+    UMD export guard's browser-only path) are marked `/* v8 ignore next */`
+    rather than contorted into a test.
   - There is no unit coverage for the DOM-driving code inside the inline
     `<script>` block (rendering, persistence, map) — only the extracted
     pure helpers are tested. Manually verify UI changes in a browser.
-- CI (`.github/workflows/ci.yml`) runs lint, format:check, and test:coverage
-  on every push and pull request. The same three checks also run locally as
-  a pre-push git hook (`.githooks/pre-push`), auto-installed by `npm install`
-  via the `prepare` script (`git config core.hooksPath .githooks`).
+- CI (`.github/workflows/ci.yml`) runs lint, typecheck, format:check, and
+  test:coverage on every push and pull request. The same four checks also
+  run locally as a pre-push git hook (`.githooks/pre-push`), auto-installed
+  by `npm install` via the `prepare` script (`git config core.hooksPath
+  .githooks`).
 
 ## Architecture
 Almost everything lives in `alaska-2026-planner.html`; a handful of pure
@@ -77,5 +94,5 @@ helpers live in `utils.js` (see Files above) purely so they're unit-testable:
   scoped to the relevant section (styles / seed data / persistence / render
   logic) rather than reflowing unrelated parts.
 - Trip content changes (itinerary text, prices, timings) belong in the
-  `*0` seed constants, not in `alaska-2026-plan.json` — that file is just a
-  snapshot users generate from the running app.
+  `*0` seed constants — not in any exported `alaska-2026-plan.json`
+  snapshot, which is just a copy users generate from the running app.

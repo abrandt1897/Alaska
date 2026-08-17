@@ -59,6 +59,7 @@ describe('groupCatFor', () => {
 });
 
 describe('budgetTotals', () => {
+  /** @type {import('../utils.js').BudgetRow[]} */
   const budget = [
     { grp: 'Lodging' },
     { n: 'Seward', u: 100, q: 3, c: 'lodge' },
