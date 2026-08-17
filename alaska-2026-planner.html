@@ -1569,8 +1569,8 @@
     <script src="utils.js"></script>
     <script>
       /* ============================================================
-   DATA — finalized plan only
-   ============================================================ */
+       DATA — finalized plan only
+       ============================================================ */
       const DATES0 = [
         { n: 1, dow: 'Friday', d: '14 Aug' },
         { n: 2, dow: 'Saturday', d: '15 Aug' },
@@ -1627,6 +1627,12 @@
               s: 'Portage → Seward, ~1h35m. Arrive ~7:00 PM. Check into 31435 Lois Way for 3 nights',
               g: 'https://www.google.com/maps/search/?api=1&query=31435+Lois+Way+Seward+AK+99664',
             },
+            {
+              k: 'paid',
+              t: 'Dinner at The Cookery',
+              s: 'Neighborhood restaurant and oyster bar in downtown Seward — fresh oysters, local seafood and modern American',
+              g: 'https://www.google.com/maps/search/?api=1&query=The+Cookery+209+5th+Ave+Seward+AK+99664',
+            },
           ],
         },
         {
@@ -1660,15 +1666,15 @@
             },
             {
               k: 'paid',
-              t: 'Lunch on the Spit',
-              s: "1:15 PM. Boardwalk Fish & Chips or Captain Pattie's",
-              g: 'https://www.google.com/maps/search/?api=1&query=Homer+Spit+AK',
+              t: "Lunch at Johnny's Corner",
+              s: '1:15 PM. Poke bowls with wild Alaskan seafood, on the Ice Dock on the Spit',
+              g: 'https://www.google.com/maps/search/?api=1&query=Johnnys+Corner+4501+Ice+Dock+Rd+Homer+AK',
             },
             {
               k: 'free',
-              t: 'Alaska Islands & Ocean Visitor Center',
-              s: '2:30 – 3:45 PM. Indoor, free',
-              g: 'https://www.google.com/maps/search/?api=1&query=Alaska+Islands+and+Ocean+Visitor+Center+Homer+AK',
+              t: 'Bunnell Street Arts Center',
+              s: '2:30 – 3:45 PM. Contemporary gallery in the historic Bunnell Building. Indoor, free',
+              g: 'https://www.google.com/maps/search/?api=1&query=Bunnell+Street+Arts+Center+Homer+AK',
             },
             {
               k: 'paid',
@@ -1678,9 +1684,9 @@
             },
             {
               k: 'paid',
-              t: 'Dinner in Homer',
-              s: '5:30 PM. Fat Olives or Broken Oar Oyster Bar, after a short walk/browse on the Spit',
-              g: 'https://www.google.com/maps/search/?api=1&query=Homer+AK',
+              t: 'Dinner at Harbor Grill',
+              s: '5:30 PM. Seafood & steak on the Homer Spit, Kenai Mountain views, after a short walk/browse on the Spit',
+              g: 'https://www.google.com/maps/search/?api=1&query=Harbor+Grill+4262+Homer+Spit+Rd+Homer+AK',
             },
             {
               k: 'travel',
@@ -1904,7 +1910,7 @@
           lat: 59.6425,
           lng: -151.5483,
           facts: { Date: 'Sun 16 Aug', Drive: '~6.5 hrs total', Cost: 'Free — lunch/dinner extra' },
-          text: 'Swapped in for Harding Icefield — Sunday forecast is 100% rain in Seward with gusts to 30 mph, too severe for an exposed alpine trail. Homer runs milder (90–93% precip, 61°F, light winds). Depart Seward 9:00 AM via Cooper Landing SRS, Stariski SRS/Anchor Point pull-offs, and Homer Baycrest Overlook. Lunch on the Spit, then the Alaska Islands & Ocean Visitor Center and the Pratt Museum (both indoor). Dinner in Homer, depart 7:00 PM, back in Seward ~10:15 PM.',
+          text: "Swapped in for Harding Icefield — Sunday forecast is 100% rain in Seward with gusts to 30 mph, too severe for an exposed alpine trail. Homer runs milder (90–93% precip, 61°F, light winds). Depart Seward 9:00 AM via Cooper Landing SRS, Stariski SRS/Anchor Point pull-offs, and Homer Baycrest Overlook. Lunch at Johnny's Corner on the Spit, then the Bunnell Street Arts Center and the Pratt Museum (both indoor). Dinner at Harbor Grill, depart 7:00 PM, back in Seward ~10:15 PM.",
           maps: 'https://www.google.com/maps/search/?api=1&query=Homer+AK',
         },
         {
@@ -2287,8 +2293,8 @@
       /* money() comes from utils.js */
 
       /* ============================================================
-   STATE
-   ============================================================ */
+       STATE
+       ============================================================ */
       const STORAGE_KEY = 'alaska2026planner.v1';
       function loadState() {
         try {
@@ -2310,9 +2316,9 @@
       let booked = new Set((saved && saved.booked) || BOOKED0);
 
       /* One-time migration: earlier versions of this file bundled Harding
-   Icefield, Reed Lakes, and Independence Mine into a single backup row,
-   and/or had these under a different tier. Bring any saved session up
-   to the current defaults by name, without touching booked status. */
+       Icefield, Reed Lakes, and Independence Mine into a single backup row,
+       and/or had these under a different tier. Bring any saved session up
+       to the current defaults by name, without touching booked status. */
       (function migrateBundledBackup() {
         const OLD_NAME = 'Harding Icefield · Reed Lakes · Independence Mine';
         const idx = bookings.findIndex((b) => b.name === OLD_NAME);
@@ -2330,11 +2336,11 @@
           booked.delete(OLD_NAME);
 
           /* Re-sync tier/date/link for anything that matches a current default
-       by name — a saved session carrying the old bundled row can also have
-       these three under a stale tier (e.g. "the mine" filed under the wrong
-       section) from that same earlier version. Only do this as part of the
-       one-time migration — never on an already-migrated session, or it would
-       clobber a user's own edits to tier/when/url/meta on every load. */
+           by name — a saved session carrying the old bundled row can also have
+           these three under a stale tier (e.g. "the mine" filed under the wrong
+           section) from that same earlier version. Only do this as part of the
+           one-time migration — never on an already-migrated session, or it would
+           clobber a user's own edits to tier/when/url/meta on every load. */
           bookings.forEach((b) => {
             const canonical = BOOKINGS0.find((c) => c.name === b.name);
             if (!canonical) return;
@@ -2346,9 +2352,9 @@
         }
 
         /* Add back any current default entries that are simply missing from
-     the saved session entirely (e.g. added to this file after the
-     session was first saved) — not just ones present under a stale
-     name or tier. */
+         the saved session entirely (e.g. added to this file after the
+         session was first saved) — not just ones present under a stale
+         name or tier. */
         const missing = [
           'Harding Icefield Trail',
           'Reed Lakes Trail',
@@ -2362,8 +2368,8 @@
       })();
 
       /* ============================================================
-   SIGNATURE — traverse profile
-   ============================================================ */
+       SIGNATURE — traverse profile
+       ============================================================ */
       function drawProfile() {
         const svg = document.getElementById('profile');
         const W = 1000,
@@ -2379,21 +2385,21 @@
         const area = line + ` L${x(els.length - 1).toFixed(1)},${bot} L${x(0).toFixed(1)},${bot} Z`;
 
         let g = `<defs>
-    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4FB6D8" stop-opacity=".28"/>
-      <stop offset="100%" stop-color="#4FB6D8" stop-opacity=".04"/>
-    </linearGradient>
-    <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-      <line x1="0" y1="0" x2="0" y2="6" stroke="#4FB6D8" stroke-width=".5" stroke-opacity=".35"/>
-    </pattern>
-  </defs>`;
+        <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4FB6D8" stop-opacity=".28"/>
+          <stop offset="100%" stop-color="#4FB6D8" stop-opacity=".04"/>
+        </linearGradient>
+        <pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#4FB6D8" stroke-width=".5" stroke-opacity=".35"/>
+        </pattern>
+      </defs>`;
 
         /* contour reference lines */
         [0, 2000, 4000, 6000].forEach((v) => {
           g += `<line x1="40" y1="${y(v).toFixed(1)}" x2="${W - 40}" y2="${y(v).toFixed(1)}"
-             stroke="#2B3536" stroke-width="1" stroke-dasharray="${v === 0 ? '0' : '2 4'}"/>`;
+                 stroke="#2B3536" stroke-width="1" stroke-dasharray="${v === 0 ? '0' : '2 4'}"/>`;
           g += `<text x="30" y="${(y(v) + 3.5).toFixed(1)}" text-anchor="end"
-             font-family="IBM Plex Mono" font-size="9" fill="#82969A">${v === 0 ? '0' : v / 1000 + 'k'}</text>`;
+                 font-family="IBM Plex Mono" font-size="9" fill="#82969A">${v === 0 ? '0' : v / 1000 + 'k'}</text>`;
         });
 
         g += `<path d="${area}" fill="url(#hatch)"/><path d="${area}" fill="url(#fill)"/>`;
@@ -2406,19 +2412,19 @@
             p = plan[i];
           const col = v >= 4000 ? '#8FDDF0' : '#4FB6D8';
           g += `<g class="stn" role="link" tabindex="0" data-i="${i}"
-              aria-label="Day ${dt.n}, ${dt.d} — ${p.label}, ${v.toLocaleString()} feet">
-      <line x1="${px}" y1="${py}" x2="${px}" y2="${bot}" stroke="#4FB6D8" stroke-width=".6" stroke-opacity=".45"/>
-      <circle cx="${px}" cy="${py}" r="4.5" fill="#111617" stroke="${col}" stroke-width="2"/>
-      <text x="${px}" y="${(py - 12).toFixed(1)}" text-anchor="middle"
-            font-family="IBM Plex Mono" font-size="9.5" font-weight="600" fill="#F1F6F5">${v.toLocaleString()}</text>
-      <text x="${px}" y="${bot + 18}" text-anchor="middle"
-            font-family="Archivo" font-size="11.5" font-weight="700" fill="#F1F6F5">${dt.n}</text>
-      <text x="${px}" y="${bot + 31}" text-anchor="middle"
-            font-family="IBM Plex Mono" font-size="8.5" fill="#82969A">${dt.d.replace(' Aug', '')}</text>
-      <text x="${px}" y="${bot + 45}" text-anchor="middle"
-            font-family="IBM Plex Sans" font-size="9.5" fill="#B6C6C8">${p.label}</text>
-      <rect class="hit" x="${px - 26}" y="${top - 16}" width="52" height="${bot + 50 - top + 16}" fill="transparent"/>
-    </g>`;
+                  aria-label="Day ${dt.n}, ${dt.d} — ${p.label}, ${v.toLocaleString()} feet">
+          <line x1="${px}" y1="${py}" x2="${px}" y2="${bot}" stroke="#4FB6D8" stroke-width=".6" stroke-opacity=".45"/>
+          <circle cx="${px}" cy="${py}" r="4.5" fill="#111617" stroke="${col}" stroke-width="2"/>
+          <text x="${px}" y="${(py - 12).toFixed(1)}" text-anchor="middle"
+                font-family="IBM Plex Mono" font-size="9.5" font-weight="600" fill="#F1F6F5">${v.toLocaleString()}</text>
+          <text x="${px}" y="${bot + 18}" text-anchor="middle"
+                font-family="Archivo" font-size="11.5" font-weight="700" fill="#F1F6F5">${dt.n}</text>
+          <text x="${px}" y="${bot + 31}" text-anchor="middle"
+                font-family="IBM Plex Mono" font-size="8.5" fill="#82969A">${dt.d.replace(' Aug', '')}</text>
+          <text x="${px}" y="${bot + 45}" text-anchor="middle"
+                font-family="IBM Plex Sans" font-size="9.5" fill="#B6C6C8">${p.label}</text>
+          <rect class="hit" x="${px - 26}" y="${top - 16}" width="52" height="${bot + 50 - top + 16}" fill="transparent"/>
+        </g>`;
         });
 
         svg.innerHTML = g;
@@ -2443,8 +2449,8 @@
       }
 
       /* ============================================================
-   MAP
-   ============================================================ */
+       MAP
+       ============================================================ */
       let map,
         markers = [],
         bounds;
@@ -2452,10 +2458,10 @@
         map = L.map('map', { scrollWheelZoom: false }).setView([62.2, -149.5], 6);
 
         /* Draw markers/route FIRST, before touching tile layers. Tile images
-     depend on outbound network access that some viewers (e.g. opening
-     this file directly in a mobile browser's local-file mode) block
-     entirely. Markers and the route line are pure local drawing and
-     must never be skipped just because tiles can't load. */
+         depend on outbound network access that some viewers (e.g. opening
+         this file directly in a mobile browser's local-file mode) block
+         entirely. Markers and the route line are pure local drawing and
+         must never be skipped just because tiles can't load. */
         const latlngs = stops.map((s) => [s.lat, s.lng]);
         L.polyline(latlngs, {
           color: '#1D5A70',
@@ -2473,18 +2479,18 @@
           });
           const m = L.marker([s.lat, s.lng], { icon }).addTo(map)
             .bindPopup(`<strong style="font-family:Archivo,sans-serif;font-size:14px">${s.name}</strong><br>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6E8792">Day ${s.day} · ${s.sub}</span>
-        <br><a href="${s.maps || gmapsSearch(s.name)}" target="_blank" rel="noopener" style="font-size:12px">Open in Google Maps →</a>`);
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6E8792">Day ${s.day} · ${s.sub}</span>
+            <br><a href="${s.maps || gmapsSearch(s.name)}" target="_blank" rel="noopener" style="font-size:12px">Open in Google Maps →</a>`);
           m.on('click', () => openStop(i));
           markers.push(m);
         });
 
         bounds = L.latLngBounds(latlngs).pad(0.12);
         /* No animation on this initial fit: initMap() runs once synchronously
-     at boot and again from refreshMap() moments later once a connected
-     file's stops load. If the first fit is still mid zoom-animation
-     when refreshMap() calls map.remove(), Leaflet's animation callback
-     fires afterward against a removed map's panes and throws. */
+         at boot and again from refreshMap() moments later once a connected
+         file's stops load. If the first fit is still mid zoom-animation
+         when refreshMap() calls map.remove(), Leaflet's animation callback
+         fires afterward against a removed map's panes and throws. */
         map.fitBounds(bounds, { animate: false });
         document.getElementById('fitBtn').onclick = () => map.fitBounds(bounds);
 
@@ -2501,7 +2507,7 @@
         'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q + ', Alaska');
 
       /* Called after stops change post-boot (connected-file load, import) so
-   the map reflects data that arrived after initMap()'s first draw. */
+       the map reflects data that arrived after initMap()'s first draw. */
       function refreshMap() {
         if (!map) return;
         map.remove();
@@ -2510,10 +2516,10 @@
       }
 
       /* Leaflet sizes itself from the container's pixel size at init time.
-   On mobile, web fonts and layout reflow finish slightly later and
-   shift #map's real dimensions, leaving the map blank or cropped.
-   Re-measure after fonts load, on resize/rotate, and once more shortly
-   after boot as a safety net. */
+       On mobile, web fonts and layout reflow finish slightly later and
+       shift #map's real dimensions, leaving the map blank or cropped.
+       Re-measure after fonts load, on resize/rotate, and once more shortly
+       after boot as a safety net. */
       function refreshMapSize() {
         if (map) map.invalidateSize();
       }
@@ -2547,8 +2553,8 @@
       }
 
       /* ============================================================
-   STOP ACCORDION
-   ============================================================ */
+       STOP ACCORDION
+       ============================================================ */
       function renderStops() {
         document.getElementById('stops').innerHTML = stops
           .map((s, i) => {
@@ -2556,19 +2562,19 @@
               .map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`)
               .join('');
             return `<details class="stop" id="stop-${i}">
-      <summary>
-        <span class="stop-day" style="background:${KIND_COLOR[s.kind]}">${s.day}</span>
-        <span class="stop-name">${s.name}<small>${s.sub}</small></span>
-        <svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-          <path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-      </summary>
-      <div class="stop-body">
-        <dl class="facts">${facts}</dl>
-        <p>${s.text}</p>
-        <a class="btn btn-sm" href="${s.maps || gmapsSearch(s.name)}" target="_blank" rel="noopener">Google Maps →</a>
-      </div>
-    </details>`;
+          <summary>
+            <span class="stop-day" style="background:${KIND_COLOR[s.kind]}">${s.day}</span>
+            <span class="stop-name">${s.name}<small>${s.sub}</small></span>
+            <svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+              <path d="M4 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </summary>
+          <div class="stop-body">
+            <dl class="facts">${facts}</dl>
+            <p>${s.text}</p>
+            <a class="btn btn-sm" href="${s.maps || gmapsSearch(s.name)}" target="_blank" rel="noopener">Google Maps →</a>
+          </div>
+        </details>`;
           })
           .join('');
 
@@ -2593,8 +2599,8 @@
       }
 
       /* ============================================================
-   ITINERARY — drag & drop
-   ============================================================ */
+       ITINERARY — drag & drop
+       ============================================================ */
       let dragDay = null,
         dragAct = null;
       let openAddDays = new Set();
@@ -2610,40 +2616,40 @@
             const acts = d.acts
               .map(
                 (a, ai) => `
-      <li draggable="true" data-d="${di}" data-a="${ai}">
-        <span class="dot d-${a.k}"></span>
-        <span class="act-txt"><b>${esc(a.t)}</b>${a.s ? `<small>${esc(a.s)}</small>` : ''}</span>
-        ${a.g ? `<a class="go" href="${esc(a.g)}" target="_blank" rel="noopener" aria-label="Open ${esc(a.t)} in Google Maps">Map →</a>` : ''}
-        <button class="btn btn-sm btn-ghost" data-rm="${di}:${ai}" aria-label="Remove ${esc(a.t)}">Remove</button>
-      </li>`
+          <li draggable="true" data-d="${di}" data-a="${ai}">
+            <span class="dot d-${a.k}"></span>
+            <span class="act-txt"><b>${esc(a.t)}</b>${a.s ? `<small>${esc(a.s)}</small>` : ''}</span>
+            ${a.g ? `<a class="go" href="${esc(a.g)}" target="_blank" rel="noopener" aria-label="Open ${esc(a.t)} in Google Maps">Map →</a>` : ''}
+            <button class="btn btn-sm btn-ghost" data-rm="${di}:${ai}" aria-label="Remove ${esc(a.t)}">Remove</button>
+          </li>`
               )
               .join('');
             return `<article class="card day" draggable="false" data-d="${di}">
-      <header class="day-head">
-        <button class="grip" draggable="true" data-grip="${di}" aria-label="Reorder day ${dt.n}" title="Drag to move this day">
-          <svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><g fill="currentColor">
-            <circle cx="3" cy="3" r="1.4"/><circle cx="9" cy="3" r="1.4"/><circle cx="3" cy="8" r="1.4"/>
-            <circle cx="9" cy="8" r="1.4"/><circle cx="3" cy="13" r="1.4"/><circle cx="9" cy="13" r="1.4"/>
-          </g></svg>
-        </button>
-        <span class="day-n">${dt.n}</span>
-        <span class="day-when"><b>${dt.dow}</b><span>${dt.d} 2026</span></span>
-        <span class="day-base">${esc(d.base)}</span>
-      </header>
-      <ul class="acts" data-drop="${di}">${acts || '<li style="cursor:default;color:var(--ink-3);font-size:13px">Nothing planned — add something below.</li>'}</ul>
-      <div class="day-foot">${
-        openAddDays.has(di)
-          ? `
-        <input class="add-in" id="actAdd-${di}" placeholder="Add an activity…" data-add="${di}" aria-label="Add activity to day ${dt.n}">
-        <input class="add-in" id="actAddDetail-${di}" placeholder="Details (optional)" data-adddetail="${di}" aria-label="Details for new activity on day ${dt.n}" style="flex:1.2">
-        <button class="btn btn-sm" data-addbtn="${di}">Add</button>
-        <button class="btn btn-sm btn-ghost" data-addclose="${di}" aria-label="Close add form">Done</button>
-      `
-          : `
-        <button class="btn btn-sm btn-ghost" data-addopen="${di}">+ Add activity</button>
-      `
-      }</div>
-    </article>`;
+          <header class="day-head">
+            <button class="grip" draggable="true" data-grip="${di}" aria-label="Reorder day ${dt.n}" title="Drag to move this day">
+              <svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><g fill="currentColor">
+                <circle cx="3" cy="3" r="1.4"/><circle cx="9" cy="3" r="1.4"/><circle cx="3" cy="8" r="1.4"/>
+                <circle cx="9" cy="8" r="1.4"/><circle cx="3" cy="13" r="1.4"/><circle cx="9" cy="13" r="1.4"/>
+              </g></svg>
+            </button>
+            <span class="day-n">${dt.n}</span>
+            <span class="day-when"><b>${dt.dow}</b><span>${dt.d} 2026</span></span>
+            <span class="day-base">${esc(d.base)}</span>
+          </header>
+          <ul class="acts" data-drop="${di}">${acts || '<li style="cursor:default;color:var(--ink-3);font-size:13px">Nothing planned — add something below.</li>'}</ul>
+          <div class="day-foot">${
+            openAddDays.has(di)
+              ? `
+            <input class="add-in" id="actAdd-${di}" placeholder="Add an activity…" data-add="${di}" aria-label="Add activity to day ${dt.n}">
+            <input class="add-in" id="actAddDetail-${di}" placeholder="Details (optional)" data-adddetail="${di}" aria-label="Details for new activity on day ${dt.n}" style="flex:1.2">
+            <button class="btn btn-sm" data-addbtn="${di}">Add</button>
+            <button class="btn btn-sm btn-ghost" data-addclose="${di}" aria-label="Close add form">Done</button>
+          `
+              : `
+            <button class="btn btn-sm btn-ghost" data-addopen="${di}">+ Add activity</button>
+          `
+          }</div>
+        </article>`;
           })
           .join('');
 
@@ -2811,8 +2817,8 @@
       /* esc() comes from utils.js */
 
       /* ============================================================
-   BOOKING
-   ============================================================ */
+       BOOKING
+       ============================================================ */
       function renderBooking() {
         const host = document.getElementById('booking-list');
         host.innerHTML = [1, 2, 3, 4]
@@ -2836,13 +2842,13 @@
                     ? `<a class="go" href="${esc(b.url)}" target="_blank" rel="noopener">Book →</a>`
                     : '';
                 return `<div class="book${on ? ' done' : ''}">
-        <input type="checkbox" id="bookCheck-${gi}" ${on ? 'checked' : ''} data-bk="${esc(b.name)}" aria-label="Mark ${esc(b.name)} booked">
-        <span class="book-main"><span class="book-name">${esc(b.name)}</span>
-          <span class="book-meta">${esc(b.meta)}</span></span>
-        <span class="book-when">${esc(b.when)}</span>
-        ${link}
-        ${rm}
-      </div>`;
+            <input type="checkbox" id="bookCheck-${gi}" ${on ? 'checked' : ''} data-bk="${esc(b.name)}" aria-label="Mark ${esc(b.name)} booked">
+            <span class="book-main"><span class="book-name">${esc(b.name)}</span>
+              <span class="book-meta">${esc(b.meta)}</span></span>
+            <span class="book-when">${esc(b.when)}</span>
+            ${link}
+            ${rm}
+          </div>`;
               })
               .join('');
             const T = tiers[t];
@@ -2850,31 +2856,31 @@
               t === 4
                 ? openBackupAdd
                   ? `<div class="book book-add">
-        <input class="add-in" type="text" id="bkName" placeholder="Name" aria-label="New backup name" style="flex:1.4;min-width:130px">
-        <input class="add-in" type="text" id="bkMeta" placeholder="Detail" aria-label="New backup detail" style="flex:1.4;min-width:130px">
-        <input class="add-in" type="text" id="bkWhen" placeholder="When" aria-label="New backup timing" style="flex:0 0 110px;min-width:90px">
-        <input class="add-in" type="text" id="bkUrl" placeholder="URL (optional)" aria-label="New backup link" style="flex:1.6;min-width:140px">
-        <button class="btn btn-sm" id="bkAddBtn">Add</button>
-        <button class="btn btn-sm btn-ghost" id="bkAddClose" aria-label="Close add form">Done</button>
-      </div>`
+            <input class="add-in" type="text" id="bkName" placeholder="Name" aria-label="New backup name" style="flex:1.4;min-width:130px">
+            <input class="add-in" type="text" id="bkMeta" placeholder="Detail" aria-label="New backup detail" style="flex:1.4;min-width:130px">
+            <input class="add-in" type="text" id="bkWhen" placeholder="When" aria-label="New backup timing" style="flex:0 0 110px;min-width:90px">
+            <input class="add-in" type="text" id="bkUrl" placeholder="URL (optional)" aria-label="New backup link" style="flex:1.6;min-width:140px">
+            <button class="btn btn-sm" id="bkAddBtn">Add</button>
+            <button class="btn btn-sm btn-ghost" id="bkAddClose" aria-label="Close add form">Done</button>
+          </div>`
                   : `<div class="book book-add">
-        <button class="btn btn-sm btn-ghost" id="bkAddOpen">+ Add backup</button>
-      </div>`
+            <button class="btn btn-sm btn-ghost" id="bkAddOpen">+ Add backup</button>
+          </div>`
                 : '';
             const toggle = allDone
               ? `<button class="btn btn-sm btn-ghost tier-toggle${collapsed ? ' is-collapsed' : ''}" data-tiertoggle="${t}"
-        style="margin-left:auto" aria-label="${collapsed ? 'Expand' : 'Collapse'} ${esc(T.tag)}" title="${collapsed ? 'Expand' : 'Collapse'}">
-        <svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 L5 6.5 L8 3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>`
+            style="margin-left:auto" aria-label="${collapsed ? 'Expand' : 'Collapse'} ${esc(T.tag)}" title="${collapsed ? 'Expand' : 'Collapse'}">
+            <svg class="chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 L5 6.5 L8 3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>`
               : '';
             return `<div class="tier">
-      <div class="tier-head">
-        <span class="tier-tag ${T.cls}">${T.tag}</span>
-        <p>${T.note}${allDone ? ' — all booked' : ''}</p>
-        ${toggle}
-      </div>
-      ${collapsed ? '' : `<div class="card">${rows}${addForm}</div>`}
-    </div>`;
+          <div class="tier-head">
+            <span class="tier-tag ${T.cls}">${T.tag}</span>
+            <p>${T.note}${allDone ? ' — all booked' : ''}</p>
+            ${toggle}
+          </div>
+          ${collapsed ? '' : `<div class="card">${rows}${addForm}</div>`}
+        </div>`;
           })
           .join('');
 
@@ -2961,8 +2967,8 @@
       }
 
       /* ============================================================
-   BUDGET
-   ============================================================ */
+       BUDGET
+       ============================================================ */
       /* groupCatFor() comes from utils.js */
 
       function renderBudget() {
@@ -2977,31 +2983,31 @@
           } else {
             const tbd = r.u === null || r.u === undefined;
             html += `<tr>
-        <td class="lbl">${esc(r.n)}${r.note ? `<span class="row-note">${esc(r.note)}</span>` : ''}</td>
-        <td class="num"><input class="cell-in" id="budgetUnit-${i}" type="number" min="0" step="1" value="${tbd ? '' : r.u}" placeholder="${tbd ? 'TBD' : ''}" data-u="${i}" aria-label="Unit cost, ${esc(r.n)}"></td>
-        <td class="num"><input class="cell-in qty" id="budgetQty-${i}" type="number" min="0" step="1" value="${r.q}" data-q="${i}" aria-label="Quantity, ${esc(r.n)}"></td>
-        <td class="num total" data-t="${i}">${tbd ? 'TBD' : money(r.u * r.q)}</td>
-        <td class="num"><button class="btn btn-sm btn-ghost" data-rmb="${i}" aria-label="Remove ${esc(r.n)}">Remove</button></td>
-      </tr>`;
+            <td class="lbl">${esc(r.n)}${r.note ? `<span class="row-note">${esc(r.note)}</span>` : ''}</td>
+            <td class="num"><input class="cell-in" id="budgetUnit-${i}" type="number" min="0" step="1" value="${tbd ? '' : r.u}" placeholder="${tbd ? 'TBD' : ''}" data-u="${i}" aria-label="Unit cost, ${esc(r.n)}"></td>
+            <td class="num"><input class="cell-in qty" id="budgetQty-${i}" type="number" min="0" step="1" value="${r.q}" data-q="${i}" aria-label="Quantity, ${esc(r.n)}"></td>
+            <td class="num total" data-t="${i}">${tbd ? 'TBD' : money(r.u * r.q)}</td>
+            <td class="num"><button class="btn btn-sm btn-ghost" data-rmb="${i}" aria-label="Remove ${esc(r.n)}">Remove</button></td>
+          </tr>`;
           }
           const next = budget[i + 1];
           if (!next || next.grp) {
             const at = i + 1;
             if (openBudgetGrps.has(curGrp)) {
               html += `<tr class="addrow">
-          <td class="lbl"><input class="add-in" id="budgetNewName-${at}" type="text" data-bname="${at}" placeholder="Add a line…" aria-label="New line name, ${curCat}"></td>
-          <td class="num"><input class="cell-in" id="budgetNewUnit-${at}" type="number" min="0" step="1" placeholder="0" data-bunit="${at}" aria-label="New line unit cost"></td>
-          <td class="num"><input class="cell-in qty" id="budgetNewQty-${at}" type="number" min="0" step="1" value="1" data-bqty="${at}" aria-label="New line quantity"></td>
-          <td></td>
-          <td class="num" style="white-space:nowrap">
-            <button class="btn btn-sm" data-addb="${at}" data-cat="${curCat}">Add</button>
-            <button class="btn btn-sm btn-ghost" data-addclosegrp="${esc(curGrp)}" aria-label="Close add form">Done</button>
-          </td>
-        </tr>`;
+              <td class="lbl"><input class="add-in" id="budgetNewName-${at}" type="text" data-bname="${at}" placeholder="Add a line…" aria-label="New line name, ${curCat}"></td>
+              <td class="num"><input class="cell-in" id="budgetNewUnit-${at}" type="number" min="0" step="1" placeholder="0" data-bunit="${at}" aria-label="New line unit cost"></td>
+              <td class="num"><input class="cell-in qty" id="budgetNewQty-${at}" type="number" min="0" step="1" value="1" data-bqty="${at}" aria-label="New line quantity"></td>
+              <td></td>
+              <td class="num" style="white-space:nowrap">
+                <button class="btn btn-sm" data-addb="${at}" data-cat="${curCat}">Add</button>
+                <button class="btn btn-sm btn-ghost" data-addclosegrp="${esc(curGrp)}" aria-label="Close add form">Done</button>
+              </td>
+            </tr>`;
             } else {
               html += `<tr class="addrow">
-          <td colspan="5"><button class="btn btn-sm btn-ghost" data-addopengrp="${esc(curGrp)}">+ Add line</button></td>
-        </tr>`;
+              <td colspan="5"><button class="btn btn-sm btn-ghost" data-addopengrp="${esc(curGrp)}">+ Add line</button></td>
+            </tr>`;
             }
           }
         });
@@ -3132,8 +3138,8 @@
       }
 
       /* ============================================================
-   PERSISTENCE  (autosave to localStorage + a connected file)
-   ============================================================ */
+       PERSISTENCE  (autosave to localStorage + a connected file)
+       ============================================================ */
       function toast(msg) {
         const t = document.getElementById('toast');
         t.textContent = msg;
@@ -3463,8 +3469,8 @@
       };
 
       /* ============================================================
-   BOOT
-   ============================================================ */
+       BOOT
+       ============================================================ */
       drawProfile();
       syncTargetInputs();
 
