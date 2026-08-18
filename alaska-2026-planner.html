@@ -1698,32 +1698,32 @@
         },
         {
           base: 'Seward',
-          elev: 0,
-          label: 'Kenai Fjords NP',
-          acts: [
-            {
-              k: 'anchor',
-              t: 'Kenai Fjords National Park cruise',
-              s: 'Mon 17 Aug. Major Marine, 9:30 AM – 5:00 PM. Holgate & Aialik tidewater glaciers, humpbacks, orcas, puffins. $269pp, deli lunch included',
-              g: 'https://www.google.com/maps/search/?api=1&query=Harbor+360+Hotel+1412+4th+Ave+Seward+AK+99664',
-            },
-          ],
-        },
-        {
-          base: '→ Palmer',
           elev: 3527,
           label: 'Harding Icefield',
           acts: [
             {
               k: 'free',
               t: 'Harding Icefield Trail',
-              s: 'Tue 18 Aug. 7.8 mi RT / 3,100 ft. Make noise below Marmot Meadows. Moved from Sunday — driest day in the 3-day outlook',
+              s: 'Mon 17 Aug. 7.8 mi RT / 3,100 ft. Make noise below Marmot Meadows. Swapped onto Monday, trading days with the Kenai Fjords cruise',
               g: 'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK',
+            },
+          ],
+        },
+        {
+          base: '→ Palmer',
+          elev: 0,
+          label: 'Kenai Fjords NP',
+          acts: [
+            {
+              k: 'anchor',
+              t: 'Kenai Fjords National Park cruise',
+              s: 'Tue 18 Aug. Major Marine, 9:30 AM – 5:00 PM. Holgate & Aialik tidewater glaciers, humpbacks, orcas, puffins. $269pp, deli lunch included',
+              g: 'https://www.google.com/maps/search/?api=1&query=Harbor+360+Hotel+1412+4th+Ave+Seward+AK+99664',
             },
             {
               k: 'travel',
               t: 'Seward → Palmer',
-              s: 'After the hike, ~3.5 hrs. Check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights',
+              s: 'After the cruise, ~3.5 hrs. Check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights',
               g: 'https://www.google.com/maps/search/?api=1&query=7061+Finger+Lake+Ave+Palmer+AK',
             },
           ],
@@ -1915,29 +1915,29 @@
         },
         {
           day: 4,
+          kind: 'free',
+          name: 'Harding Icefield Trail',
+          sub: 'Exit Glacier, Kenai Fjords NP',
+          lat: 60.1878,
+          lng: -149.632,
+          facts: { Full: '7.8 mi / 3,100 ft', Date: 'Mon 17 Aug', Cost: 'Free' },
+          text: 'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise. Swapped onto Monday, trading days with the Kenai Fjords cruise.',
+          maps: 'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK',
+        },
+        {
+          day: 5,
           kind: 'anchor',
           name: 'Seward Harbor',
           sub: 'Kenai Fjords NP departure',
           lat: 60.1042,
           lng: -149.4422,
           facts: {
-            Sails: '9:30 AM – 5:00 PM, Mon 17 Aug',
+            Sails: '9:30 AM – 5:00 PM, Tue 18 Aug',
             Cost: '$269pp',
             Operator: 'Major Marine',
           },
-          text: 'Non-negotiable, and the single biggest wildlife day: the Holgate and Aialik tidewater glacier faces in Aialik Bay, humpbacks, orcas, puffins. One departure daily and it sells out in August. Deli lunch included.',
+          text: 'Non-negotiable, and the single biggest wildlife day: the Holgate and Aialik tidewater glacier faces in Aialik Bay, humpbacks, orcas, puffins. One departure daily and it sells out in August. Deli lunch included. Drive Seward → Palmer after, ~3.5 hrs, check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Harbor+360+Hotel+1412+4th+Ave+Seward+AK+99664',
-        },
-        {
-          day: 5,
-          kind: 'free',
-          name: 'Harding Icefield Trail',
-          sub: 'Exit Glacier, Kenai Fjords NP',
-          lat: 60.1878,
-          lng: -149.632,
-          facts: { Full: '7.8 mi / 3,100 ft', Date: 'Tue 18 Aug', Cost: 'Free' },
-          text: 'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise. Moved from Sunday — Tuesday is the driest day in the 3-day outlook (70% precip, no high-wind flag). Drive Seward → Palmer after, ~3.5 hrs, check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights.',
-          maps: 'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK',
         },
         {
           day: 6,
@@ -2110,7 +2110,7 @@
           tier: 1,
           name: 'Kenai Fjords National Park cruise',
           meta: 'Major Marine Tours · one departure daily',
-          when: 'Mon 17 Aug, 9:30 AM',
+          when: 'Tue 18 Aug, 9:30 AM',
           url: 'https://majormarine.com/tour/7-5-hour-kenai-fjords-national-park-cruise/',
         },
 
@@ -2197,7 +2197,7 @@
           tier: 4,
           name: 'Harding Icefield Trail',
           meta: 'No booking — parking fees only',
-          when: '18 Aug',
+          when: '17 Aug',
           url: 'https://www.nps.gov/kefj/planyourvisit/exit-glacier-area.htm',
         },
         {
