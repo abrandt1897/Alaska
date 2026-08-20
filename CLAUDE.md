@@ -96,3 +96,7 @@ helpers live in `utils.js` (see Files above) purely so they're unit-testable:
 - Trip content changes (itinerary text, prices, timings) belong in the
   `*0` seed constants — not in any exported `alaska-2026-plan.json`
   snapshot, which is just a copy users generate from the running app.
+- When adding a new place (restaurant, trailhead, lodging, activity, etc.),
+  always verify its real name and address with a web search before adding
+  it — don't guess or rely on how the user phrased it. Use the confirmed
+  name/address in both the entry text and the Google Maps `g` link.
