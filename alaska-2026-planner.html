@@ -1784,9 +1784,15 @@
             },
             {
               k: 'anchor',
-              t: 'Denali flight + glacier landing',
-              s: '4:00 PM slot, ~2 hr flight. K2 Aviation / Talkeetna Air Taxi / Sheldon Air. Ask about Kahiltna vs Ruth and the weather-rollover policy. $475–615pp',
+              t: 'Grand Denali Flight + glacier landing — Talkeetna Air Taxi',
+              s: '4:00 PM slot, ~2 hr with glacier landing (1h30m flight-only). Ask about the weather-rollover policy. $613pp with landing',
               g: 'https://www.google.com/maps/search/?api=1&query=Talkeetna+Airport+22791+S+Terminal+Ave+Talkeetna+AK+99676',
+            },
+            {
+              k: 'paid',
+              t: 'Dinner: The Deck at Fairview Inn',
+              s: 'Thu 20 Aug, after the flight. Alaskan favorites and drinks on the deck of the historic Fairview Inn. 101 N Main St, Talkeetna',
+              g: 'https://www.google.com/maps/search/?api=1&query=Fairview+Inn+101+N+Main+St+Talkeetna+AK+99676',
             },
             {
               k: 'travel',
@@ -1994,16 +2000,27 @@
           day: 7,
           kind: 'anchor',
           name: 'Talkeetna Airport',
-          sub: 'Denali flight + glacier landing',
+          sub: 'Grand Denali Flight + glacier landing',
           lat: 62.3205,
           lng: -150.0937,
           facts: {
             Slot: '4:00 PM, Thu 20 Aug',
-            Cost: '$475–615pp',
-            Operators: 'K2 · Talkeetna Air Taxi · Sheldon',
+            Cost: '$613pp',
+            Operator: 'Talkeetna Air Taxi — Grand Denali Tour',
           },
-          text: 'The anchor of the trip and roughly half the activity budget. Drive Palmer → Talkeetna first (~1h45m, day-stop only). Ask about Kahiltna vs Ruth and the weather-rollover policy. After: drive Talkeetna → Healy, ~2h45m, check into "Altair" for 1 night.',
+          text: 'The anchor of the trip and roughly half the activity budget. Drive Palmer → Talkeetna first (~1h45m, day-stop only). Ask about the weather-rollover policy. After: dinner at The Deck at the Fairview Inn, then drive Talkeetna → Healy, ~2h45m, check into "Altair" for 1 night.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Talkeetna+Airport+22791+S+Terminal+Ave+Talkeetna+AK+99676',
+        },
+        {
+          day: 7,
+          kind: 'paid',
+          name: 'The Deck at Fairview Inn',
+          sub: 'Dinner in Talkeetna',
+          lat: 62.322,
+          lng: -150.1128,
+          facts: { Time: 'After the flight, Thu 20 Aug', Cost: '$$' },
+          text: 'Alaskan favorites and drinks on the deck of the historic Fairview Inn, right in town after the glacier flight.',
+          maps: 'https://www.google.com/maps/search/?api=1&query=Fairview+Inn+101+N+Main+St+Talkeetna+AK+99676',
         },
         {
           day: 8,
@@ -2119,10 +2136,17 @@
       const BOOKINGS0 = [
         {
           tier: 1,
-          name: 'Denali flight + glacier landing',
+          name: 'Grand Denali Flight + glacier landing',
           meta: 'Talkeetna Air Taxi',
           when: 'Thu 20 Aug, 4:00 PM slot',
-          url: 'https://www.talkeetnaair.com/',
+          url: 'https://www.talkeetnaair.com/flightseeing/grand-denali-tour/',
+        },
+        {
+          tier: 2,
+          name: 'The Deck at Fairview Inn — dinner',
+          meta: 'Talkeetna',
+          when: 'Thu 20 Aug, after the flight',
+          url: 'https://fairviewtalkeetna.com/pages/the-deck',
         },
         {
           tier: 1,
@@ -2272,7 +2296,7 @@
         { n: 'Fuel', u: 285, q: 1, c: 'trans' },
         { grp: 'Activities' },
         { n: 'Kenai Fjords National Park cruise', u: 296, q: 2, c: 'act' },
-        { n: 'Denali flight + glacier landing', u: 722, q: 2, c: 'act' },
+        { n: 'Grand Denali Flight + glacier landing', u: 613, q: 2, c: 'act' },
         { n: 'Denali Fat Truck SHERP tour', u: 249, q: 2, c: 'act' },
         { n: 'Spencer Glacier train (Portage RT)', u: 94, q: 2, c: 'act' },
         { n: 'Denali transit bus — Mile 43', u: 34, q: 2, c: 'act' },
@@ -2293,7 +2317,7 @@
       const BUDGET_TARGET0 = { low: 7000, high: 9000 };
 
       const BOOKED0 = [
-        'Denali flight + glacier landing',
+        'Grand Denali Flight + glacier landing',
         'Kenai Fjords National Park cruise',
         'Seward lodging — 3 nights',
         'Healy / Denali lodging — 1 night',
