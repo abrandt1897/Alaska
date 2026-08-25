@@ -1451,7 +1451,7 @@
                 <button class="btn btn-sm" id="fitBtn">Reset view</button>
               </div>
             </div>
-            <details class="card stops-wrap">
+            <details class="card stops-wrap" open>
               <summary class="stops-toggle">
                 <span>Places</span>
                 <svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
@@ -3508,6 +3508,13 @@
       /* ============================================================
        BOOT
        ============================================================ */
+      // Places list starts expanded on desktop, collapsed on narrow/mobile
+      // viewports (matches the .shell mobile-layout breakpoint).
+      const stopsWrap = document.querySelector('.stops-wrap');
+      if (stopsWrap && window.matchMedia('(max-width: 820px)').matches) {
+        stopsWrap.open = false;
+      }
+
       drawProfile();
       syncTargetInputs();
 
