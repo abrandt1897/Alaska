@@ -1757,18 +1757,6 @@
               s: 'Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd',
               g: 'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK',
             },
-            {
-              k: 'paid',
-              t: 'Independence Mine — optional',
-              s: 'Abandoned gold mine in an alpine bowl. Under a mile on foot. $15 entry + $5 parking. Potential stop after Reed Lakes. Skip it without guilt',
-              g: 'https://www.google.com/maps/search/?api=1&query=Independence+Mine+State+Historical+Park+Hatcher+Pass+Rd+Palmer+AK',
-            },
-            {
-              k: 'free',
-              t: 'Bodenburg Butte — alternative',
-              s: 'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter',
-              g: 'https://www.google.com/maps/search/?api=1&query=Bodenburg+Butte+West+Trailhead+Mothershead+Ln+Butte+AK',
-            },
           ],
         },
         {
@@ -1805,7 +1793,7 @@
         {
           base: '→ Fairbanks',
           elev: 1300,
-          label: 'Fat truck + Chena',
+          label: 'Fat truck tour',
           acts: [
             {
               k: 'free',
@@ -1823,12 +1811,6 @@
               t: 'Drive to Fairbanks',
               s: 'Check into 8750 Parks Highway, Fairbanks, AK 99709 for 2 nights. Dinner in town',
               g: 'https://www.google.com/maps/search/?api=1&query=8750+Parks+Hwy+Fairbanks+AK+99709',
-            },
-            {
-              k: 'paid',
-              t: 'Chena Hot Springs',
-              s: "That evening — geothermal soaking pools. Back ~midnight. Deliberately paired with the SHERP-tour day so it doesn't land the night before the Aug 23 drive",
-              g: 'https://www.google.com/maps/search/?api=1&query=Chena+Hot+Springs+Resort+17600+Chena+Hot+Springs+Rd+Fairbanks+AK+99712',
             },
           ],
         },
@@ -1969,28 +1951,6 @@
           maps: 'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK',
         },
         {
-          day: 6,
-          kind: 'paid',
-          name: 'Independence Mine',
-          sub: 'Hatcher Pass — optional',
-          lat: 61.7897,
-          lng: -149.2794,
-          facts: { Walk: 'Under 1 mi', Cost: '$15 entry + $5 parking' },
-          text: 'An abandoned gold mine in an alpine bowl. Potential stop after Reed Lakes. Skip it without guilt — Bodenburg Butte is the free alternative if the weather or energy calls for something lighter.',
-          maps: 'https://www.google.com/maps/search/?api=1&query=Independence+Mine+State+Historical+Park+Hatcher+Pass+Rd+Palmer+AK',
-        },
-        {
-          day: 6,
-          kind: 'free',
-          name: 'Bodenburg Butte',
-          sub: 'Alternative to Independence Mine',
-          lat: 61.576,
-          lng: -149.044,
-          facts: { Cost: 'Free', Note: 'Shorter alpine-view alternative' },
-          text: 'Shorter alpine-view alternative to Independence Mine if the weather or energy calls for something lighter.',
-          maps: 'https://www.google.com/maps/search/?api=1&query=Bodenburg+Butte+West+Trailhead+Mothershead+Ln+Butte+AK',
-        },
-        {
           day: 7,
           kind: 'anchor',
           name: 'Talkeetna Airport',
@@ -2042,17 +2002,6 @@
           facts: { Nights: '2 (21 – 23 Aug)' },
           text: 'Drive from Healy after the SHERP tour, check in for 2 nights, dinner in town.',
           maps: 'https://www.google.com/maps/search/?api=1&query=8750+Parks+Hwy+Fairbanks+AK+99709',
-        },
-        {
-          day: 8,
-          kind: 'paid',
-          name: 'Chena Hot Springs',
-          sub: 'Geothermal soaking pools',
-          lat: 65.0561,
-          lng: -146.0785,
-          facts: { Time: 'That evening', Back: '~Midnight' },
-          text: "Geothermal soaking pools. Deliberately paired with the SHERP-tour day so it doesn't land the night before the Aug 23 drive.",
-          maps: 'https://www.google.com/maps/search/?api=1&query=Chena+Hot+Springs+Resort+17600+Chena+Hot+Springs+Rd+Fairbanks+AK+99712',
         },
         {
           day: 9,
@@ -2232,20 +2181,6 @@
           when: '19 Aug',
           url: 'https://www.alaska.org/detail/reed-lakes-trail',
         },
-        {
-          tier: 4,
-          name: 'Independence Mine State Historical Park',
-          meta: '$15 entry + $5 parking. Optional — Bodenburg Butte is the free alternative',
-          when: '19 Aug',
-          url: 'https://www.salmonberrytours.com/tour/independence-mine-state-historical-park/',
-        },
-        {
-          tier: 4,
-          name: 'Chena Hot Springs',
-          meta: 'No booking — walk-up. Evening of the SHERP-tour day, back ~midnight — deliberately not the night before the Aug 23 drive',
-          when: 'Fri 21 Aug, evening',
-          url: 'https://www.chenahotsprings.com/',
-        },
       ];
 
       const TIERS0 = {
@@ -2279,14 +2214,6 @@
         { n: 'Denali park entrance', u: 15, q: 2, c: 'act' },
         { n: 'Alaska Wildlife Conservation Center', u: 30, q: 2, c: 'act' },
         { n: 'Reed Lakes parking', u: 5, q: 1, c: 'act' },
-        {
-          n: 'Independence Mine entry + parking',
-          u: 20,
-          q: 1,
-          c: 'act',
-          note: 'Optional — Bodenburg Butte is the free alternative',
-        },
-        { n: 'Chena Hot Springs', u: 20, q: 2, c: 'act', note: 'Optional' },
         { grp: 'Living & slack' },
       ];
 
@@ -2341,11 +2268,7 @@
         const OLD_NAME = 'Harding Icefield · Reed Lakes · Independence Mine';
         const idx = bookings.findIndex((b) => b.name === OLD_NAME);
         if (idx !== -1) {
-          const names = [
-            'Harding Icefield Trail',
-            'Reed Lakes Trail',
-            'Independence Mine State Historical Park',
-          ];
+          const names = ['Harding Icefield Trail', 'Reed Lakes Trail'];
           const replacements = names
             .map((n) => BOOKINGS0.find((b) => b.name === n))
             .filter(Boolean)
@@ -2373,11 +2296,7 @@
          the saved session entirely (e.g. added to this file after the
          session was first saved) — not just ones present under a stale
          name or tier. */
-        const missing = [
-          'Harding Icefield Trail',
-          'Reed Lakes Trail',
-          'Independence Mine State Historical Park',
-        ]
+        const missing = ['Harding Icefield Trail', 'Reed Lakes Trail']
           .filter((n) => !bookings.some((b) => b.name === n))
           .map((n) => BOOKINGS0.find((b) => b.name === n))
           .filter(Boolean)
