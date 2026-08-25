@@ -368,6 +368,31 @@
       }
 
       /* --- stop accordion --- */
+      .stops-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px;
+        cursor: pointer;
+        list-style: none;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      .stops-toggle::-webkit-details-marker {
+        display: none;
+      }
+      .stops-toggle::marker {
+        content: '';
+      }
+      .stops-toggle:hover {
+        background: var(--glacier-wash);
+      }
+      .stops-wrap[open] .stops-toggle {
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .stops-wrap[open] .stops-toggle .chev {
+        transform: rotate(90deg);
+      }
       .stops {
         max-height: 520px;
         overflow-y: auto;
@@ -1420,7 +1445,21 @@
                 <button class="btn btn-sm" id="fitBtn">Reset view</button>
               </div>
             </div>
-            <div class="card stops" id="stops"></div>
+            <details class="card stops-wrap">
+              <summary class="stops-toggle">
+                <span>Places</span>
+                <svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                  <path
+                    d="M4 2l4 4-4 4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </summary>
+              <div class="stops" id="stops"></div>
+            </details>
           </div>
         </section>
 
@@ -2584,6 +2623,7 @@
           if (o !== d) o.open = false;
         });
         d.open = true;
+        d.closest('.stops-wrap').open = true;
         d.scrollIntoView({ block: 'nearest' });
       }
 
