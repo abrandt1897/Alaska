@@ -1051,6 +1051,9 @@
         flex-wrap: wrap;
         align-items: center;
       }
+      .file-actions {
+        display: contents;
+      }
       .hint {
         font-family: var(--mono);
         font-size: 10.5px;
@@ -1327,8 +1330,11 @@
         .toolbar {
           width: 100%;
         }
-        .toolbar .btn {
-          flex: 1 1 auto;
+        .file-actions {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+          width: 100%;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -1476,16 +1482,18 @@
             </div>
             <div class="toolbar">
               <span class="hint" id="planHint"></span>
-              <button class="btn btn-primary" id="connectBtn">Connect file</button>
-              <button class="btn" id="importBtn">Import file</button>
-              <input
-                type="file"
-                id="importInput"
-                accept="application/json,.json"
-                style="display: none"
-              />
-              <button class="btn" id="exportBtn">Save file</button>
-              <button class="btn" id="resetBtn">Reset</button>
+              <div class="file-actions">
+                <button class="btn btn-primary" id="connectBtn">Connect file</button>
+                <button class="btn" id="importBtn">Import file</button>
+                <input
+                  type="file"
+                  id="importInput"
+                  accept="application/json,.json"
+                  style="display: none"
+                />
+                <button class="btn" id="exportBtn">Save file</button>
+                <button class="btn" id="resetBtn">Reset</button>
+              </div>
             </div>
           </div>
           <div class="days" id="days"></div>
