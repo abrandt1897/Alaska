@@ -1358,7 +1358,7 @@
           <a href="#route"><i>02</i> Route &amp; stops</a>
           <a href="#plan"><i>03</i> Day plan</a>
           <a href="#booking"><i>04</i> Booking queue</a>
-          <a href="#budget"><i>05</i> Budget</a>
+          <a href="#budget" id="navBudget"><i>05</i> Budget</a>
         </nav>
         <div class="rail-stat">
           <dl>
@@ -1370,7 +1370,7 @@
             <dd>2</dd>
             <dt>Booked</dt>
             <dd id="railBooked">0 / 14</dd>
-            <dt>Budget</dt>
+            <dt id="railBudgetDt">Budget</dt>
             <dd id="railBudget">$0</dd>
             <dt>File</dt>
             <dd id="railFile">Not connected</dd>
@@ -1592,9 +1592,9 @@
 
         <footer class="pg">
           <p>
-            <b>Prices verified July 2026</b> against operator sites — Alaska Railroad, Major Marine
-            Tours, Denali Fat Truck Tours, NPS Denali. Confirm at booking; operators change rates
-            and seasons without notice.
+            <b>Details verified July 2026</b> against operator sites — Alaska Railroad, Major Marine
+            Tours, Denali Fat Truck Tours, NPS Denali. Confirm at booking; operators change
+            offerings and seasons without notice.
           </p>
           <p>
             <b>Two things this plan is exposed to.</b> The Denali flight is the largest single line
@@ -1653,13 +1653,13 @@
             {
               k: 'paid',
               t: 'Alaska Wildlife Conservation Center',
-              s: 'Late morning, Sat 15 Aug. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. ~$30pp. Walk-up fine, no reservation',
+              s: 'Late morning, Sat 15 Aug. Bears, moose, musk ox, wood bison — the only guaranteed wildlife on the trip. Walk-up fine, no reservation',
               g: 'https://www.google.com/maps/search/?api=1&query=43520+Seward+Highway+Portage+AK+99587',
             },
             {
               k: 'paid',
               t: 'Spencer Glacier Whistle Stop train',
-              s: 'Board Portage 1:30 PM, back 5:15 PM. $94pp round trip',
+              s: 'Board Portage 1:30 PM, back 5:15 PM',
               g: 'https://www.google.com/maps/search/?api=1&query=Alaska+Railroad+Portage+Depot+Portage+AK',
             },
             {
@@ -1770,7 +1770,7 @@
             {
               k: 'anchor',
               t: 'Kenai Fjords National Park cruise',
-              s: 'Tue 18 Aug. Major Marine, 9:30 AM – 5:00 PM. Holgate & Aialik tidewater glaciers, humpbacks, orcas, puffins. $269pp, deli lunch included',
+              s: 'Tue 18 Aug. Major Marine, 9:30 AM – 5:00 PM. Holgate & Aialik tidewater glaciers, humpbacks, orcas, puffins. Deli lunch included',
               g: 'https://www.google.com/maps/search/?api=1&query=Harbor+360+Hotel+1412+4th+Ave+Seward+AK+99664',
             },
             {
@@ -1801,7 +1801,7 @@
             {
               k: 'free',
               t: 'Reed Lakes',
-              s: 'Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. $5 parking on Archangel Rd',
+              s: 'Wed 19 Aug. 8.6 mi RT / 2,250 ft. Car-sized boulder field marked by cairns — slow and hands-on. Parking on Archangel Rd',
               g: 'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK',
             },
           ],
@@ -1820,7 +1820,7 @@
             {
               k: 'anchor',
               t: 'Grand Denali Flight + glacier landing — Talkeetna Air Taxi',
-              s: '4:00 PM slot, ~2 hr with glacier landing (1h30m flight-only). Ask about the weather-rollover policy. $613pp with landing',
+              s: '4:00 PM slot, ~2 hr with glacier landing (1h30m flight-only). Ask about the weather-rollover policy',
               g: 'https://www.google.com/maps/search/?api=1&query=Talkeetna+Airport+22791+S+Terminal+Ave+Talkeetna+AK+99676',
             },
             {
@@ -1856,7 +1856,7 @@
             {
               k: 'paid',
               t: 'Denali Fat Truck SHERP tour',
-              s: '1:00 PM, 3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. From $249pp. Closed Sundays',
+              s: '1:00 PM, 3 hrs in an amphibious search-and-rescue vehicle — mining trails, lake crossings, tundra. Closed Sundays',
               g: 'https://www.google.com/maps/search/?api=1&query=Denali+Fat+Truck+Tours+175+Pioneer+Rd+Healy+AK+99743',
             },
             {
@@ -1887,7 +1887,7 @@
             {
               k: 'paid',
               t: 'Park Road transit bus to Mile 43',
-              s: 'Sat 22 Aug, 11:30 AM, ~4 hrs. $33.50pp + $15pp entry. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead. Drive from Fairbanks yourself',
+              s: 'Sat 22 Aug, 11:30 AM, ~4 hrs. Turns at East Fork Bridge — road closed beyond for all of 2026. Bears, caribou, Dall sheep. Reserve ahead. Drive from Fairbanks yourself',
               g: 'https://www.google.com/maps/search/?api=1&query=Wilderness+Access+Center+Denali+National+Park+AK+99755',
             },
             {
@@ -1950,7 +1950,6 @@
           lat: 60.813,
           lng: -148.993,
           facts: {
-            Cost: '~$30pp',
             Time: 'Late morning, Sat 15 Aug',
             Note: '1.5 mi south of Portage station',
           },
@@ -1964,7 +1963,7 @@
           sub: 'Board the Glacier Discovery',
           lat: 60.787,
           lng: -148.993,
-          facts: { Depart: '1:30 PM', Return: '5:15 PM', Fare: '$94pp RT' },
+          facts: { Depart: '1:30 PM', Return: '5:15 PM' },
           text: 'Boarding at Portage instead of Anchorage keeps the car with you and skips the pointless Whittier legs. Park here, ride out, come back to it.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Alaska+Railroad+Portage+Depot+Portage+AK',
         },
@@ -1986,7 +1985,7 @@
           sub: 'Kachemak Bay, via the Sterling Hwy',
           lat: 59.6425,
           lng: -151.5483,
-          facts: { Date: 'Sun 16 Aug', Drive: '~6.5 hrs total', Cost: 'Free — lunch/dinner extra' },
+          facts: { Date: 'Sun 16 Aug', Drive: '~6.5 hrs total' },
           text: "Swapped in for Harding Icefield — Sunday forecast is 100% rain in Seward with gusts to 30 mph, too severe for an exposed alpine trail. Homer runs milder (90–93% precip, 61°F, light winds). Depart Seward 9:00 AM via Cooper Landing SRS, Stariski SRS/Anchor Point pull-offs, and Homer Baycrest Overlook. Lunch at Johnny's Corner on the Spit, then the Bunnell Street Arts Center and the Pratt Museum (both indoor). Dinner at Harbor Grill, depart 7:00 PM, back in Seward ~10:15 PM.",
           maps: 'https://www.google.com/maps/search/?api=1&query=Homer+AK',
         },
@@ -1997,7 +1996,7 @@
           sub: 'Exit Glacier, Kenai Fjords NP',
           lat: 60.1878,
           lng: -149.632,
-          facts: { Full: '7.8 mi / 3,100 ft', Date: 'Mon 17 Aug', Cost: 'Free' },
+          facts: { Full: '7.8 mi / 3,100 ft', Date: 'Mon 17 Aug' },
           text: 'The best hike in Southcentral. NPS markers: Marmot Meadows 1.5 mi, Top of the Cliffs 2.3 mi, end of trail 3.9 mi. Allow 6–8 hrs for the full thing. Bear activity in the brush below Marmot Meadows — make noise. Swapped onto Monday, trading days with the Kenai Fjords cruise.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Exit+Glacier+Nature+Center+Seward+AK',
         },
@@ -2010,7 +2009,6 @@
           lng: -149.4422,
           facts: {
             Sails: '9:30 AM – 5:00 PM, Tue 18 Aug',
-            Cost: '$269pp',
             Operator: 'Major Marine',
           },
           text: 'Non-negotiable, and the single biggest wildlife day: the Holgate and Aialik tidewater glacier faces in Aialik Bay, humpbacks, orcas, puffins. One departure daily and it sells out in August. Deli lunch included. Drive Seward → Palmer after, ~3.5 hrs, check into 7061 Finger Lake Ave, "Clover Hill Cabin", for 2 nights.',
@@ -2023,7 +2021,7 @@
           sub: 'Archangel Road',
           lat: 61.7847,
           lng: -149.2314,
-          facts: { Distance: '8.6 mi RT / 2,250 ft', Date: 'Wed 19 Aug', Parking: '$5' },
+          facts: { Distance: '8.6 mi RT / 2,250 ft', Date: 'Wed 19 Aug' },
           text: 'Easy first 1.5 mi on an old mining road, then switchbacks, then a car-sized boulder field marked by cairns — slow and hands-on, genuinely slippery when wet. Lower Reed 3,750 ft, Upper Reed 4,250 ft.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Reed+Lakes+Trailhead+Archangel+Rd+Palmer+AK',
         },
@@ -2036,7 +2034,6 @@
           lng: -150.0937,
           facts: {
             Slot: '4:00 PM, Thu 20 Aug',
-            Cost: '$613pp',
             Operator: 'Talkeetna Air Taxi — Grand Denali Tour',
           },
           text: 'The anchor of the trip and roughly half the activity budget. Drive Palmer → Talkeetna first (~1h45m, day-stop only). Ask about the weather-rollover policy. After: dinner at The Deck at the Fairview Inn, then drive Talkeetna → Healy, ~2h45m, check into "Altair" for 1 night.',
@@ -2049,7 +2046,7 @@
           sub: 'Dinner in Talkeetna',
           lat: 62.322,
           lng: -150.1128,
-          facts: { Time: 'After the flight, Thu 20 Aug', Cost: '$$' },
+          facts: { Time: 'After the flight, Thu 20 Aug' },
           text: 'Alaskan favorites and drinks on the deck of the historic Fairview Inn, right in town after the glacier flight.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Fairview+Inn+101+N+Main+St+Talkeetna+AK+99676',
         },
@@ -2060,7 +2057,7 @@
           sub: 'Breakfast, Healy',
           lat: 63.8639,
           lng: -148.9711,
-          facts: { Cost: '$' },
+          facts: { Time: 'Fri 21 Aug' },
           text: 'Diner-style breakfast in Healy before the SHERP tour.',
           maps: "https://www.google.com/maps/search/?api=1&query=Rose's+Cafe+249.5+Parks+Hwy+Healy+AK+99743",
         },
@@ -2074,7 +2071,6 @@
           facts: {
             Duration: '3 hrs',
             Time: '1:00 PM, Fri 21 Aug',
-            Cost: 'From $249pp',
             Open: 'Mon – Sat',
           },
           text: 'An amphibious SHERP — heated, sealed, 2 psi ground pressure. Mining trails, cliffs, lake crossings and tundra where nothing else drives. Closed Sundays, which is why it sits on Friday. This is also the flight rollover day: if Thu was scrubbed, Fly Denali takes it instead.',
@@ -2098,7 +2094,7 @@
           sub: 'Dinner in Fairbanks',
           lat: 64.8378,
           lng: -147.7511,
-          facts: { Cost: '$$' },
+          facts: { Meal: 'Dinner' },
           text: 'Teppanyaki and sushi, 4005 Geist Rd in Fairbanks.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Shogun+Hibachi+Japanese+Steakhouse+4005+Geist+Rd+Fairbanks+AK+99709',
         },
@@ -2109,7 +2105,7 @@
           sub: 'North Pole, AK',
           lat: 64.7736,
           lng: -147.2914,
-          facts: { Cost: 'Free' },
+          facts: {},
           text: 'Lake, trails, and picnic areas just outside Fairbanks — a relaxed evening stop after dinner.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Chena+Lake+Recreation+Area+3780+Laurance+Rd+North+Pole+AK+99705',
         },
@@ -2122,8 +2118,6 @@
           lng: -148.915,
           facts: {
             Time: '11:30 AM, Sat 22 Aug',
-            Fare: '$33.50pp',
-            Entry: '$15pp',
             Reserve: 'Strongly recommended',
           },
           text: 'Green transit buses, hop-on hop-off. Drive from Fairbanks yourself. Book ahead — walk-up is unreliable in August.',
@@ -2147,7 +2141,7 @@
           sub: 'Dinner, food truck',
           lat: 63.8556,
           lng: -148.9683,
-          facts: { Cost: '$' },
+          facts: { Meal: 'Dinner' },
           text: 'Thai food truck a few minutes from the park entrance — dinner on the way back to Fairbanks after the bus returns to the depot.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Healy+Thai+Food+248.5+Parks+Hwy+Healy+AK+99743',
         },
@@ -2158,7 +2152,7 @@
           sub: 'Parks Hwy mile 162.7',
           lat: 62.77,
           lng: -150.0533,
-          facts: { Stop: '15 min', Cost: 'Free' },
+          facts: { Stop: '15 min' },
           text: 'The other worthwhile pull-off on the drive south, alongside Denali View South at mile 135.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Denali+View+North+Milepost+162.7+Parks+Highway+AK',
         },
@@ -2169,7 +2163,7 @@
           sub: 'Parks Hwy mile 135',
           lat: 62.647,
           lng: -150.236,
-          facts: { Stop: '15 min', Cost: 'Free' },
+          facts: { Stop: '15 min' },
           text: 'On the drive out, Sun 23 Aug — leaving Fairbanks ~11:00 AM for the 8:00 PM flight, no need to rush. Talkeetna is a reasonable lunch stop.',
           maps: 'https://www.google.com/maps/search/?api=1&query=Denali+View+South+Milepost+135+Parks+Highway+AK',
         },
@@ -2292,30 +2286,30 @@
 
       const BUDGET0 = [
         { grp: 'Lodging — 9 nights' },
-        { n: 'Seward', u: 413, q: 3, c: 'lodge', note: '31435 Lois Way' },
+        { n: 'Seward', u: 0, q: 3, c: 'lodge', note: '31435 Lois Way' },
         {
           n: 'Palmer',
-          u: 189,
+          u: 0,
           q: 2,
           c: 'lodge',
           note: '7061 Finger Lake Ave, "Clover Hill Cabin"',
         },
-        { n: 'Healy / Denali', u: 298, q: 1, c: 'lodge', note: '"Altair"' },
-        { n: 'Fairbanks', u: 337, q: 2, c: 'lodge', note: '8750 Parks Highway — price TBD' },
+        { n: 'Healy / Denali', u: 0, q: 1, c: 'lodge', note: '"Altair"' },
+        { n: 'Fairbanks', u: 0, q: 2, c: 'lodge', note: '8750 Parks Highway' },
         { grp: 'Transport' },
-        { n: 'Rental car, 10 days', u: 1469, q: 1, c: 'trans' },
+        { n: 'Rental car, 10 days', u: 0, q: 1, c: 'trans' },
         { grp: 'Activities' },
-        { n: 'Kenai Fjords National Park cruise', u: 296, q: 2, c: 'act' },
-        { n: 'Grand Denali Flight + glacier landing', u: 613, q: 2, c: 'act' },
-        { n: 'Denali Fat Truck SHERP tour', u: 249, q: 2, c: 'act' },
-        { n: 'Spencer Glacier train (Portage RT)', u: 94, q: 2, c: 'act' },
-        { n: 'Denali transit bus — Mile 43', u: 34, q: 2, c: 'act' },
-        { n: 'Alaska Wildlife Conservation Center', u: 30, q: 2, c: 'act' },
-        { n: 'Reed Lakes parking', u: 5, q: 1, c: 'act' },
+        { n: 'Kenai Fjords National Park cruise', u: 0, q: 2, c: 'act' },
+        { n: 'Grand Denali Flight + glacier landing', u: 0, q: 2, c: 'act' },
+        { n: 'Denali Fat Truck SHERP tour', u: 0, q: 2, c: 'act' },
+        { n: 'Spencer Glacier train (Portage RT)', u: 0, q: 2, c: 'act' },
+        { n: 'Denali transit bus — Mile 43', u: 0, q: 2, c: 'act' },
+        { n: 'Alaska Wildlife Conservation Center', u: 0, q: 2, c: 'act' },
+        { n: 'Reed Lakes parking', u: 0, q: 1, c: 'act' },
         { grp: 'Living & slack' },
       ];
 
-      const BUDGET_TARGET0 = { low: 7000, high: 9000 };
+      const BUDGET_TARGET0 = { low: 0, high: 0 };
 
       const BOOKED0 = [
         'Grand Denali Flight + glacier landing',
@@ -2358,6 +2352,11 @@
       let budgetTarget =
         saved && saved.budgetTarget ? saved.budgetTarget : structuredClone(BUDGET_TARGET0);
       let booked = new Set((saved && saved.booked) || BOOKED0);
+      // The budget section stays hidden until a file with real budget
+      // numbers in it — an import, a connected file, or a reconnected one —
+      // has been loaded at least once. Plain localStorage autosave (the
+      // default seed data included) never unlocks it on its own.
+      let budgetVisible = !!(saved && saved.budgetVisible);
 
       /* One-time migration: earlier versions of this file bundled Harding
        Icefield, Reed Lakes, and Independence Mine into a single backup row,
@@ -3006,7 +3005,26 @@
       /* ============================================================
        BUDGET
        ============================================================ */
-      /* groupCatFor() comes from utils.js */
+      /* groupCatFor(), budgetTotals() come from utils.js */
+
+      function applyBudgetVisibility() {
+        const els = [
+          document.getElementById('budget'),
+          document.getElementById('navBudget'),
+          document.getElementById('railBudgetDt'),
+          document.getElementById('railBudget'),
+        ];
+        els.forEach((el) => {
+          if (el) el.style.display = budgetVisible ? '' : 'none';
+        });
+      }
+
+      function unlockBudgetIfFilled(loadedBudget) {
+        if (loadedBudget && budgetTotals(loadedBudget).total > 0) {
+          budgetVisible = true;
+        }
+        applyBudgetVisibility();
+      }
 
       function renderBudget() {
         let html = '';
@@ -3260,7 +3278,17 @@
           const writable = await fileHandle.createWritable();
           await writable.write(
             JSON.stringify(
-              { plan, budget, bookings, stops, dates, tiers, budgetTarget, booked: [...booked] },
+              {
+                plan,
+                budget,
+                bookings,
+                stops,
+                dates,
+                tiers,
+                budgetTarget,
+                booked: [...booked],
+                budgetVisible,
+              },
               null,
               2
             )
@@ -3293,6 +3321,7 @@
               if (d.tiers) tiers = d.tiers;
               if (d.budgetTarget) budgetTarget = d.budgetTarget;
               if (d.booked) booked = new Set(d.booked);
+              unlockBudgetIfFilled(d.budget);
               drawProfile();
               renderPlan();
               renderBudget();
@@ -3369,6 +3398,7 @@
               if (d.tiers) tiers = d.tiers;
               if (d.budgetTarget) budgetTarget = d.budgetTarget;
               if (d.booked) booked = new Set(d.booked);
+              unlockBudgetIfFilled(d.budget);
             }
           } else {
             pendingHandle = handle;
@@ -3396,6 +3426,7 @@
               tiers,
               budgetTarget,
               booked: [...booked],
+              budgetVisible,
             })
           );
           markSaved();
@@ -3430,6 +3461,7 @@
           if (d.tiers) tiers = d.tiers;
           if (d.budgetTarget) budgetTarget = d.budgetTarget;
           if (d.booked) booked = new Set(d.booked);
+          unlockBudgetIfFilled(d.budget);
           drawProfile();
           renderPlan();
           renderBudget();
@@ -3447,7 +3479,17 @@
         const blob = new Blob(
           [
             JSON.stringify(
-              { plan, budget, bookings, stops, dates, tiers, budgetTarget, booked: [...booked] },
+              {
+                plan,
+                budget,
+                bookings,
+                stops,
+                dates,
+                tiers,
+                budgetTarget,
+                booked: [...booked],
+                budgetVisible,
+              },
               null,
               2
             ),
@@ -3477,6 +3519,8 @@
         tiers = structuredClone(TIERS0);
         budgetTarget = structuredClone(BUDGET_TARGET0);
         booked = new Set(BOOKED0);
+        budgetVisible = false;
+        applyBudgetVisibility();
         drawProfile();
         renderPlan();
         renderBooking();
@@ -3517,6 +3561,7 @@
 
       drawProfile();
       syncTargetInputs();
+      applyBudgetVisibility();
 
       try {
         initMap();
