@@ -27,10 +27,16 @@ browser.
   `import` it directly.
 
 The app's "Save file" button exports the current state (`plan`, `budget`,
-`bookings`, `stops`, `dates`, `tiers`, `budgetTarget`, `booked`) as a
-`alaska-2026-plan.json` download, and that file can be re-imported from
-within the app. No such snapshot is tracked in the repo — it's user data,
-not app config, and the app never loads one automatically.
+`bookings`, `stops`, `dates`, `tiers`, `budgetTarget`, `booked`,
+`budgetVisible`) as a `alaska-2026-plan.json` download, and that file can be
+re-imported from within the app. No such snapshot is tracked in the repo —
+it's user data, not app config, and the app never loads one automatically.
+
+The Budget section (nav link, rail stat, and section) stays hidden until a
+loaded/imported/connected file's `budget` has real, non-zero line items
+(checked via `budgetTotals(...).total > 0`) — plain default seed data or an
+empty autosave never unlocks it. Once unlocked, `budgetVisible` persists
+across reloads until "Reset everything" clears it.
 
 ## Running / Testing
 - Open `alaska-2026-planner.html` directly in a browser (double-click, or
