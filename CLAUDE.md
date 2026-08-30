@@ -99,9 +99,16 @@ helpers live in `utils.js` (see Files above) purely so they're unit-testable:
 - Since this is one large file (~1700 lines), when editing keep changes
   scoped to the relevant section (styles / seed data / persistence / render
   logic) rather than reflowing unrelated parts.
-- Trip content changes (itinerary text, prices, timings) belong in the
-  `*0` seed constants — not in any exported `alaska-2026-plan.json`
-  snapshot, which is just a copy users generate from the running app.
+- Trip content changes (itinerary text, timings) belong in the `*0` seed
+  constants — not in any exported `alaska-2026-plan.json` snapshot, which
+  is just a copy users generate from the running app.
+- No dollar figures anywhere in the seed data or itinerary text — `PLAN0`/
+  `STOPS0` facts and descriptions never mention a specific price ($, pp,
+  fare, entry, parking fee), and `BUDGET0` line items keep their names/
+  quantities/categories with unit costs (`u`) zeroed out. Pricing only
+  ever comes from what a user types into the Budget section themselves,
+  or from a file they import — see the Budget-visibility note above. Keep
+  new itinerary content price-free too.
 - When adding a new place (restaurant, trailhead, lodging, activity, etc.),
   always verify its real name and address with a web search before adding
   it — don't guess or rely on how the user phrased it. Use the confirmed
